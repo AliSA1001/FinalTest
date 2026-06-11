@@ -15,8 +15,11 @@ public class A_Movement : MonoBehaviour
 
 
     // movement 
-    private float xMovement;
-    private float zMovement;
+    private float _xMovement;
+    private float _zMovement;
+
+    // Look 
+    private Vector2 _lookValue;
 
 
 
@@ -27,8 +30,10 @@ public class A_Movement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 move = new Vector3 (xMovement * speed, gravity , zMovement * speed);
+        Vector3 move = new Vector3 (_xMovement * speed, gravity , _zMovement * speed);
         characterController.Move (move * Time.deltaTime);
+
+        
     }
 
 
@@ -37,8 +42,12 @@ public class A_Movement : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        xMovement = context.ReadValue<Vector2>().x;
-        zMovement = context.ReadValue<Vector2>().y;
+        _xMovement = context.ReadValue<Vector2>().x;
+        _zMovement = context.ReadValue<Vector2>().y;
+
+    }
+  public void OnJump(InputAction.CallbackContext context)
+    {
 
     }
 }
