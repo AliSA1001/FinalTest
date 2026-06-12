@@ -25,6 +25,21 @@ public enum ScoreEventType
 }
 
 /// <summary>
+/// Ground surface the player is on, carried by <see cref="T_GameSignals.Footstep"/> and
+/// <see cref="T_GameSignals.PlayerLanded"/> so Audio can pick the right footstep / landing clip.
+/// </summary>
+public enum SurfaceType
+{
+    Default,
+    Stage,
+    Wood,
+    Stone,
+    Grass,
+    Metal,
+    Carpet
+}
+
+/// <summary>
 /// Static event bus for the score-relevant gameplay signals in "Act to Wish".
 ///
 /// Architecture rule (GDD): systems communicate through events, never direct references.
@@ -69,6 +84,40 @@ public static class T_GameSignals
     public static void RaiseActStarted(int actIndex) => ActStarted?.Invoke(actIndex);
     public static void RaiseActFinished(int actIndex) => ActFinished?.Invoke(actIndex);
 
+    // ---------- INBOUND: additional gameplay signals (raised by Combat / Enemy / Movement / Interaction; consumed by Audio and others) ----------
+
+    /// <summary>An enemy took damage but survived.</summary>
+    public static event Action EnemyDamaged;
+    /// <summary>An enemy is winding up an attack (telegraph) — the cue to parry.</summary>
+    public static event Action EnemyAttackTelegraph;
+    /// <summary>The player swung an attack (whoosh), regardless of whether it connects.</summary>
+    public static event Action PlayerAttackSwing;
+    /// <summary>The player jumped.</summary>
+    public static event Action PlayerJumped;
+    /// <summary>The player landed, on the given surface.</summary>
+    public static event Action<SurfaceType> PlayerLanded;
+    /// <summary>A footstep occurred, on the given surface (raised by movement / animation).</summary>
+    public static event Action<SurfaceType> Footstep;
+    /// <summary>The player performed an interaction (hub objects, the Impresario).</summary>
+    public static event Action InteractionPerformed;
+    /// <summary>The player signed the Joker card — the "deal struck" beat.</summary>
+    public static event Action JokerCardSigned;
+    /// <summary>Act 2: an energy bolt was fired.</summary>
+    public static event Action EnergyBoltFired;
+    /// <summary>Act 2: a radial pulse was released (swarm clear).</summary>
+    public static event Action RadialPulseFired;
+
+    public static void RaiseEnemyDamaged() => EnemyDamaged?.Invoke();
+    public static void RaiseEnemyAttackTelegraph() => EnemyAttackTelegraph?.Invoke();
+    public static void RaisePlayerAttackSwing() => PlayerAttackSwing?.Invoke();
+    public static void RaisePlayerJumped() => PlayerJumped?.Invoke();
+    public static void RaisePlayerLanded(SurfaceType surface) => PlayerLanded?.Invoke(surface);
+    public static void RaiseFootstep(SurfaceType surface) => Footstep?.Invoke(surface);
+    public static void RaiseInteractionPerformed() => InteractionPerformed?.Invoke();
+    public static void RaiseJokerCardSigned() => JokerCardSigned?.Invoke();
+    public static void RaiseEnergyBoltFired() => EnergyBoltFired?.Invoke();
+    public static void RaiseRadialPulseFired() => RadialPulseFired?.Invoke();
+
     // ---------- OUTBOUND: raised by Score, consumed by UI / Crowd / Audio / Game-flow ----------
 
     /// <summary>The running act score changed. (newTotal, appliedDelta)</summary>
@@ -103,6 +152,17 @@ public static class T_GameSignals
         PlayerDied = null;
         ActStarted = null;
         ActFinished = null;
+
+        EnemyDamaged = null;
+        EnemyAttackTelegraph = null;
+        PlayerAttackSwing = null;
+        PlayerJumped = null;
+        PlayerLanded = null;
+        Footstep = null;
+        InteractionPerformed = null;
+        JokerCardSigned = null;
+        EnergyBoltFired = null;
+        RadialPulseFired = null;
 
         ScoreChanged = null;
         ComboChanged = null;
