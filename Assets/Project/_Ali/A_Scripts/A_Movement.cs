@@ -12,9 +12,10 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
     [SerializeField] private float rotationSpeed;
-    
 
 
+    [Header("Animation seetings")]
+    [SerializeField] private Animator animator;
 
 
     // movement 
@@ -69,7 +70,10 @@ public class A_Movement : MonoBehaviour
 
     }
 
+    private void HandleAnimation()
+    {
 
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
