@@ -10,17 +10,20 @@ public class A_Movement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float speed;
     [SerializeField] private float gravity;
+    [SerializeField] private float jumpHeight;
+    [SerializeField] private float rotationSpeed;
 
 
+    [Header("Animation seetings")]
+    [SerializeField] private Animator animator;
 
 
     // movement 
     private float _xMovement;
     private float _zMovement;
+    private Vector3 velocity;
 
-    // Look 
-    private Vector2 _lookValue;
-
+    
 
 
     private void Awake()
@@ -30,15 +33,47 @@ public class A_Movement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 move = new Vector3 (_xMovement * speed, gravity , _zMovement * speed);
-        characterController.Move (move * Time.deltaTime);
-
+        
+        Moving();
         
     }
 
+    private void Moving()
+    {
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+        if (characterController.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+        if(moveDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,targetRotation,rotationSpeed * Time.deltaTime);
+        }
+
+        characterController.Move(moveDirection * Time.deltaTime * speed);
+
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
 
 
+    }
 
+    private void HandleAnimation()
+    {
+
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -48,6 +83,10 @@ public class A_Movement : MonoBehaviour
     }
   public void OnJump(InputAction.CallbackContext context)
     {
+        if(characterController.isGrounded && context.started)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
+        }
     }
 }
