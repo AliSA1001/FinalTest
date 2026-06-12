@@ -240,6 +240,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1818168162}
     m_Modifications:
+    - target: {fileID: 3481192534318060317, guid: 327c156fae4f44c40a0293842b035db3, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e711ab9872f71f74fb5afbad2f9f3beb, type: 2}
     - target: {fileID: 4170110924429888581, guid: 327c156fae4f44c40a0293842b035db3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -465,7 +469,7 @@ Camera:
   far clip plane: 5000
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 4.82
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -490,7 +494,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: 0, y: 8.309999, z: -9.2}
+  m_LocalPosition: {x: -3.98, y: 4.6800003, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -726,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 558003894}
   serializedVersion: 2
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: 0, y: 8.309999, z: -9.2}
+  m_LocalPosition: {x: -3.98, y: 4.6800003, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -750,7 +754,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 7.31, z: -9.2}
+  FollowOffset: {x: -3.98, y: 3.68, z: -5}
 --- !u!114 &558003897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,7 +780,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60.000004
-    OrthographicSize: 10
+    OrthographicSize: 4.82
     NearClipPlane: 0.01
     FarClipPlane: 5000
     Dutch: 0
@@ -1075,6 +1079,7 @@ MonoBehaviour:
   gravity: -30
   jumpHeight: 5
   rotationSpeed: 720
+  animator: {fileID: 1930103178}
 --- !u!143 &1818168165
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1103,6 +1108,11 @@ CharacterController:
 --- !u!4 &1930103177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4170110924429888581, guid: 327c156fae4f44c40a0293842b035db3, type: 3}
+  m_PrefabInstance: {fileID: 268503441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1930103178 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3481192534318060317, guid: 327c156fae4f44c40a0293842b035db3, type: 3}
   m_PrefabInstance: {fileID: 268503441}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2140935630
