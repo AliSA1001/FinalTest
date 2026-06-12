@@ -11,6 +11,7 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
+    [SerializeField] private float rotationSpeed;
     
 
 
@@ -52,6 +53,12 @@ public class A_Movement : MonoBehaviour
         if (characterController.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+        }
+        if(moveDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,targetRotation,rotationSpeed * Time.deltaTime);
         }
 
         characterController.Move(moveDirection * Time.deltaTime * speed);
