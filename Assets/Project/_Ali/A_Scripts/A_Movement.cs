@@ -10,6 +10,8 @@ public class A_Movement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float speed;
     [SerializeField] private float gravity;
+    [SerializeField] private float jumpHeight;
+    
 
 
 
@@ -17,10 +19,9 @@ public class A_Movement : MonoBehaviour
     // movement 
     private float _xMovement;
     private float _zMovement;
+    private Vector3 velocity;
 
-    // Look 
-    private Vector2 _lookValue;
-
+    
 
 
     private void Awake()
@@ -30,13 +31,36 @@ public class A_Movement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 move = new Vector3 (_xMovement * speed, gravity , _zMovement * speed);
-        characterController.Move (move * Time.deltaTime);
-
+        
+        Moving();
         
     }
 
+    private void Moving()
+    {
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
 
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+        if (characterController.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+
+        characterController.Move(moveDirection * Time.deltaTime * speed);
+
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
+
+
+    }
 
 
 
@@ -48,6 +72,10 @@ public class A_Movement : MonoBehaviour
     }
   public void OnJump(InputAction.CallbackContext context)
     {
+        if(characterController.isGrounded && context.started)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
+        }
     }
 }
