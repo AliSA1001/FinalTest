@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Act to Wish — Game Design Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --curtain:#7A1220;
+    --velvet:#4A0C16;
+    --velvet-deep:#2A070D;
+    --gold:#C9A24B;
+    --gold-soft:#E6C97E;
+    --ink:#211712;
+    --ink-soft:#5A4A40;
+    --paper:#F3EAD6;
+    --paper-2:#EBDFC4;
+    --paper-edge:#DCCBA4;
+    --forest:#4E6B3A;
+    --ballroom:#B8862A;
+    --gothic:#3E5470;
+    --spotlight:#F7DD9A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:17px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+  }
+  .doc{max-width:880px;margin:0 auto;background:var(--paper);}
+
+  /* ---------- MARQUEE / COVER ---------- */
+  .marquee{
+    position:relative;
+    background:var(--velvet-deep);
+    color:var(--paper);
+    padding:90px 56px 64px;
+    overflow:hidden;
+    text-align:center;
+  }
+  .marquee::before,.marquee::after{
+    content:"";position:absolute;top:0;bottom:0;width:46px;
+    background:
+      repeating-linear-gradient(90deg,var(--velvet) 0 10px,var(--curtain) 10px 18px,var(--velvet-deep) 18px 24px);
+    box-shadow:inset 0 0 30px rgba(0,0,0,.6);
+    z-index:2;
+  }
+  .marquee::before{left:0;}
+  .marquee::after{right:0;}
+  .glow{
+    position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+    width:560px;height:420px;
+    background:radial-gradient(ellipse at center,rgba(247,221,154,.28),rgba(247,221,154,0) 65%);
+    pointer-events:none;z-index:1;
+  }
+  .marquee-inner{position:relative;z-index:3;animation:rise 1s ease-out both;}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .eyebrow{
+    font-family:'Barlow Condensed',sans-serif;
+    letter-spacing:.42em;text-transform:uppercase;
+    font-size:14px;color:var(--gold);margin-bottom:22px;font-weight:600;
+  }
+  .marquee h1{
+    font-family:'Cinzel',serif;font-weight:800;
+    font-size:clamp(46px,9vw,86px);line-height:.98;margin:0;
+    color:var(--spotlight);letter-spacing:.02em;
+    text-shadow:0 2px 30px rgba(247,221,154,.25);
+  }
+  .marquee .sub{
+    font-style:italic;color:var(--paper-2);
+    font-size:19px;max-width:560px;margin:26px auto 0;opacity:.92;
+  }
+  .bulbs{display:flex;justify-content:center;gap:14px;margin:34px 0 6px;}
+  .bulbs span{width:9px;height:9px;border-radius:50%;background:var(--gold-soft);
+    box-shadow:0 0 10px var(--gold-soft);opacity:.85;}
+  .ticket-row{
+    position:relative;z-index:3;margin-top:42px;
+    display:flex;flex-wrap:wrap;justify-content:center;gap:0;
+    border-top:1px solid rgba(201,162,75,.35);
+    border-bottom:1px solid rgba(201,162,75,.35);
+  }
+  .ticket{
+    padding:14px 24px;border-right:1px dashed rgba(201,162,75,.3);
+    font-family:'Barlow Condensed',sans-serif;
+  }
+  .ticket:last-child{border-right:none;}
+  .ticket b{display:block;color:var(--gold);font-size:12px;letter-spacing:.16em;text-transform:uppercase;}
+  .ticket span{color:var(--paper);font-size:16px;}
+
+  /* ---------- BODY ---------- */
+  .body{padding:8px 56px 70px;}
+  section{padding:40px 0 8px;border-bottom:1px solid var(--paper-edge);}
+  section:last-of-type{border-bottom:none;}
+  .sec-num{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    color:var(--curtain);letter-spacing:.2em;font-size:14px;text-transform:uppercase;
+  }
+  h2{
+    font-family:'Cinzel',serif;font-weight:700;color:var(--ink);
+    font-size:30px;line-height:1.12;margin:6px 0 18px;
+  }
+  h3{
+    font-family:'Cinzel',serif;font-weight:600;color:var(--curtain);
+    font-size:20px;margin:30px 0 8px;
+  }
+  p{margin:0 0 16px;}
+  a{color:var(--curtain);}
+  strong{color:var(--ink);font-weight:600;}
+  ul{margin:0 0 16px;padding-left:22px;}
+  li{margin:6px 0;}
+  .lead{font-size:20px;line-height:1.6;color:var(--ink-soft);font-style:italic;}
+
+  .oneliner{
+    background:var(--paper-2);border-left:4px solid var(--gold);
+    padding:18px 24px;margin:8px 0 4px;font-size:18px;
+  }
+  .oneliner b{font-family:'Barlow Condensed',sans-serif;letter-spacing:.14em;
+    text-transform:uppercase;font-size:13px;color:var(--curtain);display:block;margin-bottom:4px;}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:15.5px;}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--paper-edge);vertical-align:top;}
+  th{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--curtain);font-weight:700;font-size:14px;border-bottom:2px solid var(--curtain);}
+  tbody tr:nth-child(even){background:rgba(184,134,42,.07);}
+  td b{color:var(--ink);}
+
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:1fr;gap:14px;margin:10px 0 6px;}
+  .pillar{background:var(--paper-2);border:1px solid var(--paper-edge);border-radius:3px;padding:18px 22px;position:relative;padding-left:64px;}
+  .pillar .pn{position:absolute;left:18px;top:16px;font-family:'Cinzel',serif;font-weight:800;
+    font-size:30px;color:var(--gold);line-height:1;}
+  .pillar h4{font-family:'Cinzel',serif;margin:0 0 4px;font-size:17px;color:var(--ink);}
+  .pillar p{margin:0;font-size:15.5px;color:var(--ink-soft);}
+
+  /* twist spoiler box */
+  .twist{
+    background:var(--velvet-deep);color:var(--paper);border-radius:4px;
+    padding:26px 30px;margin:22px 0;position:relative;overflow:hidden;
+  }
+  .twist::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 80% -20%,rgba(201,162,75,.22),transparent 60%);}
+  .twist .label{position:relative;font-family:'Barlow Condensed',sans-serif;letter-spacing:.24em;
+    text-transform:uppercase;font-size:13px;color:var(--gold);font-weight:700;}
+  .twist h3{color:var(--gold-soft);margin:6px 0 10px;position:relative;}
+  .twist p{position:relative;color:var(--paper-2);margin:0;}
+
+  /* loop diagram */
+  .loop{display:flex;flex-direction:column;align-items:center;gap:0;margin:20px 0 6px;}
+  .loop-step{background:var(--paper);border:2px solid var(--curtain);border-radius:4px;
+    padding:12px 20px;text-align:center;min-width:280px;max-width:420px;}
+  .loop-step b{font-family:'Cinzel',serif;color:var(--curtain);display:block;font-size:15px;}
+  .loop-step span{font-size:13.5px;color:var(--ink-soft);}
+  .loop-arrow{color:var(--gold);font-size:22px;line-height:1;margin:6px 0;}
+  .loop-step.fail{border-color:var(--velvet);border-style:dashed;}
+
+  /* act cards */
+  .act{border:1px solid var(--paper-edge);border-radius:5px;overflow:hidden;margin:22px 0;background:var(--paper);}
+  .act-head{padding:20px 26px;color:#fff;}
+  .act-head .roman{font-family:'Cinzel',serif;font-weight:800;letter-spacing:.18em;font-size:14px;opacity:.85;}
+  .act-head h3{color:#fff;margin:2px 0 4px;font-size:24px;}
+  .act-head .role{font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;font-size:14px;opacity:.92;}
+  .act-1 .act-head{background:var(--forest);}
+  .act-2 .act-head{background:var(--ballroom);}
+  .act-3 .act-head{background:var(--gothic);}
+  .act-body{padding:18px 26px 6px;}
+  .act-body dl{margin:0;display:grid;grid-template-columns:130px 1fr;gap:4px 18px;}
+  .act-body dt{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.07em;
+    font-size:13px;color:var(--curtain);font-weight:700;padding-top:3px;}
+  .act-body dd{margin:0;font-size:15.5px;}
+  .tag{display:inline-block;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+    letter-spacing:.08em;font-size:12px;background:var(--paper-2);border:1px solid var(--paper-edge);
+    border-radius:999px;padding:3px 12px;color:var(--curtain);font-weight:600;}
+
+  /* schedule / divider ornament */
+  .ornament{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 4px;color:var(--gold);}
+  .ornament::before,.ornament::after{content:"";height:1px;background:var(--gold);flex:1;max-width:120px;opacity:.5;}
+  .ornament span{font-size:16px;letter-spacing:.4em;}
+
+  .callout{background:var(--paper-2);border:1px dashed var(--curtain);border-radius:4px;padding:16px 22px;margin:16px 0;}
+  .callout b{color:var(--curtain);font-family:'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;font-size:13px;}
+
+  .foot{background:var(--velvet-deep);color:var(--paper-2);text-align:center;padding:30px 40px;
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;font-size:14px;}
+  .foot .bulbs{margin:0 0 14px;}
+
+  @media (max-width:680px){
+    .marquee{padding:64px 30px 48px;}
+    .marquee::before,.marquee::after{width:24px;}
+    .body{padding:8px 26px 50px;}
+    .act-body dl{grid-template-columns:1fr;}
+    .act-body dt{padding-top:10px;}
+    .ticket{border-right:none;border-bottom:1px dashed rgba(201,162,75,.3);}
+  }
+  @media (prefers-reduced-motion:reduce){.marquee-inner{animation:none;}}
+  @media print{
+    body{font-size:12px;}
+    .marquee{background:var(--velvet-deep)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    section{break-inside:avoid;}
+    .act,.twist,.pillar{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- ===== MARQUEE COVER ===== -->
+  <header class="marquee">
+    <div class="glow"></div>
+    <div class="marquee-inner">
+      <div class="eyebrow">A theatre where wishes are earned</div>
+      <h1>Act to Wish</h1>
+      <div class="bulbs"><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="sub">A theatrical action game: sign a clown-wizard’s Joker card, pick a wish, and perform three plays — parrying and fighting for an audience whose cheers are your score.</p>
+      <div class="ticket-row">
+        <div class="ticket"><b>Engine</b><span>Unity</span></div>
+        <div class="ticket"><b>Timeline</b><span>1 Month</span></div>
+        <div class="ticket"><b>Company</b><span>3 Devs · 3 Artists</span></div>
+        <div class="ticket"><b>Document</b><span>GDD v2.0</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- 1 -->
+    <section id="concept">
+      <div class="sec-num">Programme · No. 1</div>
+      <h2>High concept</h2>
+      <p class="lead">Win a wish from the clown who runs the theatre — if you can perform three plays well enough to earn it.</p>
+      <p>A regular person, desperate for one wish, is offered a deal by the <strong>Impresario</strong> — an evil clown-wizard who runs a mysterious theatre. Choose a wish, sign his Joker card, and perform three plays. Each play pulls you onto a stage in third person while an audience — visible in the theatre, then heard once the curtain rises — cheers your brilliance and boos your failure, scoring every move. Earn a high enough rating across all three acts and your wish comes true. Fall short, and the clown collects what he is owed.</p>
+      <div class="oneliner"><b>The pitch in one line</b>You sign a clown-wizard’s Joker card, pick a wish, and perform three plays — parrying, fighting, and showing off for an audience whose cheers are your score — to learn whether your wish comes true.</div>
+    </section>
+
+    <!-- 2 -->
+    <section id="overview">
+      <div class="sec-num">Programme · No. 2</div>
+      <h2>Overview</h2>
+      <table>
+        <tr><th>Field</th><th>Detail</th></tr>
+        <tr><td><b>Genre</b></td><td>Third-person action / theatrical performance</td></tr>
+        <tr><td><b>Perspective</b></td><td>First person in the hub, third person during acts</td></tr>
+        <tr><td><b>Core mechanic</b></td><td>Parry-based combat — a new parry shape each act</td></tr>
+        <tr><td><b>Art style</b></td><td>Low-poly, stylized, theatrical</td></tr>
+        <tr><td><b>Platform</b></td><td>PC (keyboard + mouse)</td></tr>
+        <tr><td><b>Session length</b></td><td>~20–30 minutes (3 acts + framing)</td></tr>
+        <tr><td><b>Players</b></td><td>Single-player</td></tr>
+        <tr><td><b>Tone</b></td><td>Darkly comedic with an unsettling edge</td></tr>
+        <tr><td><b>Engine</b></td><td>Unity</td></tr>
+      </table>
+    </section>
+
+    <!-- 3 -->
+    <section id="pillars">
+      <div class="sec-num">Programme · No. 3</div>
+      <h2>Design pillars</h2>
+      <p>These three statements settle every design argument. If a feature does not serve a pillar, it gets cut.</p>
+      <div class="pillars">
+        <div class="pillar"><span class="pn">I</span><h4>The stage justifies the smallness</h4><p>Every act is a theatrical set — small, stylized, deliberately artificial. This is the art direction, not a compromise. We never apologize for scope; we lean into it.</p></div>
+        <div class="pillar"><span class="pn">II</span><h4>The audience is the game</h4><p>The crowd is seen in the theatre, then heard once a play begins. Their cheers and boos are the player’s score, their feedback, and the emotional core. Everything you do is for the audience.</p></div>
+        <div class="pillar"><span class="pn">III</span><h4>One mechanic, re-shaped each act</h4><p>A single parry/combat system is the heart and the scoring engine. Each act changes its shape — the threat, the input, the payoff — never a whole new game. That is how six people ship in a month and how each act still feels fresh.</p></div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="story">
+      <div class="sec-num">Programme · No. 4</div>
+      <h2>Story &amp; narrative frame</h2>
+      <h3>Premise</h3>
+      <p>You are an ordinary person with a wish you would do anything to fulfill. The <strong>Impresario</strong> — an evil clown-wizard who runs a mysterious theatre — offers a bargain: choose your wish, sign his <strong>Joker card</strong>, and perform three plays well enough to earn it.</p>
+      <h3>Structure</h3>
+      <p>The game is a frame story. The hub is the <strong>dressing room</strong>, seen in first person, where you speak with the Impresario, choose your wish, and pick which act to perform next. The moment you step into an act, the camera pulls back to third person and the world becomes the set of a play — and the audience, present a heartbeat ago, vanishes from sight and remains only as <strong>voices</strong> reacting to your performance.</p>
+
+      <h3>The wish</h3>
+      <p>At the start you choose your wish from a short list the Impresario offers — no free text. It is referenced twice: read back mockingly as you sign the Joker card, and again at the end. A fixed list lets each wish drive an authored line in both the win and the lose ending, giving cheap variety and a reason to replay.</p>
+    </section>
+
+    <!-- 5 -->
+    <section id="cameras">
+      <div class="sec-num">Programme · No. 5</div>
+      <h2>Cameras</h2>
+      <p>The game runs on two cameras, and the switch between them carries the whole fantasy of stepping onto a stage.</p>
+      <ul>
+        <li><strong>First person — the dressing room only.</strong> Choosing your wish, talking to the Impresario, picking the next act. Intimate and grounded; this is the quiet hub between performances.</li>
+        <li><strong>Third person — the moment you enter an act.</strong> Over-the-shoulder and single-player (the camera <em>feel</em> of It Takes Two, not its co-op). Third person sells the performance: you watch your own character perform, mirroring the audience, and it makes the parry and its flourishes readable and crowd-pleasing.</li>
+      </ul>
+      <div class="callout"><b>Make the switch a moment</b><br>The first-to-third-person transition is the &ldquo;stepping onto the stage&rdquo; beat. Direct it — curtain, light bloom, a push-back of the camera as the crowd swells — rather than a hard cut. It is one of the cheapest, most memorable seconds in the game.</div>
+    </section>
+
+    <!-- 6 -->
+    <section id="loop">
+      <div class="sec-num">Programme · No. 6</div>
+      <h2>Core gameplay loop</h2>
+      <div class="loop">
+        <div class="loop-step"><b>Dressing room (first person)</b><span>Choose your wish · talk to the Impresario · pick an act</span></div>
+        <div class="loop-arrow">▼</div>
+        <div class="loop-step"><b>Step onto the stage</b><span>Camera pulls to third person · the world becomes the play</span></div>
+        <div class="loop-arrow">▼</div>
+        <div class="loop-step"><b>Perform the act</b><span>Parry, fight, collect — cheers score you, boos cost you</span></div>
+        <div class="loop-arrow">▼</div>
+        <div class="loop-step fail"><b>Die? Diegetic reset</b><span>Respawn at the last checkpoint · rating drops · play continues</span></div>
+        <div class="loop-arrow">▼</div>
+        <div class="loop-step"><b>Rating screen</b><span>A theatrical &ldquo;review&rdquo;</span></div>
+        <div class="loop-arrow">▼</div>
+        <div class="loop-step"><b>Return &amp; repeat</b><span>Next act → after Act 3, the ending</span></div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section id="scoring">
+      <div class="sec-num">Programme · No. 7</div>
+      <h2>Scoring — the parry system</h2>
+      <p>Score is your rating, and the engine that drives it is the parry. Underneath, every parry is one system: a threat telegraphs, a timing window opens, and you either nail it (score + cheer), whiff it (boo), or get hit (damage → eventual respawn). Each act re-shapes that single system; a perfect parry is the headline cheer moment.</p>
+      <table>
+        <tr><th>Score source</th><th>Effect</th></tr>
+        <tr><td><b>Perfect parry</b></td><td>Big score + a crowd cheer — the headline move</td></tr>
+        <tr><td><b>Riposte / reflected hit</b></td><td>Kill or damage off a parry — large score</td></tr>
+        <tr><td><b>Offense</b> (melee or ranged)</td><td>Chip damage and kills — steady score</td></tr>
+        <tr><td><b>Collectables</b></td><td>Hidden, themed pickups — bonus score</td></tr>
+        <tr><td><b>Combo / chain</b></td><td>Consecutive parries build a multiplier — feeds crowd mood</td></tr>
+        <tr><td><b>Miss / hit / death</b></td><td>Murmurs, boos, groans — score loss</td></tr>
+      </table>
+      <h3>Targeting</h3>
+      <p>A <strong>soft lock-on</strong> keeps third-person parries readable — the riposte or deflected shot snaps to the nearest threat, with manual override. It makes an average player look cool, which is the whole point of a crowd watching you.</p>
+      <h3>Death &amp; respawn (diegetic)</h3>
+      <p>There is no real death. Die and the stage resets to the last checkpoint, the crowd groans, your rating drops, and the play continues until you finish it.</p>
+      <h3>Pickup items vs collectables</h3>
+      <p>Two different systems: <strong>pickup items</strong> are physics props you can carry and use in the environment; <strong>collectables</strong> are hidden score pickups. Don’t conflate them.</p>
+      <h3>Scoring &amp; thresholds</h3>
+      <p>Each act yields a star rating on a &ldquo;review&rdquo; screen; the three sum into a total; a single threshold decides the ending. Tune it so a careful run passes and a sloppy one fails.</p>
+    </section>
+
+    <!-- 8 -->
+    <section id="crowd">
+      <div class="sec-num">Programme · No. 8</div>
+      <h2>The audience system</h2>
+      <p>The audience is visible in the theatre and dressing room, but the moment a play begins it vanishes from sight and is driven entirely by audio for the rest of the performance — our highest-impact, lowest-cost system, and the source of your scoring feedback.</p>
+      <ul>
+        <li><strong>Ambient murmur</strong> — a seamless looping &ldquo;bed.&rdquo;</li>
+        <li><strong>Cheer / applause</strong> — on parries and flair. <strong>Boo / groan</strong> — on misses and deaths.</li>
+        <li><strong>Gasps, laughs, swells</strong> — flavor.</li>
+      </ul>
+      <div class="callout"><b>Crowd mood</b><br>A single runtime value (0–1) rises with parries and falls with misses, cross-fading the ambient bed between &ldquo;warm/engaged&rdquo; and &ldquo;cold/restless.&rdquo; Wire the combo meter straight into it — now score, combo, and the &ldquo;audience is the game&rdquo; pillar are all one number.</div>
+    </section>
+
+    <!-- 9 -->
+    <section id="acts">
+      <div class="sec-num">Programme · No. 9</div>
+      <h2>The three acts</h2>
+      <p>Each act re-shapes the same parry/combat system, and the player is cast as a different lead each time. The comedic public-domain-flip framing for the plays is still the plan; the specific stories are being decided.</p>
+
+      <div class="act act-1">
+        <div class="act-head"><div class="roman">Act I · Tutorial</div><h3>The knight</h3><div class="role">You play — a knight with a sword</div></div>
+        <div class="act-body">
+          <p><span class="tag">New shape: directional sword parry</span></p>
+          <dl>
+            <dt>The parry</dt><dd>A regular, readable sword parry — block toward the side the attack comes from. The obvious shape for a tutorial.</dd>
+            <dt>Offense</dt><dd>Melee damage and kills also score; ripostes off a parry score big.</dd>
+            <dt>Setting / story</dt><dd>Medieval; the specific public-domain tale is still to be determined.</dd>
+            <dt>Purpose</dt><dd>Teaches the whole loop — parry, riposte, collect, cheer/boo, diegetic reset, soft lock-on.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="act act-2">
+        <div class="act-head"><div class="roman">Act II · New shape</div><h3>Sci-fi</h3><div class="role">You play — lead to be determined</div></div>
+        <div class="act-body">
+          <p><span class="tag">New shape: ranged bolt deflection</span></p>
+          <dl>
+            <dt>The parry</dt><dd>Non-melee — time a deflect on incoming energy bolts and aim the reflection back at the shooter. A radial pulse parry handles swarms.</dd>
+            <dt>Why it works</dt><dd>Same timing brain, new shape (ranged + aim) — it proves the one system generalizes beyond melee.</dd>
+            <dt>Setting / story</dt><dd>Sci-fi; the specific story is still to be determined.</dd>
+            <dt>Offense</dt><dd>Reflected bolts and direct fire score; collectables are themed energy cells / data cores.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="act act-3">
+        <div class="act-head"><div class="roman">Act III · The finale</div><h3>To be determined</h3><div class="role">You play — lead to be determined</div></div>
+        <div class="act-body">
+          <p><span class="tag">New shape: TBD — combine or escalate</span></p>
+          <dl>
+            <dt>Direction</dt><dd>The finale should combine or escalate the earlier shapes — a rhythmic or type-matched parry, or melee + ranged together — for the highest skill ceiling.</dd>
+            <dt>The finale</dt><dd>The highest-stakes performance, where everything the player has learned across the three acts comes together.</dd>
+            <dt>Setting / story</dt><dd>Theme and story still to be determined.</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section id="controls">
+      <div class="sec-num">Programme · No. 10</div>
+      <h2>Mechanics &amp; controls</h2>
+      <table>
+        <tr><th>Action</th><th>Input (placeholder)</th></tr>
+        <tr><td><b>Move</b></td><td>WASD</td></tr>
+        <tr><td><b>Look / aim</b></td><td>Mouse</td></tr>
+        <tr><td><b>Parry</b></td><td>Right-click — shape varies per act</td></tr>
+        <tr><td><b>Attack / deflect</b></td><td>Left-click</td></tr>
+        <tr><td><b>Lock-on</b></td><td>Tab or middle-click — soft target</td></tr>
+        <tr><td><b>Interact / pick up</b></td><td>E</td></tr>
+        <tr><td><b>Pause</b></td><td>Esc</td></tr>
+      </table>
+      <p>First-person controls in the dressing room (move, look, interact); third-person action controls in acts (move, aim, parry, attack, lock-on). You can always finish an act regardless of rating.</p>
+    </section>
+
+    <!-- 11 -->
+    <section id="systems">
+      <div class="sec-num">Programme · No. 11</div>
+      <h2>Systems architecture</h2>
+      <div class="callout"><b>One rule above all</b><br>Systems talk through <strong>events</strong>, not direct references. Combat raises <code>ParryLanded</code>; Score, Crowd, and UI listen. This keeps every system testable in isolation and is what lets the team build the independent ones in parallel.</div>
+      <table>
+        <tr><th>Tier</th><th>Build when</th><th>Systems</th></tr>
+        <tr><td><b>0 — Foundations</b></td><td>Start now · parallel</td><td>Input, HP, Score/Rating, Audio manager, UI manager, Interaction</td></tr>
+        <tr><td><b>1 — Movement &amp; presentation</b></td><td>On Tier 0</td><td>Movement, Camera (dual), Animation (third-person)</td></tr>
+        <tr><td><b>2 — Interactive layer</b></td><td>On the above</td><td>Pickup items, Collectables, Dialogue, Targeting / lock-on, Crowd reaction</td></tr>
+        <tr><td><b>3 — Combat &amp; enemies</b></td><td>Integrative</td><td>Combat (modular parry), Enemy AI, Checkpoint / respawn</td></tr>
+        <tr><td><b>4 — Orchestration</b></td><td>Skeleton early, finish last</td><td>Act sequencer (&ldquo;play script&rdquo;), Game flow / state, Results + endings</td></tr>
+      </table>
+      <p>Two systems are easy to forget and costly if left late: the <strong>Crowd reaction</strong> (it is your scoring feedback and your identity) and the <strong>Act sequencer</strong> (without it you have mechanics but no playable act).</p>
+    </section>
+
+    <!-- 12 -->
+    <section id="art">
+      <div class="sec-num">Programme · No. 12</div>
+      <h2>Art direction</h2>
+      <ul>
+        <li><strong>Style</strong> — low-poly, stylized; theatrical sets with visible stage edges and painted backdrops. This is the licence for small scenes.</li>
+        <li><strong>Third person changes the lift</strong> — you now need a player character model plus an animation set (idle, run, parry, riposte, hit, death) and a costume per act (knight, sci-fi, Act 3). Reuse one rig and the same animations across acts; that is your main scope control.</li>
+        <li><strong>The Impresario</strong> — a key character model: a sinister clown-ringmaster, present in the dressing room.</li>
+        <li><strong>Visible low-poly crowd</strong> in the theatre and dressing room (kept simple and repeated), which vanishes when a play begins.</li>
+        <li><strong>Palette discipline</strong> — each act owns a limited palette (medieval, sci-fi, TBD). The theatre frame is neutral red-and-black.</li>
+        <li><strong>Lighting carries quality</strong> — spend the &ldquo;wow&rdquo; budget on bold stage lighting and coloured fog.</li>
+      </ul>
+    </section>
+
+    <!-- 13 -->
+    <section id="audio">
+      <div class="sec-num">Programme · No. 13</div>
+      <h2>Audio direction</h2>
+      <ul>
+        <li>The <strong>crowd system</strong> is the priority audio task.</li>
+        <li><strong>Music</strong> — a light theatrical score per act; swell on big parry/cheer moments.</li>
+        <li><strong>Diegetic theatre sounds</strong> — curtain swish, lights powering up on death, the camera-shift sting.</li>
+        <li><strong>The Impresario’s voice</strong> — the one consistent voice: a smooth, mocking clown, present in the dressing room.</li>
+      </ul>
+    </section>
+
+    <!-- 14 -->
+    <section id="ui">
+      <div class="sec-num">Programme · No. 14</div>
+      <h2>UI / UX</h2>
+      <ul>
+        <li><strong>Wish selection</strong> — an opening screen: pick your wish from a list, then sign the Joker card.</li>
+        <li><strong>Dressing room</strong> — a first-person interface to choose which act to perform.</li>
+        <li><strong>In-act HUD</strong> — minimal: HP, score/combo, a crowd-mood indicator, and the soft lock-on reticle. The audience is the main feedback.</li>
+        <li><strong>Rating screen</strong> — a theatrical &ldquo;review&rdquo; between acts: star rating + a one-line verdict.</li>
+        <li><strong>Endings</strong> — the closing sequence is the signature UX moment; direct it as a sequence, not a menu.</li>
+      </ul>
+    </section>
+
+    <!-- 15 -->
+    <section id="endings">
+      <div class="sec-num">Programme · No. 15</div>
+      <h2>Endings</h2>
+      <table>
+        <tr><th>Condition</th><th>Ending</th></tr>
+        <tr><td><b>Total ≥ threshold</b></td><td><b>Wish granted.</b> The clown, displeased, honours the deal; the wish you chose from the list comes true.</td></tr>
+        <tr><td><b>Total &lt; threshold</b></td><td><b>Wish denied.</b> The clown’s bargain was never in your favour — he collects his price, and the deal is done.</td></tr>
+      </table>
+      <p>Both endings must feel like a payoff.</p>
+    </section>
+
+    <!-- 16 -->
+    <section id="scope">
+      <div class="sec-num">Programme · No. 16</div>
+      <h2>Scope &amp; production plan</h2>
+      <div class="callout"><b>The most important section</b><br>One month, six people. Build the loop, not the content, first. And watch <strong>third-person animation</strong> — it is the sneaky cost that sinks third-person student projects.</div>
+      <h3>Vertical-slice-first</h3>
+      <p>Build <strong>all of Act 1 (the knight) end-to-end</strong> — dressing room → step onto stage → parry/combat loop → review → return — before touching Acts 2 and 3. Once that single loop <em>sings</em>, the other acts re-shape proven systems rather than building new ones.</p>
+      <h3>Priorities (MoSCoW)</h3>
+      <ul>
+        <li><strong>Must</strong> — dual camera, parry/combat, crowd system, HP, score, Act 1 fully playable, one ending.</li>
+        <li><strong>Should</strong> — Acts 2 &amp; 3, both endings, review screen, wish list.</li>
+        <li><strong>Could</strong> — extra parry flair, pickup-item puzzles, per-act music.</li>
+        <li><strong>Won’t (this month)</strong> — co-op, branching dialogue, full voice acting.</li>
+      </ul>
+      <h3>Four-week schedule</h3>
+      <table>
+        <tr><th>Week</th><th>Developers</th><th>Artists</th></tr>
+        <tr><td><b>1</b></td><td>Tier 0 + movement/camera/animation grayboxed</td><td>Style, theatre frame + Act 1 set, player character + knight costume blockout</td></tr>
+        <tr><td><b>2</b></td><td>Act 1 vertical slice (parry loop, lock-on, crowd, review, respawn)</td><td>Finish Act 1 + lighting; begin Act 2 (sci-fi)</td></tr>
+        <tr><td><b>3</b></td><td>Act 2 (ranged deflect) + Act 3 on shared systems; enemy AI</td><td>Finish Act 2 + Act 3 sets and costumes</td></tr>
+        <tr><td><b>4</b></td><td>Endings, threshold tuning, polish, build</td><td>Final art polish, lighting/VFX, screenshots</td></tr>
+      </table>
+      <h3>If you fall behind — the cut order</h3>
+      <ul>
+        <li>Cut Act 3’s new shape → reuse melee + ranged from Acts 1–2.</li>
+        <li>Cut Act 3 entirely → ship a two-act game; adjust the threshold.</li>
+        <li>Simplify Act 2 to deflect-only (drop the radial pulse).</li>
+      </ul>
+      <p><strong>A polished two-act game beats a broken three-act one.</strong> Decide cuts early, not in the final 48 hours.</p>
+    </section>
+
+    <!-- 17 -->
+    <section id="roles">
+      <div class="sec-num">Programme · No. 17</div>
+      <h2>Team roles</h2>
+      <table>
+        <tr><th>Member</th><th>Owns</th></tr>
+        <tr><td><b>Ali — Systems</b></td><td>Input, movement, the parry/combat framework, score, game state</td></tr>
+        <tr><td><b>Talal — Audio &amp; feel</b></td><td>Crowd-mood system, audio, camera juice, diegetic respawn</td></tr>
+        <tr><td><b>Waad — Content &amp; flow</b></td><td>Act sequencer, enemy/encounter scripting, dialogue, endings, UI</td></tr>
+        <tr><td><b>Ghala — Art</b></td><td>Act 1 (knight) + theatre frame + crowd</td></tr>
+        <tr><td><b>Haneen — Art</b></td><td>Act 2 (sci-fi) + player character / costumes + UI art</td></tr>
+        <tr><td><b>Layan — Art</b></td><td>Act 3 (TBD) + VFX / lighting lead + finale visuals</td></tr>
+      </table>
+    </section>
+
+    <!-- 18 -->
+    <section id="risks">
+      <div class="sec-num">Programme · No. 18</div>
+      <h2>Risks &amp; mitigations</h2>
+      <table>
+        <tr><th>Risk</th><th>Likelihood</th><th>Mitigation</th></tr>
+        <tr><td>Three acts is too much for one month</td><td>High</td><td>Vertical-slice-first; defined cut order; two-act fallback</td></tr>
+        <tr><td>Third-person animation underestimated</td><td>High</td><td>One rig, reuse animations across acts, lean on camera/VFX for flair</td></tr>
+        <tr><td>Parry feels unfair or unreadable</td><td>Medium</td><td>Soft lock-on; clear telegraphs; tune timing windows in week 1</td></tr>
+        <tr><td>Crowd audio feels flat</td><td>Medium</td><td>Crowd-mood cross-fade + varied stingers; prioritize early</td></tr>
+        <tr><td>Scope creep on art</td><td>Medium</td><td>Strict per-act palettes; sets stay deliberately small</td></tr>
+        <tr><td>Finale feels flat</td><td>Low</td><td>Direct the ending as a set-piece; build toward it across all acts</td></tr>
+      </table>
+    </section>
+
+    <!-- 19 -->
+    <section id="stretch">
+      <div class="sec-num">Programme · No. 19</div>
+      <h2>Stretch goals</h2>
+      <p>Only if ahead of schedule:</p>
+      <ul>
+        <li>Per-act music that dynamically swells with crowd mood.</li>
+        <li>Subtle audience easter eggs that reward repeat playthroughs.</li>
+        <li>A &ldquo;perfect run&rdquo; secret ending or hidden line from the Impresario.</li>
+        <li>The chosen wish subtly theming an act or a cosmetic.</li>
+      </ul>
+      <div class="ornament"><span>✦</span></div>
+    </section>
+
+  </div>
+
+  <footer class="foot">
+    <div class="bulbs"><span></span><span></span><span></span><span></span><span></span></div>
+    Act to Wish · Game Design Document v2.0 · A living document — we will update it as decisions change.
+  </footer>
+
+</div>
+</body>
+</html>
