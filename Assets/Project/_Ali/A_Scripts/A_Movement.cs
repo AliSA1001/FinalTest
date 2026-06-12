@@ -16,12 +16,22 @@ public class A_Movement : MonoBehaviour
 
     [Header("Animation seetings")]
     [SerializeField] private Animator animator;
+    [SerializeField] private float walkBlend;
+    [SerializeField] private float sprintBlend;
+    private float _targetBlend;
+    private float _currentBlend;
+    private bool isInAir = false;
 
 
     // movement 
     private float _xMovement;
     private float _zMovement;
     private Vector3 velocity;
+    private Vector3 moveDirection;
+
+
+    // Animation 
+    private float _timeToSprint = 1;
 
     
 
@@ -35,8 +45,18 @@ public class A_Movement : MonoBehaviour
     {
         
         Moving();
-        
+        if(!characterController.isGrounded && Mathf.Abs(velocity.y) > 0.5f)
+        {
+            isInAir = true;
+        }
+        else
+        {
+            isInAir = false;
+           
+        }
+        animator.SetBool("Inair", isInAir);
     }
+
 
     private void Moving()
     {
@@ -49,7 +69,7 @@ public class A_Movement : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        Vector3 moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+         moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
 
         if (characterController.isGrounded && velocity.y < 0)
         {
@@ -66,13 +86,33 @@ public class A_Movement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
+        HandleAnimation();
 
 
     }
 
     private void HandleAnimation()
     {
+       if (moveDirection.sqrMagnitude > 0)
+        {
+            _timeToSprint -= Time.deltaTime;
 
+            if(_timeToSprint > 0)
+            {
+                _targetBlend = 1f;
+
+            }
+           
+        }
+        else
+        {
+            _targetBlend = 0f;
+            _timeToSprint = 1;
+        }
+
+        _currentBlend = Mathf.MoveTowards(_currentBlend, _targetBlend, 6f * Time.deltaTime);
+
+        animator.SetFloat("WalkSpeed", _currentBlend);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -86,7 +126,8 @@ public class A_Movement : MonoBehaviour
         if(characterController.isGrounded && context.started)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
+            animator.SetTrigger("Jump");
+             isInAir = true;
         }
     }
 }
