@@ -20801,6 +20801,76 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792882328}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &796358689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796358692}
+  - component: {fileID: 796358690}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &796358690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796358689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2808cc8201e3b964b839d0df78c3f1d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::T_AudioManager
+  _mixer: {fileID: 24100000, guid: e7dded8498d254343b9722d56f077c98, type: 2}
+  _musicGroup: {fileID: -2405934623445901708, guid: e7dded8498d254343b9722d56f077c98, type: 2}
+  _sfxGroup: {fileID: 8404058092654107465, guid: e7dded8498d254343b9722d56f077c98, type: 2}
+  _crowdGroup: {fileID: 2520512308874301530, guid: e7dded8498d254343b9722d56f077c98, type: 2}
+  _uiGroup: {fileID: -5756055681213530526, guid: e7dded8498d254343b9722d56f077c98, type: 2}
+  _masterParam: MasterVol
+  _musicParam: MusicVol
+  _sfxParam: SfxVol
+  _crowdParam: CrowdVol
+  _uiParam: UiVol
+  _sfx: []
+  _music: []
+  _crowd: []
+  _ui: []
+  _surfaces: []
+  _crowdBedCalm:
+    variants: []
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+  _crowdBedRiled:
+    variants: []
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+  _musicFadeSeconds: 1.5
+  _bedVolume: 0.7
+  _sfxVoices: 8
+--- !u!4 &796358692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796358689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -48.50337, y: 187.8117, z: 177.7803}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &812020103
 GameObject:
   m_ObjectHideFlags: 0
@@ -40568,6 +40638,8 @@ MonoBehaviour:
   jumpHeight: 5
   rotationSpeed: 720
   animator: {fileID: 1930103178}
+  walkBlend: 0
+  sprintBlend: 0
 --- !u!143 &1818168165
 CharacterController:
   m_ObjectHideFlags: 0
@@ -48551,3 +48623,4 @@ SceneRoots:
   - {fileID: 1753773749}
   - {fileID: 602530065}
   - {fileID: 1890134335}
+  - {fileID: 796358692}
