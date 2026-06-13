@@ -49,9 +49,26 @@ public class HeartsHealthVisual : MonoBehaviour
         }
 
         heartsHealthSystem.OnDamaged += HeartsHealthSystem_OnDamaged;
+        heartsHealthSystem.OnHealed += HeartsHealthSystem_OnHealed;
+        heartsHealthSystem.OnDead += HeartsHealthSystem_OnDead;
+    }
+
+    private void HeartsHealthSystem_OnDead(object sender, System.EventArgs e)
+    {
+        Debug.Log("Dead!");
     }
 
     private void HeartsHealthSystem_OnDamaged(object sender, System.EventArgs e)
+    {
+        RefreshAllHearts();
+    }
+
+    private void HeartsHealthSystem_OnHealed(object sender, System.EventArgs e)
+    {
+        RefreshAllHearts();
+    }
+
+    private void RefreshAllHearts()
     {
         List<HeartsHealthSystem.Heart> heartList = heartsHealthSystem.GetHeartList();
 
@@ -91,6 +108,16 @@ public class HeartsHealthVisual : MonoBehaviour
     public void Damage4()
     {
         heartsHealthSystem.Damage(4);
+    }
+
+    public void Heal1()
+    {
+        heartsHealthSystem.Heal(1);
+    }
+
+    public void Heal4()
+    {
+        heartsHealthSystem.Heal(4);
     }
 
     public class HeartImage
