@@ -11,6 +11,7 @@ public class HeartsHealthVisual : MonoBehaviour
     [SerializeField] private Sprite heart4Sprite;
 
     private List<HeartImage> heartImagesList;
+    private HeartsHealthSystem heartsHealthSystem;
 
     private void Awake()
     {
@@ -19,9 +20,65 @@ public class HeartsHealthVisual : MonoBehaviour
 
     private void Start()
     {
-        CreateHeartImage(new Vector2(0, 0)).SetHeartFragments(4);
-        CreateHeartImage(new Vector2(30, 0)).SetHeartFragments(1);
-        CreateHeartImage(new Vector2(60, 0)).SetHeartFragments(0);
+        HeartsHealthSystem heartsHealthSystem = new HeartsHealthSystem(4);
+
+        Debug.Log("Heart 1 = " + heartsHealthSystem.GetHeartList()[0].GetFragmentAmount());
+        Debug.Log("Heart 2 = " + heartsHealthSystem.GetHeartList()[1].GetFragmentAmount());
+        Debug.Log("Heart 3 = " + heartsHealthSystem.GetHeartList()[2].GetFragmentAmount());
+        Debug.Log("Heart 4 = " + heartsHealthSystem.GetHeartList()[3].GetFragmentAmount());
+
+        SetHeartsHealthSystem(heartsHealthSystem);
+    }
+
+    public void SetHeartsHealthSystem(HeartsHealthSystem heartsHealthSystem)
+    {
+        this.heartsHealthSystem = heartsHealthSystem;
+
+        List<HeartsHealthSystem.Heart> heartList = heartsHealthSystem.GetHeartList();
+
+        Vector2 heartAnchoredPosition = new Vector2(0, 0);
+
+        for (int i = 0; i < heartList.Count; i++)
+        {
+            HeartsHealthSystem.Heart heart = heartList[i];
+
+            CreateHeartImage(heartAnchoredPosition)
+                .SetHeartFragments(heart.GetFragmentAmount());
+
+            heartAnchoredPosition += new Vector2(50, 0);
+        }
+
+        heartsHealthSystem.OnDamaged += HeartsHealthSystem_OnDamaged;
+        heartsHealthSystem.OnHealed += HeartsHealthSystem_OnHealed;
+        heartsHealthSystem.OnDead += HeartsHealthSystem_OnDead;
+    }
+
+    private void HeartsHealthSystem_OnDead(object sender, System.EventArgs e)
+    {
+        Debug.Log("Dead!");
+    }
+
+    private void HeartsHealthSystem_OnDamaged(object sender, System.EventArgs e)
+    {
+        RefreshAllHearts();
+    }
+
+    private void HeartsHealthSystem_OnHealed(object sender, System.EventArgs e)
+    {
+        RefreshAllHearts();
+    }
+
+    private void RefreshAllHearts()
+    {
+        List<HeartsHealthSystem.Heart> heartList = heartsHealthSystem.GetHeartList();
+
+        for (int i = 0; i < heartImagesList.Count; i++)
+        {
+            HeartImage heartImage = heartImagesList[i];
+            HeartsHealthSystem.Heart heart = heartList[i];
+
+            heartImage.SetHeartFragments(heart.GetFragmentAmount());
+        }
     }
 
     private HeartImage CreateHeartImage(Vector2 anchoredPosition)
@@ -41,6 +98,26 @@ public class HeartsHealthVisual : MonoBehaviour
         heartImagesList.Add(heartImage);
 
         return heartImage;
+    }
+
+    public void Damage1()
+    {
+        heartsHealthSystem.Damage(1);
+    }
+
+    public void Damage4()
+    {
+        heartsHealthSystem.Damage(4);
+    }
+
+    public void Heal1()
+    {
+        heartsHealthSystem.Heal(1);
+    }
+
+    public void Heal4()
+    {
+        heartsHealthSystem.Heal(4);
     }
 
     public class HeartImage
