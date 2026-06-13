@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5570983a92f32d048bab44e2a5737c43, type: 3}
+  m_Name: HeraldIntro
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  dialogueId: HeraldIntro
+  startId: n0
+  nodes:
+  - id: n0
+    speaker: Bartleby
+    text: "Oh, thank the heavens \u2014 a knight! A real one, sword and everything.
+      Tell me quickly, ser: are you here to help, or are you just here to loot like
+      everyone else?"
+    nextId: 
+    choices:
+    - choiceText: I'm here to help.
+      nextId: n1
+    - choiceText: What in the world happened here?
+      nextId: n1
+    isEnd: 0
+  - id: n1
+    speaker: Bartleby
+    text: The castle's fallen, ser. All of it. Taken by force before the morning
+      bells.
+    nextId: 
+    choices:
+    - choiceText: A goblin raid?
+      nextId: n2
+    - choiceText: Bandits? Mercenaries?
+      nextId: n2
+    isEnd: 0
+  - id: n2
+    speaker: Bartleby
+    text: "Would that it were. No \u2014 this was a coup. A proper, organized, military
+      coup. They had ranks, ser. Do you understand what I'm telling you? The goblins
+      have learned to plan."
+    nextId: n3
+    choices: []
+    isEnd: 0
+  - id: n3
+    speaker: Bartleby
+    text: By dawn they'd seized the gates, the armory, and the tax records. They
+      issued a decree before breakfast. It was grammatically correct. They've renamed
+      the kingdom. Twice. There were minutes taken.
+    nextId: 
+    choices:
+    - choiceText: And the princess?
+      nextId: n4
+    isEnd: 0
+  - id: n4
+    speaker: Bartleby
+    text: The princess was Taken. As a prisoner in the high tower of her own castle.
+      Their general won't simply take the crown. He means to make her sign the kingdom
+      over to goblin rule. Make it legal. Stamped. Filed. They're monsters, ser...
+      but they are thorough.
+    nextId: n5
+    choices: []
+    isEnd: 0
+  - id: n5
+    speaker: Bartleby
+    text: "You're the last blade left standing. If anyone's to reach that tower and
+      bring her home, it's you. But the courtyard is crawling with their soldiers,
+      and goblins fight dirty \u2014 they'll swing the instant your guard drops.
+      So time your blade, ser. Meet their steel with yours \u2014 turn it aside,
+      then strike. Stand there flinching and you won't see the second gate."
+    nextId: 
+    choices:
+    - choiceText: Then I'll cut my way to the tower.
+      nextId: n6
+    isEnd: 0
+  - id: n6
+    speaker: Bartleby
+    text: That's the spirit. The crowd loves a hero. ...Did I say crowd? I meant
+      kingdom.
+    nextId: n7
+    choices: []
+    isEnd: 0
+  - id: n7
+    speaker: Bartleby
+    text: "Go, ser knight. For the princess. For the kingdom. And \u2014 if it isn't
+      too much trouble \u2014 for my pension, which is currently being held by a
+      goblin accountant named Snivel."
+    nextId: 
+    choices: []
+    isEnd: 1
