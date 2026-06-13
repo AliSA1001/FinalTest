@@ -16,8 +16,6 @@ public class A_Movement : MonoBehaviour
 
     [Header("Animation seetings")]
     [SerializeField] private Animator animator;
-    [SerializeField] private float walkBlend;
-    [SerializeField] private float sprintBlend;
     private float _targetBlend;
     private float _currentBlend;
     private bool isInAir = false;
@@ -96,13 +94,7 @@ public class A_Movement : MonoBehaviour
        if (moveDirection.sqrMagnitude > 0)
         {
             _timeToSprint -= Time.deltaTime;
-
-            if(_timeToSprint > 0)
-            {
                 _targetBlend = 1f;
-
-            }
-           
         }
         else
         {
