@@ -3665,7 +3665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3092675532daf8e49957c7f827a717cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::A_Movement
-  speed: 5
+  speed: 3
   gravity: -30
   jumpHeight: 2
   rotationSpeed: 500
