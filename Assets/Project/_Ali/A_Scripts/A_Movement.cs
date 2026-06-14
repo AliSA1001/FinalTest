@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class A_Movement : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float jumpCooldown;
 
 
     [Header("Animation seetings")]
@@ -26,6 +29,7 @@ public class A_Movement : MonoBehaviour
     private float _zMovement;
     private Vector3 velocity;
     private Vector3 moveDirection;
+    private bool _isJumpCooldown;
 
 
     // Animation 
@@ -43,18 +47,25 @@ public class A_Movement : MonoBehaviour
     {
         
         Moving();
-        if(!characterController.isGrounded && Mathf.Abs(velocity.y) > 0.5f)
-        {
-            isInAir = true;
-        }
-        else
-        {
-            isInAir = false;
-           
-        }
-        animator.SetBool("Inair", isInAir);
+        HandleAnimation();
+        HandleJumpingCoolDown();
+       
+
     }
 
+    private void HandleJumpingCoolDown()
+    {
+
+        if (_isJumpCooldown)
+        {
+            jumpCooldown -= Time.deltaTime;
+            if (jumpCooldown < 0)
+            {
+                jumpCooldown = 1;
+                _isJumpCooldown = false;
+            }
+        }
+    }
 
     private void Moving()
     {
@@ -84,7 +95,6 @@ public class A_Movement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
-        HandleAnimation();
 
 
     }
@@ -105,6 +115,17 @@ public class A_Movement : MonoBehaviour
         _currentBlend = Mathf.MoveTowards(_currentBlend, _targetBlend, 6f * Time.deltaTime);
 
         animator.SetFloat("WalkSpeed", _currentBlend);
+
+        if (!characterController.isGrounded && Mathf.Abs(velocity.y) > 0.5f)
+        {
+            isInAir = true;
+        }
+        else
+        {
+            isInAir = false;
+
+        }
+        animator.SetBool("Inair", isInAir);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -115,11 +136,12 @@ public class A_Movement : MonoBehaviour
     }
   public void OnJump(InputAction.CallbackContext context)
     {
-        if(characterController.isGrounded && context.started)
+        if(characterController.isGrounded && context.started && !_isJumpCooldown)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("Jump");
              isInAir = true;
+            _isJumpCooldown = true;
         }
     }
 }
