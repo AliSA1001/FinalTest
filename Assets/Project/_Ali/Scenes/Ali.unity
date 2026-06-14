@@ -3669,6 +3669,7 @@ MonoBehaviour:
   gravity: -30
   jumpHeight: 2
   rotationSpeed: 500
+  jumpCooldown: 0.9
   animator: {fileID: 1930103178}
 --- !u!143 &1818168165
 CharacterController:
