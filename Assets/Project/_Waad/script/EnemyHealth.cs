@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
 
     public HealthBar healthBar;
 
+    public GameObject blueHealPrefab;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -30,7 +32,22 @@ public class EnemyHealth : MonoBehaviour
         {
             currentHealth = 0;
 
-            // حذف العدو عند الموت
+            GameObject heal = Instantiate(
+                blueHealPrefab,
+                transform.position + Vector3.up * 2f,
+                Quaternion.identity
+            );
+
+            Rigidbody rb = heal.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+
+                rb.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+            }
+
             Destroy(gameObject);
         }
 
