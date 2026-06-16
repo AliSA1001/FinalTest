@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class HealPickup : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             HeartsHealthVisual heartsHealthVisual =
                 FindObjectOfType<HeartsHealthVisual>();
