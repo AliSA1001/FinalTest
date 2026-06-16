@@ -38,6 +38,13 @@ public class EnemyHealth : MonoBehaviour
                 Quaternion.identity
             );
 
+            HealPickup healPickup = heal.GetComponent<HealPickup>();
+
+            if (healPickup != null)
+            {
+                healPickup.destroyAfterTime = true;
+            }
+
             Rigidbody rb = heal.GetComponent<Rigidbody>();
 
             if (rb != null)
