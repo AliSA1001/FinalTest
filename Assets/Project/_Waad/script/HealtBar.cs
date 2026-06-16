@@ -5,7 +5,6 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthFill;
 
-    private float health = 1f;
     private float targetHealth = 1f;
 
     private void Update()
@@ -17,19 +16,8 @@ public class HealthBar : MonoBehaviour
         );
     }
 
-    public void TakeDamage()
+    public void UpdateHealthBar(float maxHealth, float currentHealth)
     {
-        health -= 0.1f;
-        health = Mathf.Clamp01(health);
-
-        targetHealth = health;
-    }
-
-    public void Heal()
-    {
-        health += 0.1f;
-        health = Mathf.Clamp01(health);
-
-        targetHealth = health;
+        targetHealth = currentHealth / maxHealth;
     }
 }

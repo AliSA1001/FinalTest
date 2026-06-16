@@ -55,7 +55,7 @@ public class HeartsHealthVisual : MonoBehaviour
 
     private void HeartsHealthSystem_OnDead(object sender, System.EventArgs e)
     {
-        Debug.Log("Dead!");
+        FindObjectOfType<GameOverUI>().ShowGameOver();
     }
 
     private void HeartsHealthSystem_OnDamaged(object sender, System.EventArgs e)
