@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class A_Movement : MonoBehaviour
 {
@@ -11,15 +13,27 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
-    
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float jumpCooldown;
 
 
+    [Header("Animation seetings")]
+    [SerializeField] private Animator animator;
+    private float _targetBlend;
+    private float _currentBlend;
+    private bool isInAir = false;
 
 
     // movement 
     private float _xMovement;
     private float _zMovement;
     private Vector3 velocity;
+    private Vector3 moveDirection;
+    private bool _isJumpCooldown;
+
+
+    // Animation 
+    private float _timeToSprint = 1;
 
     
 
@@ -33,7 +47,24 @@ public class A_Movement : MonoBehaviour
     {
         
         Moving();
-        
+        HandleAnimation();
+        HandleJumpingCoolDown();
+       
+
+    }
+
+    private void HandleJumpingCoolDown()
+    {
+
+        if (_isJumpCooldown)
+        {
+            jumpCooldown -= Time.deltaTime;
+            if (jumpCooldown < 0)
+            {
+                jumpCooldown = 1;
+                _isJumpCooldown = false;
+            }
+        }
     }
 
     private void Moving()
@@ -47,11 +78,17 @@ public class A_Movement : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        Vector3 moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+         moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
 
         if (characterController.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+        }
+        if(moveDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,targetRotation,rotationSpeed * Time.deltaTime);
         }
 
         characterController.Move(moveDirection * Time.deltaTime * speed);
@@ -62,7 +99,34 @@ public class A_Movement : MonoBehaviour
 
     }
 
+    private void HandleAnimation()
+    {
+       if (moveDirection.sqrMagnitude > 0)
+        {
+            _timeToSprint -= Time.deltaTime;
+                _targetBlend = 1f;
+        }
+        else
+        {
+            _targetBlend = 0f;
+            _timeToSprint = 1;
+        }
 
+        _currentBlend = Mathf.MoveTowards(_currentBlend, _targetBlend, 6f * Time.deltaTime);
+
+        animator.SetFloat("WalkSpeed", _currentBlend);
+
+        if (!characterController.isGrounded && Mathf.Abs(velocity.y) > 0.5f)
+        {
+            isInAir = true;
+        }
+        else
+        {
+            isInAir = false;
+
+        }
+        animator.SetBool("Inair", isInAir);
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -72,10 +136,12 @@ public class A_Movement : MonoBehaviour
     }
   public void OnJump(InputAction.CallbackContext context)
     {
-        if(characterController.isGrounded && context.started)
+        if(characterController.isGrounded && context.started && !_isJumpCooldown)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
+            animator.SetTrigger("Jump");
+             isInAir = true;
+            _isJumpCooldown = true;
         }
     }
 }
