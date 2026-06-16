@@ -6,10 +6,12 @@ public class A_Sword : MonoBehaviour
 
     [SerializeField] private Animator animator;
     [SerializeField] private CharacterController characterController;
+    [SerializeField] private int AttackNumber;
 
 
     // call movement singleten
     private A_Movement movementRef;
+    
 
 
 
@@ -35,8 +37,18 @@ public class A_Sword : MonoBehaviour
     {
         if (context.performed && _canAttack && characterController.isGrounded)
         {
+            switch (AttackNumber)
+            {
+                case 0:
+                    animator.SetTrigger("Attack1");
+                    animator.SetLayerWeight(1, 0);
+                    _canAttack = false;
+                    movementRef.Canmove = false;
+                    Invoke("HandleCantAttack", 1);
+                    break;
+            }
             animator.SetTrigger("Attack1");
-            animator.SetLayerWeight(1, 0);
+           animator.SetLayerWeight(1, 0);
             _canAttack = false;
             movementRef.Canmove = false;
             Invoke("HandleCantAttack", 1);
