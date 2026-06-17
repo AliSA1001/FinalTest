@@ -16,6 +16,7 @@ public class A_Sword : MonoBehaviour
     private float _returnToNormalAfterAttackTime = 0.5f;
     private float _sowrdWeight = 0.43f;
     private bool _StartLerp;
+    private bool _firstAttack = true;
 
     [SerializeField] private float comboWindowDuration = 0.6f; // Time player has to chain next attack
  
@@ -40,8 +41,25 @@ public class A_Sword : MonoBehaviour
 
     private void HandleCantAttack()
     {
-       
-        if (_lastAttackNumber == 0 && _canAttack)
+        if (_canAttack && (_lastAttackNumber == 2 || _firstAttack))
+        {
+            _firstAttack = false;
+
+            _canAttack = false;
+            attackNumber = 0;
+
+            _movementRef.Canmove = false;
+            animator.SetTrigger("Attack1");
+            animator.SetLayerWeight(1, 0);
+            Invoke("HnadleAnimitorWeight", 0.5f);
+
+            _movementRef.Canmove = false;
+            _lastAttackNumber = attackNumber;
+        }
+
+
+
+        else if (_lastAttackNumber == 0 && _canAttack)
         {
             _canAttack = false;
             attackNumber = 1;
@@ -49,30 +67,30 @@ public class A_Sword : MonoBehaviour
 
             animator.SetTrigger("Attack2");
             animator.SetLayerWeight(1, 0);
-            Invoke("HnadleAnimitorWeight", 0.2f);
+            Invoke("HnadleAnimitorWeight", 0.5f);
 
             _movementRef.Canmove = false;
             _lastAttackNumber = attackNumber;
+
         }
-
-
-
-
-       // if (_lastAttackNumber == attackNumber) { return; } // if the last attacknumber is the same number then we dont do anyting
-        if (_canAttack)
+        else if (_lastAttackNumber == 1 && _canAttack)
         {
             _canAttack = false;
-            attackNumber = 0;
-
+            attackNumber = 2;
             _movementRef.Canmove = false;
-            animator.SetTrigger("Attack1");
+
+            animator.SetTrigger("Attack3");
             animator.SetLayerWeight(1, 0);
-            Invoke("HnadleAnimitorWeight", 0.2f);
+            Invoke("HnadleAnimitorWeight", 0.5f);
 
             _movementRef.Canmove = false;
             _lastAttackNumber = attackNumber;
         }
-    }
+
+       }
+
+       
+    
     private void HnadleAnimitorWeight()
     {
         _startLerp = true;
