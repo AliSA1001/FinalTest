@@ -5,9 +5,9 @@ public class A_Sword : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private int attackNumber = 1;
+    [SerializeField] private int attackNumber = 0;
     [SerializeField] private float newWeight;
-    [SerializeField] private float bleendSpeed = 55;
+    [SerializeField] private float bleendSpeed = 35;
 
     private A_Movement _movementRef;
     private int _lastAttackNumber;
@@ -40,37 +40,37 @@ public class A_Sword : MonoBehaviour
 
     private void HandleCantAttack()
     {
-        int attacknumber = 200;
+       
         if (_lastAttackNumber == 0 && _canAttack)
         {
             _canAttack = false;
-            attacknumber = 1;
+            attackNumber = 1;
             _movementRef.Canmove = false;
 
             animator.SetTrigger("Attack2");
             animator.SetLayerWeight(1, 0);
-            Invoke("HnadleAnimitorWeight", 0.5f);
+            Invoke("HnadleAnimitorWeight", 0.2f);
 
             _movementRef.Canmove = false;
-            _lastAttackNumber = attacknumber;
+            _lastAttackNumber = attackNumber;
         }
 
 
 
 
-        if (_lastAttackNumber == attacknumber) { return; } // if the last attacknumber is the same number then we dont do anyting
+       // if (_lastAttackNumber == attackNumber) { return; } // if the last attacknumber is the same number then we dont do anyting
         if (_canAttack)
         {
             _canAttack = false;
-            attacknumber = 0;
+            attackNumber = 0;
 
             _movementRef.Canmove = false;
             animator.SetTrigger("Attack1");
             animator.SetLayerWeight(1, 0);
-            Invoke("HnadleAnimitorWeight", 0.5f);
+            Invoke("HnadleAnimitorWeight", 0.2f);
 
             _movementRef.Canmove = false;
-            _lastAttackNumber = attacknumber;
+            _lastAttackNumber = attackNumber;
         }
     }
     private void HnadleAnimitorWeight()
