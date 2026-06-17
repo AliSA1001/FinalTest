@@ -3390,29 +3390,6 @@ Transform:
   - {fileID: 376096378}
   m_Father: {fileID: 959919714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1804999395 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2340819945554783676, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
-  m_PrefabInstance: {fileID: 1480944803967847689}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1804999397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804999395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a4f02db26063e14c8cba02efefd7e6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::A_Sword
-  animator: {fileID: 1050300671}
-  characterController: {fileID: 120193000}
-  attackNumber: 0
-  newWeight: 0
-  bleendSpeed: 0
-  comboWindowDuration: 0.6
 --- !u!1 &1809098099
 GameObject:
   m_ObjectHideFlags: 0
@@ -4277,6 +4254,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 381681955801119519, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4381,9 +4362,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       insertIndex: 6
       addedObject: {fileID: 120193006}
-    - targetCorrespondingSourceObject: {fileID: 2340819945554783676, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1804999397}
   m_SourcePrefab: {fileID: 100100000, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
