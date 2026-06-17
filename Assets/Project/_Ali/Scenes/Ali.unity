@@ -296,7 +296,7 @@ MonoBehaviour:
   characterController: {fileID: 120193000}
   attackNumber: 0
   newWeight: 0
-  bleendSpeed: 60
+  bleendSpeed: 35
   comboWindowDuration: 0.6
 --- !u!1 &136155159
 GameObject:
