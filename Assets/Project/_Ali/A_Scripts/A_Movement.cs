@@ -7,9 +7,10 @@ public class A_Movement : MonoBehaviour
 {
     private CharacterController characterController;
 
-
+    public static A_Movement instance;
 
     [Header("Movement Settings")]
+    public bool Canmove; // this is the key when we try to stop the player in attack
     [SerializeField] private float speed;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
@@ -40,13 +41,23 @@ public class A_Movement : MonoBehaviour
 
     private void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
         characterController = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
-        
-        Moving();
+        if (Canmove)
+        {
+            Moving();
+        }
         HandleAnimation();
         HandleJumpingCoolDown();
        
