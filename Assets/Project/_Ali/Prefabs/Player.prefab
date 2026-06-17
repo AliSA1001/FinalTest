@@ -211,6 +211,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: ca9aa9d7-4372-4093-b3ec-4530ce0476e5
     m_ActionName: 'Player/Look[/Mouse/delta]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fba71c1a-7105-4464-bbd3-1f0b4e85e276
+    m_ActionName: 'Player/Attack[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -228,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3092675532daf8e49957c7f827a717cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::A_Movement
+  Canmove: 1
   speed: 3
   gravity: -30
   jumpHeight: 2
