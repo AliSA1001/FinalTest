@@ -7912,6 +7912,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5574607207997005034, guid: 385a283118d4c1e499077e78199ae460, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8406437750518035409, guid: 385a283118d4c1e499077e78199ae460, type: 3}
       propertyPath: m_Name
       value: Heal
