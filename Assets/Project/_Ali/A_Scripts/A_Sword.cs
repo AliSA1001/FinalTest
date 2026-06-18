@@ -15,7 +15,6 @@ public class A_Sword : MonoBehaviour
     private bool _startLerp = false;
     private float _returnToNormalAfterAttackTime = 0.5f;
     private float _sowrdWeight = 0.43f;
-    private bool _StartLerp;
     private bool _firstAttack = true;
 
     [SerializeField] private float comboWindowDuration = 0.6f; // Time player has to chain next attack

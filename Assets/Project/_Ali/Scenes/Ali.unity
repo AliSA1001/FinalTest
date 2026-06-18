@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c739ee4eaaa3f4990b1b3b33974ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::A_Parry
+  animator: {fileID: 1497533776}
 --- !u!1 &136155159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,6 +3011,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1749574596}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1497533776 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7543079072568587644, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+  m_PrefabInstance: {fileID: 1480944803967847689}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1523362942
 GameObject:
   m_ObjectHideFlags: 0
@@ -4150,6 +4156,34 @@ PrefabInstance:
     - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_ActionEvents.Array.data[15].m_ActionName
       value: 'Player/Parry[/Keyboard/f,/Mouse/rightButton]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 120193013}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnParry
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: A_Parry, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8218838406005504049, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_LocalPosition.x
