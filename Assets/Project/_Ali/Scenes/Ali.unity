@@ -265,6 +265,23 @@ Transform:
   - {fileID: 1962793521}
   m_Father: {fileID: 1523362943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &120192998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+  m_PrefabInstance: {fileID: 1480944803967847689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &120193013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120192998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c739ee4eaaa3f4990b1b3b33974ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::A_Parry
 --- !u!1 &136155159
 GameObject:
   m_ObjectHideFlags: 0
@@ -4122,6 +4139,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
+      value: 601a0b9c-5931-44f6-ac58-a57d8df1cdc7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793883504888994328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
+      value: 'Player/Parry[/Keyboard/f,/Mouse/rightButton]'
+      objectReference: {fileID: 0}
     - target: {fileID: 8218838406005504049, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4165,7 +4194,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      insertIndex: 7
+      addedObject: {fileID: 120193013}
   m_SourcePrefab: {fileID: 100100000, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
