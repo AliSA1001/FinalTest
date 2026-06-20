@@ -8,20 +8,25 @@ public class HealPickup : MonoBehaviour
     {
         if (destroyAfterTime)
         {
-            Destroy(gameObject, 10f);
+            Destroy(transform.root.gameObject, 10f);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        Debug.Log("Trigger Working: " + other.name);
+
+        if (other.CompareTag("Player"))
         {
             HeartsHealthVisual heartsHealthVisual =
                 FindObjectOfType<HeartsHealthVisual>();
 
-            heartsHealthVisual.Heal1();
+            if (heartsHealthVisual != null)
+            {
+                heartsHealthVisual.Heal1();
+            }
 
-            Destroy(gameObject);
+            Destroy(transform.root.gameObject);
         }
     }
 }
