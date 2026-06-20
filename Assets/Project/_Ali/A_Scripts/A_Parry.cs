@@ -6,6 +6,7 @@ public class A_Parry : MonoBehaviour
 
     
     [SerializeField] private Animator animator;
+    [SerializeField] private ParticleSystem parryEffect;
 
 
     private A_Movement _movementRef;
@@ -36,6 +37,7 @@ public class A_Parry : MonoBehaviour
             animator.SetTrigger("Parry");
             _movementRef.Canmove = false;
             _canParry = false;
+            parryEffect.Play();
             Invoke("HnadleAnimitorWeight", 0.9f);
            
         }
