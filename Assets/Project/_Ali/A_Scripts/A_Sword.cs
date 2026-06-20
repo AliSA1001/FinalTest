@@ -80,7 +80,7 @@ public class A_Sword : MonoBehaviour
 
             animator.SetTrigger("Attack3");
             animator.SetLayerWeight(1, 0);
-            Invoke("HnadleAnimitorWeight", 0.5f);
+            Invoke("HnadleAnimitorWeight", 0.6f);
 
             _movementRef.Canmove = false;
             _lastAttackNumber = attackNumber;
