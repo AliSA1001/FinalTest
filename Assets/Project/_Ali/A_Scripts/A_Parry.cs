@@ -25,7 +25,7 @@ public class A_Parry : MonoBehaviour
     {
         animator.SetLayerWeight(1, 0.43f);
         _canParry = true;
-        _movementRef.Canmove = true;
+        _movementRef.CanMove = true;
 
     }
 
@@ -35,7 +35,7 @@ public class A_Parry : MonoBehaviour
         {
             animator.SetLayerWeight(1, 0);
             animator.SetTrigger("Parry");
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
             _canParry = false;
             parryEffect.Play();
             Invoke("HnadleAnimitorWeight", 0.9f);
