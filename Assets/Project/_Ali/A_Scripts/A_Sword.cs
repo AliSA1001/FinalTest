@@ -47,12 +47,12 @@ public class A_Sword : MonoBehaviour
             _canAttack = false;
             attackNumber = 0;
 
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
             animator.SetTrigger("Attack1");
             animator.SetLayerWeight(1, 0);
             Invoke("HnadleAnimitorWeight", 0.5f);
 
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
             _lastAttackNumber = attackNumber;
         }
 
@@ -62,13 +62,13 @@ public class A_Sword : MonoBehaviour
         {
             _canAttack = false;
             attackNumber = 1;
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
 
             animator.SetTrigger("Attack2");
             animator.SetLayerWeight(1, 0);
             Invoke("HnadleAnimitorWeight", 0.5f);
 
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
             _lastAttackNumber = attackNumber;
 
         }
@@ -76,13 +76,13 @@ public class A_Sword : MonoBehaviour
         {
             _canAttack = false;
             attackNumber = 2;
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
 
             animator.SetTrigger("Attack3");
             animator.SetLayerWeight(1, 0);
             Invoke("HnadleAnimitorWeight", 0.6f);
 
-            _movementRef.Canmove = false;
+            _movementRef.CanMove = false;
             _lastAttackNumber = attackNumber;
         }
 
@@ -93,7 +93,7 @@ public class A_Sword : MonoBehaviour
     private void HnadleAnimitorWeight()
     {
         _startLerp = true;
-        _movementRef.Canmove = true;
+        _movementRef.CanMove = true;
         _canAttack = true;
 
     }
