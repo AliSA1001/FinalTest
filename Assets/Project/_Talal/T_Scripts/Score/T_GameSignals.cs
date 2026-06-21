@@ -2,23 +2,12 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Quality tier of a parry. Set by the Combat system when it raises
-/// <see cref="T_GameSignals.ParryLanded"/>; a perfect parry scores more and (via Crowd) draws a bigger cheer.
-/// </summary>
-public enum ParryQuality
-{
-    Good,
-    Perfect
-}
-
-/// <summary>
 /// The kind of scoring action that landed. Carried by <see cref="T_GameSignals.ScoreEventLanded"/> so
 /// listeners (Crowd, Audio, UI) can react to *what* happened, not just the new running total.
 /// </summary>
 public enum ScoreEventType
 {
     Parry,
-    PerfectParry,
     Hit,
     Kill,
     Collectable
@@ -58,8 +47,8 @@ public static class T_GameSignals
 {
     // ---------- INBOUND: raised by other systems, consumed by Score ----------
 
-    /// <summary>A parry succeeded, with its quality tier.</summary>
-    public static event Action<ParryQuality> ParryLanded;
+    /// <summary>A parry succeeded.</summary>
+    public static event Action ParryLanded;
     /// <summary>An offensive attack connected with an enemy.</summary>
     public static event Action AttackHitLanded;
     /// <summary>An enemy was killed.</summary>
@@ -75,7 +64,7 @@ public static class T_GameSignals
     /// <summary>An act finished. Argument is the zero-based act index.</summary>
     public static event Action<int> ActFinished;
 
-    public static void RaiseParryLanded(ParryQuality quality) => ParryLanded?.Invoke(quality);
+    public static void RaiseParryLanded() => ParryLanded?.Invoke();
     public static void RaiseAttackHitLanded() => AttackHitLanded?.Invoke();
     public static void RaiseEnemyKilled() => EnemyKilled?.Invoke();
     public static void RaiseCollectableCollected() => CollectableCollected?.Invoke();

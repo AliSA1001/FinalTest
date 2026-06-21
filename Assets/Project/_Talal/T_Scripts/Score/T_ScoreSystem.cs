@@ -13,7 +13,6 @@ public class T_ScoreSystem : MonoBehaviour
 {
     [Header("Point values (before combo multiplier)")]
     [SerializeField] private int _parryPoints = 100;
-    [SerializeField] private int _perfectParryPoints = 250;
     [SerializeField] private int _hitPoints = 25;
     [SerializeField] private int _killPoints = 150;
     [SerializeField] private int _collectablePoints = 50;
@@ -101,16 +100,9 @@ public class T_ScoreSystem : MonoBehaviour
 
     // ---------- Inbound signal handlers ----------
 
-    private void HandleParry(ParryQuality quality)
+    private void HandleParry()
     {
-        if (quality == ParryQuality.Perfect)
-        {
-            Award(ScoreEventType.PerfectParry, _perfectParryPoints);
-        }
-        else
-        {
-            Award(ScoreEventType.Parry, _parryPoints);
-        }
+        Award(ScoreEventType.Parry, _parryPoints);
     }
 
     private void HandleHit() => Award(ScoreEventType.Hit, _hitPoints);
