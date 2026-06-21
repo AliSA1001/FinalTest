@@ -6,8 +6,7 @@ using UnityEngine.Audio;
 /// <summary>Identifier for a one-shot sound effect in the Audio Manager's library.</summary>
 public enum SfxId
 {
-    PerfectParry,
-    NormalParry,
+    Parry,
     PlayerDamage,
     EnemyDamage,
     EnemyDeath,
@@ -244,7 +243,7 @@ public class T_AudioManager : MonoBehaviour
 
     // ---------- gameplay handlers ----------
 
-    private void OnParry(ParryQuality quality) => PlaySfx(quality == ParryQuality.Perfect ? SfxId.PerfectParry : SfxId.NormalParry);
+    private void OnParry() => PlaySfx(SfxId.Parry);
     private void OnPlayerDamaged() => PlaySfx(SfxId.PlayerDamage);
     private void OnPlayerDied() => PlaySfx(SfxId.PlayerDeath);
     private void OnEnemyKilled() => PlaySfx(SfxId.EnemyDeath);

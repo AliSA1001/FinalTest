@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 /// its outbound signals in the Console. Wrapped in UNITY_EDITOR, so it is compiled out of player builds.
 ///
 /// Keys (new Input System; no .inputactions wiring needed):
-///   P = parry (Good)     O = perfect parry     H = attack hit
+///   P = parry            H = attack hit
 ///   K = enemy killed     C = collectable       J = player damaged
 ///   L = player died      [ = act started       ] = act finished
 /// </summary>
@@ -42,8 +42,7 @@ public class T_ScoreDebugger : MonoBehaviour
             return;
         }
 
-        if (keyboard.pKey.wasPressedThisFrame) T_GameSignals.RaiseParryLanded(ParryQuality.Good);
-        if (keyboard.oKey.wasPressedThisFrame) T_GameSignals.RaiseParryLanded(ParryQuality.Perfect);
+        if (keyboard.pKey.wasPressedThisFrame) T_GameSignals.RaiseParryLanded();
         if (keyboard.hKey.wasPressedThisFrame) T_GameSignals.RaiseAttackHitLanded();
         if (keyboard.kKey.wasPressedThisFrame) T_GameSignals.RaiseEnemyKilled();
         if (keyboard.cKey.wasPressedThisFrame) T_GameSignals.RaiseCollectableCollected();
