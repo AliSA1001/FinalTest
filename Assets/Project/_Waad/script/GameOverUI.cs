@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -14,9 +13,35 @@ public class GameOverUI : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
+        gameOverPanel.SetActive(false);
 
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().buildIndex
-        );
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null && CheckpointManager.hasCheckpoint)
+        {
+            CharacterController cc =
+                player.GetComponent<CharacterController>();
+
+            if (cc != null)
+            {
+                cc.enabled = false;
+            }
+
+            player.transform.position =
+                CheckpointManager.checkpointPosition;
+
+            if (cc != null)
+            {
+                cc.enabled = true;
+            }
+        }
+
+        HeartsHealthVisual health =
+            FindObjectOfType<HeartsHealthVisual>();
+
+        if (health != null)
+        {
+            health.FullHeal();
+        }
     }
 }
