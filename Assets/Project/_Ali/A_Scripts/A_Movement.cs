@@ -118,16 +118,17 @@ public class A_Movement : MonoBehaviour
         if (isDodging)
         {
 
-            Vector3 cameraForward = Camera.main.transform.forward;
-            Vector3 cameraRight = Camera.main.transform.right;
+          //  Vector3 cameraForward = Camera.main.transform.forward;
+          //  Vector3 cameraRight = Camera.main.transform.right;
 
-            cameraForward.y = 0f;
-            cameraRight.y = 0f;
+        //    cameraForward.y = 0f;
+         //   cameraRight.y = 0f;
 
-            cameraForward.Normalize();
-            cameraRight.Normalize();
+         //   cameraForward.Normalize();
+          //  cameraRight.Normalize();
 
-            moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+            moveDirection = transform.forward; //(cameraForward * _zMovement) + (cameraRight * _xMovement);
 
             characterController.Move(moveDirection * Time.deltaTime * dodgeSpeed);
         }

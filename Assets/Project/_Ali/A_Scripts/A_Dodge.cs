@@ -35,7 +35,8 @@ public class A_Dodge : MonoBehaviour
             animator.SetLayerWeight(1, 0);
             animator.SetTrigger("Dodge");
             _movement.isDodging = true;
-            Invoke("SwordWeight", 0.5f);
+            
+            Invoke("SwordWeight", 0.4f);
 
         }
     }
