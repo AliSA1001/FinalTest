@@ -44,9 +44,9 @@ GameObject:
   - component: {fileID: 381681955801119519}
   - component: {fileID: 4211817139470698222}
   - component: {fileID: 7793883504888994328}
-  - component: {fileID: 327682593168512019}
   - component: {fileID: 2375572850249069293}
   - component: {fileID: 1575374026762108056}
+  - component: {fileID: 327682593168512019}
   - component: {fileID: 4351861417766262328}
   - component: {fileID: 7122542789369049911}
   m_Layer: 0
@@ -300,19 +300,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &327682593168512019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477944716814949832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fddc4f928e2924e909cfebd0b74eec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::A_Dodge
-  animator: {fileID: 7543079072568587644}
 --- !u!114 &2375572850249069293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3092675532daf8e49957c7f827a717cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::A_Movement
-  Canmove: 1
+  CanMove: 0
   speed: 3
   gravity: -30
   jumpHeight: 2
@@ -350,6 +337,20 @@ MonoBehaviour:
   newWeight: 0
   bleendSpeed: 45
   comboWindowDuration: 0.6
+--- !u!114 &327682593168512019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477944716814949832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fddc4f928e2924e909cfebd0b74eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::A_Dodge
+  animator: {fileID: 7543079072568587644}
+  speed: 1000
 --- !u!114 &4351861417766262328
 MonoBehaviour:
   m_ObjectHideFlags: 0

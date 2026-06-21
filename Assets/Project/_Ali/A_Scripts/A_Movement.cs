@@ -16,6 +16,7 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float jumpHeight;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float jumpCooldown;
+   
 
 
     [Header("Animation seetings")]
@@ -31,13 +32,12 @@ public class A_Movement : MonoBehaviour
     private Vector3 velocity;
     private Vector3 moveDirection;
     private bool _isJumpCooldown;
+    public bool isDodging;
 
 
     // Animation 
     private float _timeToSprint = 1;
-
-    
-
+   
 
     private void Awake()
     {
@@ -60,7 +60,10 @@ public class A_Movement : MonoBehaviour
         }
         HandleAnimation();
         HandleJumpingCoolDown();
-       
+        if (isDodging)
+        {
+            HandleDodging(10);
+        }
 
     }
 
@@ -108,6 +111,26 @@ public class A_Movement : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
 
 
+    }
+    // so we call this from the dodge script to make the player move in dir of the dodge
+    public void HandleDodging(float dodgeSpeed)
+    {
+        if (isDodging)
+        {
+
+            Vector3 cameraForward = Camera.main.transform.forward;
+            Vector3 cameraRight = Camera.main.transform.right;
+
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+            characterController.Move(moveDirection * Time.deltaTime * dodgeSpeed);
+        }
     }
 
     private void HandleAnimation()

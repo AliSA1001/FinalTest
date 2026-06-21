@@ -5,6 +5,7 @@ public class A_Dodge : MonoBehaviour
 {
 
     [SerializeField] private Animator animator;
+    [SerializeField] private float speed;
 
 
     private CharacterController _characterController;
@@ -21,6 +22,8 @@ public class A_Dodge : MonoBehaviour
     private void SwordWeight()
     {
         _movement.CanMove = true;
+        _movement.isDodging = false;
+
 
     }
 
@@ -30,8 +33,9 @@ public class A_Dodge : MonoBehaviour
         {
             _movement.CanMove = false;
             animator.SetLayerWeight(1, 0);
-            
             animator.SetTrigger("Dodge");
+            _movement.isDodging = true;
+            Invoke("SwordWeight", 0.5f);
 
         }
     }
