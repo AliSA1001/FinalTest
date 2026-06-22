@@ -120,6 +120,11 @@ public class HeartsHealthVisual : MonoBehaviour
         heartsHealthSystem.Heal(4);
     }
 
+    public void FullHeal()
+{
+    heartsHealthSystem.Heal(100);
+}
+
     public class HeartImage
     {
         private Image heartImage;
