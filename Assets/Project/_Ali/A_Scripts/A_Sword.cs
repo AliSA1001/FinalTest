@@ -3,15 +3,29 @@ using UnityEngine.InputSystem;
 
 public class A_Sword : MonoBehaviour
 {
+    [Header("Conection")]
     [SerializeField] private Animator animator;
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private int AttackNumber = 0;
+
+    [Header("Numbers")]
+    [SerializeField] private int attackNumber = 0;
+    [SerializeField] private float newWeight;
+    [SerializeField] private float bleendSpeed = 35;
+
+    [Header("Attack Effect")]
+    [SerializeField] private ParticleSystem slash;
+    [SerializeField] private ParticleSystem stab;
 
     private A_Movement _movementRef;
+    private int _lastAttackNumber;
+    private bool _canAttack = true;
+    private bool _startLerp = false;
+    private float _returnToNormalAfterAttackTime = 0.5f;
+    private float _sowrdWeight = 0.43f;
+    private bool _firstAttack = true;
 
     [SerializeField] private float comboWindowDuration = 0.6f; // Time player has to chain next attack
-    private float _comboTimer = 0f;
-    private bool _canAttack = true;
+ 
 
     private void Start()
     {
@@ -20,80 +34,86 @@ public class A_Sword : MonoBehaviour
 
     private void Update()
     {
-        // Constantly tick down the combo timer over time
-        if (_comboTimer > 0)
+        if (_startLerp)
         {
-            _comboTimer -= Time.deltaTime;
-
-            // If the player waits too long, break the combo and reset to Attack 0
-            if (_comboTimer <= 0)
-            {
-                AttackNumber = 0;
+            newWeight = Mathf.Lerp(0, _sowrdWeight,Time.deltaTime * bleendSpeed);
+            animator.SetLayerWeight(1, newWeight);
+            if(newWeight >= _sowrdWeight)
+            { 
+            _startLerp = false;
             }
         }
     }
 
     private void HandleCantAttack()
     {
+        if (_canAttack && (_lastAttackNumber == 2 || _firstAttack))
+        {
+            _firstAttack = false;
+
+            _canAttack = false;
+            attackNumber = 0;
+
+            _movementRef.CanMove = false;
+            animator.SetTrigger("Attack1");
+            animator.SetLayerWeight(1, 0);
+            Invoke("HnadleAnimitorWeight", 0.5f);
+
+            _movementRef.CanMove = false;
+            _lastAttackNumber = attackNumber;
+        }
+
+
+
+        else if (_lastAttackNumber == 0 && _canAttack)
+        {
+            _canAttack = false;
+            attackNumber = 1;
+            _movementRef.CanMove = false;
+
+            animator.SetTrigger("Attack2");
+            animator.SetLayerWeight(1, 0);
+            Invoke("HnadleAnimitorWeight", 0.5f);
+
+            _movementRef.CanMove = false;
+            _lastAttackNumber = attackNumber;
+
+        }
+        else if (_lastAttackNumber == 1 && _canAttack)
+        {
+            _canAttack = false;
+            attackNumber = 2;
+            _movementRef.CanMove = false;
+
+            animator.SetTrigger("Attack3");
+            animator.SetLayerWeight(1, 0);
+            Invoke("HnadleAnimitorWeight", 0.6f);
+
+            _movementRef.CanMove = false;
+            _lastAttackNumber = attackNumber;
+        }
+
+       }
+
+       
+    
+    private void HnadleAnimitorWeight()
+    {
+        _startLerp = true;
+        _movementRef.CanMove = true;
         _canAttack = true;
-        animator.SetLayerWeight(1, 0.43f);
-        _movementRef.Canmove = true;
+        _movementRef.isAttacking = false;
+
+
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (!context.performed || !characterController.isGrounded) return;
-
-        // CRITICAL FIX: Allow input if they are allowed to attack generally OR if they are executing a combo chain
-        if (_canAttack)
+        if(context.performed && characterController.isGrounded && _canAttack)
         {
-            // Cancel previous recovery invoke so the new attack gets its full duration
-            CancelInvoke("HandleCantAttack");
+            HandleCantAttack();
+            _movementRef.isAttacking = true;
 
-            switch (AttackNumber)
-            {
-                case 0:
-                    // First Attack
-                    animator.SetTrigger("Attack1");
-                    animator.SetLayerWeight(1, 0);
-                    _canAttack = false;
-                    _movementRef.Canmove = false;
-
-                    AttackNumber = 1; // Prepare next stage
-                    _comboTimer = comboWindowDuration; // Open combo timer
-                    Invoke("HandleCantAttack", 1f);
-                    break;
-
-                case 1:
-                    // Second Attack (Only triggers if still within the combo timer window)
-                    if (_comboTimer > 0)
-                    {
-                        animator.SetTrigger("Attack2");
-                        animator.SetLayerWeight(1, 0);
-                        _canAttack = false;
-                        _movementRef.Canmove = false;
-
-                        AttackNumber = 2; // Prepare final stage
-                        _comboTimer = comboWindowDuration; // Refresh combo timer
-                        Invoke("HandleCantAttack", 1f);
-                    }
-                    break;
-
-                case 2:
-                    // Third Attack (Finisher)
-                    if (_comboTimer > 0)
-                    {
-                        animator.SetTrigger("Attack3");
-                        animator.SetLayerWeight(1, 0);
-                        _canAttack = false;
-                        _movementRef.Canmove = false;
-
-                        AttackNumber = 0; // Reset combo back to start
-                        _comboTimer = 0;   // Clear combo window
-                        Invoke("HandleCantAttack", 1f);
-                    }
-                    break;
-            }
         }
     }
 }
