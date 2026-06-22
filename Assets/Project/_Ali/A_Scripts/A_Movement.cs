@@ -16,6 +16,7 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float jumpHeight;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float jumpCooldown;
+   
 
 
     [Header("Animation seetings")]
@@ -25,19 +26,23 @@ public class A_Movement : MonoBehaviour
     private bool isInAir = false;
 
 
+    [Header("Attack And Dodge Speed")]
+    [SerializeField] private float AttackMoveSpeed;
+    [SerializeField] private float DodgeMoveSpeed;
+
     // movement 
     private float _xMovement;
     private float _zMovement;
     private Vector3 velocity;
     private Vector3 moveDirection;
     private bool _isJumpCooldown;
+    public bool isDodging;
+    public bool isAttacking;
 
 
     // Animation 
     private float _timeToSprint = 1;
-
-    
-
+   
 
     private void Awake()
     {
@@ -60,7 +65,14 @@ public class A_Movement : MonoBehaviour
         }
         HandleAnimation();
         HandleJumpingCoolDown();
-       
+        if (isDodging)
+        {
+            HandleDodging();
+        }
+        if(isAttacking)
+        {
+            HandleAttackingMovement();
+        }
 
     }
 
@@ -108,6 +120,35 @@ public class A_Movement : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
 
 
+    }
+
+    private void HandleAttackingMovement()
+    {
+        moveDirection = transform.forward;
+
+        characterController.Move(moveDirection * Time.deltaTime * AttackMoveSpeed);
+    }
+
+    // so we call this from the dodge script to make the player move in dir of the dodge
+    private void HandleDodging()
+    {
+        if (isDodging)
+        {
+
+          //  Vector3 cameraForward = Camera.main.transform.forward;
+          //  Vector3 cameraRight = Camera.main.transform.right;
+
+        //    cameraForward.y = 0f;
+         //   cameraRight.y = 0f;
+
+         //   cameraForward.Normalize();
+          //  cameraRight.Normalize();
+
+
+            moveDirection = transform.forward; //(cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+            characterController.Move(moveDirection * Time.deltaTime * DodgeMoveSpeed);
+        }
     }
 
     private void HandleAnimation()
