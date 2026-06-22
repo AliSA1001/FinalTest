@@ -2,14 +2,51 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    public Light checkpointLight;
+    public GameObject savePopup;
+
+    private bool activated = false;
+
+    private void Start()
+    {
+        if (savePopup != null)
+        {
+            savePopup.SetActive(false);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !activated)
         {
-            CheckpointManager.checkpointPosition = transform.position;
+            activated = true;
+
+            // حفظ مكان الريسبون أمام الشيك بوينت
+            CheckpointManager.checkpointPosition =
+                transform.position + transform.forward * 2f;
+
             CheckpointManager.hasCheckpoint = true;
 
+            if (checkpointLight != null)
+            {
+                checkpointLight.color = Color.green;
+            }
+
+            if (savePopup != null)
+            {
+                savePopup.SetActive(true);
+                Invoke(nameof(HidePopup), 2f);
+            }
+
             Debug.Log("Checkpoint Saved!");
+        }
+    }
+
+    private void HidePopup()
+    {
+        if (savePopup != null)
+        {
+            savePopup.SetActive(false);
         }
     }
 }
