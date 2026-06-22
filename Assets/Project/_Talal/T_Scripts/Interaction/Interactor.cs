@@ -5,12 +5,16 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Player-side interaction driver. Each frame it finds the nearest registered <see cref="IInteractable"/>
 /// within range (and an optional facing cone), shows/hides the prompt via <see cref="InteractionEvents"/>, and
-/// on the interact input calls the target. Thin: it reads <see cref="InteractionRegistry"/> — no Find/GetComponent.
+/// on the interact key calls the target.
+///
+/// The interact key is read directly from <see cref="Keyboard.current"/>, so it works regardless of which
+/// input map / action asset the player's movement uses. (Switch to an InputActionReference later if you want
+/// rebinding or gamepad support routed through your own map.)
 /// </summary>
 public class Interactor : MonoBehaviour
 {
-    [Tooltip("Interact action (e.g. Player/Interact from InputSystem_Actions).")]
-    [SerializeField] private InputActionReference _interact;
+    [Tooltip("Key that triggers interaction. Read directly, independent of the player's input map.")]
+    [SerializeField] private Key _interactKey = Key.E;
     [Tooltip("Maximum distance to an interactable.")]
     [SerializeField] private float _range = 3f;
     [Tooltip("Max angle (degrees) between the player's forward and the interactable. 360 = any direction.")]
@@ -18,22 +22,8 @@ public class Interactor : MonoBehaviour
 
     private IInteractable _current;
 
-    private void OnEnable()
-    {
-        if (_interact != null && _interact.action != null)
-        {
-            _interact.action.performed += OnInteract;
-            _interact.action.Enable();
-        }
-    }
-
     private void OnDisable()
     {
-        if (_interact != null && _interact.action != null)
-        {
-            _interact.action.performed -= OnInteract;
-            _interact.action.Disable();
-        }
         if (_current != null) SetCurrent(null);
     }
 
@@ -41,6 +31,14 @@ public class Interactor : MonoBehaviour
     {
         IInteractable best = FindNearest();
         if (best != _current) SetCurrent(best);
+
+        if (_current != null
+            && Keyboard.current != null
+            && Keyboard.current[_interactKey].wasPressedThisFrame)
+        {
+            _current.Interact();
+            T_GameSignals.RaiseInteractionPerformed(); // lets Audio play the interact SFX
+        }
     }
 
     private IInteractable FindNearest()
@@ -85,12 +83,5 @@ public class Interactor : MonoBehaviour
         {
             InteractionEvents.RaisePromptChanged(string.Empty, false);
         }
-    }
-
-    private void OnInteract(InputAction.CallbackContext _)
-    {
-        if (_current == null) return;
-        _current.Interact();
-        T_GameSignals.RaiseInteractionPerformed(); // lets Audio play the interact SFX
     }
 }
