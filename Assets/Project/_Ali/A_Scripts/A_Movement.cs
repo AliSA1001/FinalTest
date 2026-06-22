@@ -26,6 +26,10 @@ public class A_Movement : MonoBehaviour
     private bool isInAir = false;
 
 
+    [Header("Attack And Dodge Speed")]
+    [SerializeField] private float AttackMoveSpeed;
+    [SerializeField] private float DodgeMoveSpeed;
+
     // movement 
     private float _xMovement;
     private float _zMovement;
@@ -33,6 +37,7 @@ public class A_Movement : MonoBehaviour
     private Vector3 moveDirection;
     private bool _isJumpCooldown;
     public bool isDodging;
+    public bool isAttacking;
 
 
     // Animation 
@@ -62,7 +67,11 @@ public class A_Movement : MonoBehaviour
         HandleJumpingCoolDown();
         if (isDodging)
         {
-            HandleDodging(7);
+            HandleDodging();
+        }
+        if(isAttacking)
+        {
+            HandleAttackingMovement();
         }
 
     }
@@ -112,8 +121,16 @@ public class A_Movement : MonoBehaviour
 
 
     }
+
+    private void HandleAttackingMovement()
+    {
+        moveDirection = transform.forward;
+
+        characterController.Move(moveDirection * Time.deltaTime * AttackMoveSpeed);
+    }
+
     // so we call this from the dodge script to make the player move in dir of the dodge
-    public void HandleDodging(float dodgeSpeed)
+    private void HandleDodging()
     {
         if (isDodging)
         {
@@ -130,7 +147,7 @@ public class A_Movement : MonoBehaviour
 
             moveDirection = transform.forward; //(cameraForward * _zMovement) + (cameraRight * _xMovement);
 
-            characterController.Move(moveDirection * Time.deltaTime * dodgeSpeed);
+            characterController.Move(moveDirection * Time.deltaTime * DodgeMoveSpeed);
         }
     }
 
