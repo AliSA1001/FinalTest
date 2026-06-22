@@ -3,11 +3,18 @@ using UnityEngine.InputSystem;
 
 public class A_Sword : MonoBehaviour
 {
+    [Header("Conection")]
     [SerializeField] private Animator animator;
     [SerializeField] private CharacterController characterController;
+
+    [Header("Numbers")]
     [SerializeField] private int attackNumber = 0;
     [SerializeField] private float newWeight;
     [SerializeField] private float bleendSpeed = 35;
+
+    [Header("Attack Effect")]
+    [SerializeField] private ParticleSystem slash;
+    [SerializeField] private ParticleSystem stab;
 
     private A_Movement _movementRef;
     private int _lastAttackNumber;
@@ -95,6 +102,8 @@ public class A_Sword : MonoBehaviour
         _startLerp = true;
         _movementRef.CanMove = true;
         _canAttack = true;
+        _movementRef.isAttacking = false;
+
 
     }
 
@@ -103,6 +112,8 @@ public class A_Sword : MonoBehaviour
         if(context.performed && characterController.isGrounded && _canAttack)
         {
             HandleCantAttack();
+            _movementRef.isAttacking = true;
+
         }
     }
 }
