@@ -62,7 +62,7 @@ public class A_Movement : MonoBehaviour
         HandleJumpingCoolDown();
         if (isDodging)
         {
-            HandleDodging(10);
+            HandleDodging(7);
         }
 
     }
