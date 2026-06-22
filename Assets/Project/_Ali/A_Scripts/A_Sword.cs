@@ -95,6 +95,8 @@ public class A_Sword : MonoBehaviour
         _startLerp = true;
         _movementRef.CanMove = true;
         _canAttack = true;
+        _movementRef.isAttacking = false;
+
 
     }
 
@@ -103,6 +105,8 @@ public class A_Sword : MonoBehaviour
         if(context.performed && characterController.isGrounded && _canAttack)
         {
             HandleCantAttack();
+            _movementRef.isAttacking = true;
+
         }
     }
 }
