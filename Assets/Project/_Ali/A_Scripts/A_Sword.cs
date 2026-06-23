@@ -13,7 +13,8 @@ public class A_Sword : MonoBehaviour
     [SerializeField] private float bleendSpeed = 35;
 
     [Header("Attack Effect")]
-    [SerializeField] private ParticleSystem slash;
+    [SerializeField] private ParticleSystem slash1;
+    [SerializeField] private ParticleSystem slash2;
     [SerializeField] private ParticleSystem stab;
 
     private A_Movement _movementRef;
@@ -56,6 +57,7 @@ public class A_Sword : MonoBehaviour
 
             _movementRef.CanMove = false;
             animator.SetTrigger("Attack1");
+            slash1.Play();
             animator.SetLayerWeight(1, 0);
             Invoke("HnadleAnimitorWeight", 0.5f);
 
@@ -72,6 +74,7 @@ public class A_Sword : MonoBehaviour
             _movementRef.CanMove = false;
 
             animator.SetTrigger("Attack2");
+            slash2.Play();
             animator.SetLayerWeight(1, 0);
             Invoke("HnadleAnimitorWeight", 0.5f);
 
@@ -86,6 +89,7 @@ public class A_Sword : MonoBehaviour
             _movementRef.CanMove = false;
 
             animator.SetTrigger("Attack3");
+            stab.Play();
             animator.SetLayerWeight(1, 0);
             Invoke("HnadleAnimitorWeight", 0.6f);
 
