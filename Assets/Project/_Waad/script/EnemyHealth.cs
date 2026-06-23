@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float maxHealth = 100f;
-    public float currentHealth = 100f;
+    public float maxHealth = 200f;
+    public float currentHealth = 200f;
 
     public HealthBar healthBar;
 
@@ -34,7 +34,7 @@ public class EnemyHealth : MonoBehaviour
 
             GameObject heal = Instantiate(
                 blueHealPrefab,
-                transform.position + Vector3.up * 2f,
+                transform.position + new Vector3(0f, 2.5f, 0f),
                 Quaternion.identity
             );
 
@@ -52,7 +52,8 @@ public class EnemyHealth : MonoBehaviour
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
 
-                rb.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+                // نطة خفيفة
+                rb.AddForce(Vector3.up * 3f, ForceMode.Impulse);
             }
 
             Destroy(gameObject);
