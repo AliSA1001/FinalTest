@@ -5,17 +5,19 @@ using UnityEngine.AI;
 public class A_EnemyAI : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private Transform[] PatrolPoints;
-    [SerializeField] private bool isTargetingPlayer;
 
 
+    private Vector3 _startingPostion;
     private NavMeshAgent agent;
     private Transform _playerPostion;
 
 
 
 
-
+    private void Awake()
+    {
+        _startingPostion = transform.position;
+    }
 
     private void Start()
     {
@@ -26,29 +28,23 @@ public class A_EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if(!isTargetingPlayer)
-        {
-            if(PatrolPoints == null)return;
-            else
-            {
-                HandlePatrolPointsMovement();
-            }
-        }
+
     }
 
-   private void HandlePatrolPointsMovement()
+    private Vector3 GetRoamingPostion()
     {
-
-        for (int i = 0; i < PatrolPoints.Length; i++)
-        {
-            Vector3 currentPoint = new Vector3(PatrolPoints[i].position.x, PatrolPoints[i].position.y, PatrolPoints[i].position.z);
-            agent.SetDestination(currentPoint);
-          
-            
-        }
-        HandlePatrolPointsMovement();
-
+        return _startingPostion + GetRandomDirection() * Random.Range(10f, 70f);
     }
 
-
+    // get Random normalized direction 
+    private Vector3 GetRandomDirection()
+    {
+        return new Vector3(Random.Range(-1,1), Random.Range(1,-1)).normalized;
+    }
 }
+ 
+
+    
+
+
+
