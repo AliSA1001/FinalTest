@@ -18,15 +18,6 @@ public class CarryableItem : MonoBehaviour
         if (rb != null)
         {
             rb.isKinematic = true;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        Collider col = GetComponent<Collider>();
-
-        if (col != null)
-        {
-            col.enabled = false;
         }
     }
 
@@ -35,7 +26,7 @@ public class CarryableItem : MonoBehaviour
         transform.SetParent(null);
 
         transform.position =
-            player.position + player.forward * 2f + Vector3.up;
+            player.position + player.forward * 1.5f;
 
         transform.rotation = Quaternion.identity;
 
@@ -44,13 +35,6 @@ public class CarryableItem : MonoBehaviour
         if (rb != null)
         {
             rb.isKinematic = false;
-        }
-
-        Collider col = GetComponent<Collider>();
-
-        if (col != null)
-        {
-            col.enabled = true;
         }
     }
 }
