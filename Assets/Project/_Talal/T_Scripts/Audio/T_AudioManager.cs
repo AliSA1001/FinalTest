@@ -306,8 +306,17 @@ public class T_AudioManager : MonoBehaviour
         if (sound == null || source == null || sound.variants == null || sound.variants.Length == 0) return;
         AudioClip clip = sound.variants[Random.Range(0, sound.variants.Length)];
         if (clip == null) return;
-        source.pitch = pitchOverride > 0f ? pitchOverride : Random.Range(sound.pitchRange.x, sound.pitchRange.y);
-        source.PlayOneShot(clip, sound.volume);
+        source.pitch = pitchOverride > 0f ? pitchOverride : ResolvePitch(sound.pitchRange);
+        source.PlayOneShot(clip, sound.volume > 0f ? sound.volume : 1f);
+    }
+
+    // Newly-added list elements come in with all fields zeroed (Unity ignores the C# field initializers),
+    // which would otherwise mute the sound and set pitch 0. Treat a degenerate range as normal pitch.
+    private static float ResolvePitch(Vector2 range)
+    {
+        if (range.y <= 0f) return 1f;
+        float min = range.x > 0f ? range.x : range.y;
+        return Random.Range(min, range.y);
     }
 
     // ---------- music ----------
@@ -381,8 +390,10 @@ public class T_AudioManager : MonoBehaviour
         mood01 = Mathf.Clamp01(mood01);
         StartBed(_bedCalm, _crowdBedCalm);
         StartBed(_bedRiled, _crowdBedRiled);
-        if (_bedCalm != null) _bedCalm.volume = (1f - mood01) * _bedVolume;
-        if (_bedRiled != null) _bedRiled.volume = mood01 * _bedVolume;
+        float calmVol = (_crowdBedCalm != null && _crowdBedCalm.volume > 0f) ? _crowdBedCalm.volume : 1f;
+        float riledVol = (_crowdBedRiled != null && _crowdBedRiled.volume > 0f) ? _crowdBedRiled.volume : 1f;
+        if (_bedCalm != null) _bedCalm.volume = (1f - mood01) * _bedVolume * calmVol;
+        if (_bedRiled != null) _bedRiled.volume = mood01 * _bedVolume * riledVol;
     }
 
     private void StartBed(AudioSource source, T_Sound sound)
