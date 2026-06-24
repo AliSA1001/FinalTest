@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class PlayerPickup : MonoBehaviour
 {
@@ -12,36 +11,36 @@ public class PlayerPickup : MonoBehaviour
 
     private void Start()
     {
-        pickupText.SetActive(false);
+        if (pickupText != null)
+            pickupText.SetActive(false);
     }
 
-    public void OnInteract(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (!context.started)
-            return;
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            // إذا شايل شيء -> ارمه
+            if (carriedItem != null)
+            {
+                carriedItem.Drop();
+                carriedItem = null;
 
-        if (nearbyItem == null)
-            return;
+                if (pickupText != null && nearbyItem == null)
+                    pickupText.SetActive(false);
 
-        if (carriedItem != null)
-            return;
+                return;
+            }
 
-        nearbyItem.PickUp(itemHolder, transform);
-        carriedItem = nearbyItem;
+            // إذا قريب من شيء -> خذه
+            if (nearbyItem != null)
+            {
+                nearbyItem.PickUp(itemHolder, transform);
+                carriedItem = nearbyItem;
 
-        pickupText.SetActive(false);
-    }
-
-    public void OnDrop(InputAction.CallbackContext context)
-    {
-        if (!context.started)
-            return;
-
-        if (carriedItem == null)
-            return;
-
-        carriedItem.Drop();
-        carriedItem = null;
+                if (pickupText != null)
+                    pickupText.SetActive(false);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -52,7 +51,7 @@ public class PlayerPickup : MonoBehaviour
         {
             nearbyItem = item;
 
-            if (carriedItem == null)
+            if (carriedItem == null && pickupText != null)
             {
                 pickupText.SetActive(true);
             }
@@ -66,7 +65,11 @@ public class PlayerPickup : MonoBehaviour
         if (item == nearbyItem)
         {
             nearbyItem = null;
-            pickupText.SetActive(false);
+
+            if (pickupText != null)
+            {
+                pickupText.SetActive(false);
+            }
         }
     }
 }
