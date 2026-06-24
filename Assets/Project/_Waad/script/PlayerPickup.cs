@@ -5,43 +5,50 @@ using TMPro;
 public class PlayerPickup : MonoBehaviour
 {
     [SerializeField] private Transform itemHolder;
-    [SerializeField] private GameObject pickupText;
+    [SerializeField] private TMP_Text pickupText;
 
     private CarryableItem nearbyItem;
     private CarryableItem carriedItem;
 
     private void Start()
     {
-        pickupText.SetActive(false);
+        if (pickupText != null)
+        {
+            pickupText.gameObject.SetActive(false);
+        }
     }
 
-    public void OnInteract(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (!context.started)
-            return;
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            // رمي
+            if (carriedItem != null)
+            {
+                carriedItem.Drop();
+                carriedItem = null;
 
-        if (nearbyItem == null)
-            return;
+                if (pickupText != null)
+                {
+                    pickupText.gameObject.SetActive(false);
+                }
 
-        if (carriedItem != null)
-            return;
+                return;
+            }
 
-        nearbyItem.PickUp(itemHolder, transform);
-        carriedItem = nearbyItem;
+            // أخذ
+            if (nearbyItem != null)
+            {
+                nearbyItem.PickUp(itemHolder, transform);
+                carriedItem = nearbyItem;
 
-        pickupText.SetActive(false);
-    }
-
-    public void OnDrop(InputAction.CallbackContext context)
-    {
-        if (!context.started)
-            return;
-
-        if (carriedItem == null)
-            return;
-
-        carriedItem.Drop();
-        carriedItem = null;
+                if (pickupText != null)
+                {
+                    pickupText.gameObject.SetActive(true);
+                    pickupText.text = "Press Q To Drop";
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -52,9 +59,10 @@ public class PlayerPickup : MonoBehaviour
         {
             nearbyItem = item;
 
-            if (carriedItem == null)
+            if (carriedItem == null && pickupText != null)
             {
-                pickupText.SetActive(true);
+                pickupText.gameObject.SetActive(true);
+                pickupText.text = "Press Q To Pick Up";
             }
         }
     }
@@ -66,7 +74,11 @@ public class PlayerPickup : MonoBehaviour
         if (item == nearbyItem)
         {
             nearbyItem = null;
-            pickupText.SetActive(false);
+
+            if (pickupText != null && carriedItem == null)
+            {
+                pickupText.gameObject.SetActive(false);
+            }
         }
     }
 }
