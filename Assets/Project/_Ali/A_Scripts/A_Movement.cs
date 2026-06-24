@@ -30,6 +30,9 @@ public class A_Movement : MonoBehaviour
     [SerializeField] private float AttackMoveSpeed;
     [SerializeField] private float DodgeMoveSpeed;
 
+    [Header("Effects")]
+    [SerializeField] private GameObject footStep;
+
     // movement 
     private float _xMovement;
     private float _zMovement;
@@ -63,6 +66,7 @@ public class A_Movement : MonoBehaviour
         {
             Moving();
         }
+      
         HandleAnimation();
         HandleJumpingCoolDown();
         if (isDodging)
@@ -102,6 +106,16 @@ public class A_Movement : MonoBehaviour
         cameraRight.Normalize();
 
          moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+        // here we will check for the move direction if it is 0 then we dont do footstep effect
+        if((_zMovement > 0 || _xMovement > 0) && characterController.isGrounded)
+        {
+            footStep.SetActive(true);
+        }
+        else
+        {
+            footStep.SetActive(false);
+        }
 
         if (characterController.isGrounded && velocity.y < 0)
         {
