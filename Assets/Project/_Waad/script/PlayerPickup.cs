@@ -1,52 +1,84 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerPickup : MonoBehaviour
 {
     [SerializeField] private Transform itemHolder;
+    [SerializeField] private TMP_Text pickupText;
 
     private CarryableItem nearbyItem;
     private CarryableItem carriedItem;
 
-    public void OnInteract(InputAction.CallbackContext context)
+    private void Start()
     {
-        if (!context.started) return;
-
-        if (nearbyItem != null && carriedItem == null)
+        if (pickupText != null)
         {
-            nearbyItem.PickUp(itemHolder, transform);
-            carriedItem = nearbyItem;
+            pickupText.gameObject.SetActive(false);
         }
     }
 
-    public void OnDrop(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (!context.started) return;
-
-        if (carriedItem != null)
+        if (Keyboard.current.qKey.wasPressedThisFrame)
         {
-            carriedItem.Drop();
-            carriedItem = null;
+            // رمي
+            if (carriedItem != null)
+            {
+                carriedItem.Drop();
+                carriedItem = null;
+
+                if (pickupText != null)
+                {
+                    pickupText.gameObject.SetActive(false);
+                }
+
+                return;
+            }
+
+            // أخذ
+            if (nearbyItem != null)
+            {
+                nearbyItem.PickUp(itemHolder, transform);
+                carriedItem = nearbyItem;
+
+                if (pickupText != null)
+                {
+                    pickupText.gameObject.SetActive(true);
+                    pickupText.text = "Press Q To Drop";
+                }
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        CarryableItem item = other.GetComponent<CarryableItem>();
+        CarryableItem item = other.GetComponentInParent<CarryableItem>();
 
         if (item != null)
         {
             nearbyItem = item;
+
+            if (carriedItem == null && pickupText != null)
+            {
+                pickupText.gameObject.SetActive(true);
+                pickupText.text = "Press Q To Pick Up";
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        CarryableItem item = other.GetComponent<CarryableItem>();
+        CarryableItem item = other.GetComponentInParent<CarryableItem>();
 
         if (item == nearbyItem)
         {
             nearbyItem = null;
+
+            if (pickupText != null && carriedItem == null)
+            {
+                pickupText.gameObject.SetActive(false);
+            }
         }
     }
 }
