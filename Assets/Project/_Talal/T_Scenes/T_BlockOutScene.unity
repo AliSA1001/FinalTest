@@ -2283,8 +2283,9 @@ GameObject:
   - component: {fileID: 602530065}
   - component: {fileID: 602530064}
   - component: {fileID: 602530063}
+  - component: {fileID: 602530066}
   m_Layer: 0
-  m_Name: CodeTest
+  m_Name: ScoreSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2341,6 +2342,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &602530066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602530062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eabbab77fe2ed084c85f28c06846a0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::T_CrowdSystem
+  _neutralMood: 0.5
+  _decayPerSecond: 0.15
+  _moodEpsilon: 0.01
+  _parryGain: 0.04
+  _hitGain: 0.02
+  _killGain: 0.1
+  _collectableGain: 0.03
+  _damageDrop: 0.2
+  _deathDrop: 0.4
+  _reactionCooldown: 1.5
+  _cheerThreshold: 0.8
+  _gaspComboMilestone: 10
 --- !u!1 &604658484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3197,15 +3222,35 @@ MonoBehaviour:
   _uiParam: UiVol
   _sfx: []
   _music: []
-  _crowd: []
+  _crowd:
+  - id: 2
+    sound:
+      variants:
+      - {fileID: 8300000, guid: f9366751f298cd048836c637f43ed74a, type: 3}
+      volume: 0
+      pitchRange: {x: 0, y: 0}
+  - id: 4
+    sound:
+      variants:
+      - {fileID: 8300000, guid: ce65cac0e66095d428098b1f25575d9b, type: 3}
+      volume: 0
+      pitchRange: {x: 0, y: 0}
+  - id: 0
+    sound:
+      variants:
+      - {fileID: 8300000, guid: dc3ef533bc6280d4d809fdcd1700e357, type: 3}
+      volume: 0
+      pitchRange: {x: 0, y: 0}
   _ui: []
   _surfaces: []
   _crowdBedCalm:
-    variants: []
+    variants:
+    - {fileID: 8300000, guid: 7c46cac62d50a414ba5ab3444986b286, type: 3}
     volume: 1
     pitchRange: {x: 1, y: 1}
   _crowdBedRiled:
-    variants: []
+    variants:
+    - {fileID: 8300000, guid: 8ac7eb0a038054c4287e77e50b1c5a01, type: 3}
     volume: 1
     pitchRange: {x: 1, y: 1}
   _musicFadeSeconds: 1.5
