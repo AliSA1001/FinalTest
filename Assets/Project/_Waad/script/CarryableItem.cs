@@ -2,7 +2,24 @@ using UnityEngine;
 
 public class CarryableItem : MonoBehaviour
 {
+    [Header("Hold Settings")]
+    public Vector3 holdPosition;
+    public Vector3 holdRotation;
+    public Vector3 holdScale = Vector3.one;
+
     private Transform player;
+    private Rigidbody rb;
+    private Collider col;
+
+    private Vector3 originalScale;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
+
+        originalScale = transform.localScale;
+    }
 
     public void PickUp(Transform itemHolder, Transform playerTransform)
     {
@@ -10,31 +27,56 @@ public class CarryableItem : MonoBehaviour
 
         transform.SetParent(itemHolder);
 
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
+        transform.localPosition = holdPosition;
+        transform.localEulerAngles = holdRotation;
+        transform.localScale = holdScale;
 
         if (rb != null)
         {
             rb.isKinematic = true;
+            rb.useGravity = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
+
+        if (col != null)
+            col.enabled = false;
     }
 
     public void Drop()
     {
         transform.SetParent(null);
 
-        transform.position =
-            player.position + player.forward * 1.5f;
+        // يرجع الحجم الأصلي
+        transform.localScale = originalScale;
+
+        // مكان الرمي
+        Vector3 dropPosition =
+            player.position +
+            player.forward * 2f +
+            Vector3.up * 1.2f;
+
+        // Raycast عشان ما يدخل بالأرض
+        RaycastHit hit;
+        if (Physics.Raycast(dropPosition, Vector3.down, out hit, 5f))
+        {
+            dropPosition.y = hit.point.y + 0.1f;
+        }
+
+        transform.position = dropPosition + Vector3.up * 0.5f;
 
         transform.rotation = Quaternion.identity;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
 
         if (rb != null)
         {
             rb.isKinematic = false;
+            rb.useGravity = true;
+
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
+
+        if (col != null)
+            col.enabled = true;
     }
 }
