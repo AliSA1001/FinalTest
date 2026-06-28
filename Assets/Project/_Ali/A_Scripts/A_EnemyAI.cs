@@ -4,47 +4,114 @@ using UnityEngine.AI;
 
 public class A_EnemyAI : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+  [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
 
+    private NavMeshAgent _agent;
+    private Transform player;
 
-    private Vector3 _startingPostion;
-    private NavMeshAgent agent;
-    private Transform _playerPostion;
+    // patroling 
+    [SerializeField]private Vector3 walkPoint;
+    bool walkPointSet;
+    [SerializeField] private float walkPointRange;
 
+    //Attacking
+    [SerializeField] private float timeBetweenAttacks;
+    private bool _alreadyAttacked;
 
+    //States 
+    [SerializeField]private float sightRange, attackRange;
+    [SerializeField] private bool playerInSightRange, playerInAttackRange;
 
 
     private void Awake()
     {
-        _startingPostion = transform.position;
-    }
-
-    private void Start()
-    {
-        // here we only give values to our agent and navmeash agent
-        agent = GetComponent<NavMeshAgent>();
-        _playerPostion = player.transform;
+        player = GameObject.Find("Player").transform; // here we tell it to find my boy the player!!
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
+        // we will use sphere to check around the ai 
+        // first we use the checksphere to know if we are in sphere sightrange like the raycast
+        playerInSightRange = Physics.CheckSphere(transform.position , sightRange , whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
+        if(!playerInSightRange && !playerInAttackRange)
+        {
+            Patroling();
+        }
+        if(playerInSightRange && !playerInAttackRange)
+        {
+            ChasePlayer();
+        }
+        if(playerInSightRange && playerInAttackRange)
+        {
+            AttackPlayer();
+        }
     }
 
-    private Vector3 GetRoamingPostion()
+    private void Patroling()
     {
-        return _startingPostion + GetRandomDirection() * Random.Range(10f, 70f);
-    }
+        //if we dont set walk point we will look for point
+        if (!walkPointSet) SearchWalkForPoint();
 
-    // get Random normalized direction 
-    private Vector3 GetRandomDirection()
-    {
-        return new Vector3(Random.Range(-1,1), Random.Range(1,-1)).normalized;
+        if(walkPointSet)
+        {
+            _agent.SetDestination(walkPoint);
+
+            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+            // check if we got to the point 
+            if( distanceToWalkPoint.magnitude < 1f)
+            {
+                walkPointSet = false;
+            }
+        }
     }
-}
- 
 
     
+    private void SearchWalkForPoint()
+    {
+        // we look for random points
+        float randomZ = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        // we check if our walk point is on a ground
+        if(Physics.Raycast(walkPoint, -transform.up, 2f , whatIsGround))
+        {
+            walkPointSet = true;
+        }
+    }
+
+    private void ChasePlayer()
+    {
+        _agent.SetDestination(player.position);
+    }
+
+    private void AttackPlayer()
+    {
+        _agent.SetDestination(transform.position);
+
+        transform.LookAt(player);
+
+        if(!_alreadyAttacked)
+        {
+            
+
+            _alreadyAttacked = true;
+            Invoke(nameof(ResetAttack),timeBetweenAttacks);
+        }
+    }
+    private void ResetAttack()
+    {
+        _alreadyAttacked = false;
+    }
+
+}
+
+
+
 
 
 
