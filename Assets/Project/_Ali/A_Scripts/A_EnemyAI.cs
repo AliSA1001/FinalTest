@@ -4,47 +4,35 @@ using UnityEngine.AI;
 
 public class A_EnemyAI : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+  [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
 
+    private NavMeshAgent _agent;
+    private Transform player;
 
-    private Vector3 _startingPostion;
-    private NavMeshAgent agent;
-    private Transform _playerPostion;
+    // patroling 
+    [SerializeField]private Vector3 walkPoint;
+    bool walkPoints;
+    [SerializeField] private float walkPointRange;
 
+    //Attacking
+    [SerializeField] private float timeBetweenAttacks;
+    private bool _alreadyAttacked;
 
+    //States 
+    [SerializeField]private float sightRange, attackRange;
+    [SerializeField] private bool playerInSightRange, playerInAttackRange;
 
 
     private void Awake()
     {
-        _startingPostion = transform.position;
+        player = GameObject.Find("player").transform; // here we tell it to find my boy the player!!
     }
 
-    private void Start()
-    {
-        // here we only give values to our agent and navmeash agent
-        agent = GetComponent<NavMeshAgent>();
-        _playerPostion = player.transform;
-    }
 
-    private void Update()
-    {
-
-    }
-
-    private Vector3 GetRoamingPostion()
-    {
-        return _startingPostion + GetRandomDirection() * Random.Range(10f, 70f);
-    }
-
-    // get Random normalized direction 
-    private Vector3 GetRandomDirection()
-    {
-        return new Vector3(Random.Range(-1,1), Random.Range(1,-1)).normalized;
-    }
 }
- 
 
-    
+
+
 
 
 
