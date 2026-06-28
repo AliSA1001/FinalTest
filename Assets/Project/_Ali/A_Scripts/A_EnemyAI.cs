@@ -22,6 +22,16 @@ public class A_EnemyAI : MonoBehaviour
     [SerializeField]private float sightRange, attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
 
+    // based on the set of States we will change the aniamtion 
+    // 1- standing animtion
+    // 2- walking - when patroling
+    // 3- runing - when chesing
+    // 4- attacking  - when attacking (:
+
+    [Header("animation")]
+    [SerializeField] private Animator animator;
+
+
 
     private void Awake()
     {
@@ -39,10 +49,12 @@ public class A_EnemyAI : MonoBehaviour
         if(!playerInSightRange && !playerInAttackRange)
         {
             Patroling();
+            animator.SetBool("IsRuning" , false);
         }
         if(playerInSightRange && !playerInAttackRange)
         {
             ChasePlayer();
+            animator.SetBool("IsRuning", true);
         }
         if(playerInSightRange && playerInAttackRange)
         {
