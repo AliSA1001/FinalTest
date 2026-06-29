@@ -1,16 +1,17 @@
+using PixelCrushers.DialogueSystem;
+using System;
 using UnityEngine;
 
 public class A_EnemyHitCollider : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public event Action<int> OnTookHit;
 
-    // Update is called once per frame
-    void Update()
+  
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Small Enemy"))
+        {
+            OnTookHit?.Invoke(1);
+        }
     }
 }
