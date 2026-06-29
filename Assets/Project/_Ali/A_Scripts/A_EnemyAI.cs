@@ -17,6 +17,7 @@ public class A_EnemyAI : MonoBehaviour
     //Attacking
     [SerializeField] private float timeBetweenAttacks;
     private bool _alreadyAttacked;
+   [SerializeField] private SphereCollider damageCollider;
 
     //States 
     [SerializeField]private float sightRange, attackRange;
@@ -49,18 +50,44 @@ public class A_EnemyAI : MonoBehaviour
         if(!playerInSightRange && !playerInAttackRange)
         {
             Patroling();
-            animator.SetBool("IsRuning" , false);
+            HandleAnimationAndMovementSpeed(0);
         }
         if(playerInSightRange && !playerInAttackRange)
         {
             ChasePlayer();
-            animator.SetBool("IsRuning", true);
+            HandleAnimationAndMovementSpeed(1);
         }
         if(playerInSightRange && playerInAttackRange)
         {
             AttackPlayer();
+            HandleAnimationAndMovementSpeed(2);
         }
     }
+
+  private void HandleAnimationAndMovementSpeed(int stateNUM)
+    {
+        switch (stateNUM)
+        {
+            case 0:
+                animator.SetBool("IsRuning", false);
+                _agent.speed = 1;
+                damageCollider.enabled = false;
+                break;
+
+                case 1:
+                animator.SetBool("IsRuning", true);
+                _agent.speed = 3.5f;
+                damageCollider.enabled = false;
+                break;
+            case 2:
+                _agent.speed = 0; // we will handle the attack logic in the attack method anyway sooo look there
+                break;
+                
+
+        }
+
+    }
+
 
     private void Patroling()
     {
@@ -109,7 +136,8 @@ public class A_EnemyAI : MonoBehaviour
 
         if(!_alreadyAttacked)
         {
-            
+            animator.SetTrigger("Attack");
+            damageCollider.enabled = true;
 
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack),timeBetweenAttacks);
@@ -117,6 +145,7 @@ public class A_EnemyAI : MonoBehaviour
     }
     private void ResetAttack()
     {
+        damageCollider.enabled = false;
         _alreadyAttacked = false;
     }
 
