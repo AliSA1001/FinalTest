@@ -26,6 +26,9 @@ public class A_EnemyAI : MonoBehaviour
     //Conection
     [SerializeField] private EnemyHealth enemyHealth;
 
+    // Parry
+    private bool _parryWindow;
+
     // based on the set of States we will change the aniamtion 
     // 1- standing animtion
     // 2- walking - when patroling
@@ -151,7 +154,7 @@ public class A_EnemyAI : MonoBehaviour
         {
             animator.SetTrigger("Attack");
             damageCollider.enabled = true;
-
+            _parryWindow = true;
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack),timeBetweenAttacks);
         }
@@ -160,6 +163,7 @@ public class A_EnemyAI : MonoBehaviour
     {
         damageCollider.enabled = false;
         _alreadyAttacked = false;
+        _parryWindow = false;
     }
 
 }
