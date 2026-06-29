@@ -66,6 +66,10 @@ public class A_Movement : MonoBehaviour
         {
             Moving();
         }
+        else
+        {
+            HandleLookingWhileCantMove();
+        }
       
         HandleAnimation();
         HandleJumpingCoolDown();
@@ -79,7 +83,40 @@ public class A_Movement : MonoBehaviour
         }
 
     }
+    private void HandleLookingWhileCantMove()
+    {
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
 
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+
+        // here we will check for the move direction if it is 0 then we dont do footstep effect
+        if ((_zMovement > 0 || _xMovement > 0) && characterController.isGrounded)
+        {
+            footStep.SetActive(true);
+        }
+        else
+        {
+            footStep.SetActive(false);
+        }
+
+        if (characterController.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+        if (moveDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
     private void HandleJumpingCoolDown()
     {
 
