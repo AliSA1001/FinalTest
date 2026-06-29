@@ -44,6 +44,9 @@ public class HeartsHealthVisual : MonoBehaviour
             case 1:
                 Damage1();
                 break;
+            case 2:
+                Damage4();
+                break;
         }
     }
 
