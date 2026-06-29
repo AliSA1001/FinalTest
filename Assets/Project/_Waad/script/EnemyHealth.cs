@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour , IDamageable
@@ -8,6 +9,11 @@ public class EnemyHealth : MonoBehaviour , IDamageable
     public HealthBar healthBar;
 
     public GameObject blueHealPrefab;
+
+    //Ali
+    // we added the abilty to send event to the enemy ai 
+    public event Action OnHit;
+    //Ali
 
     private void Start()
     {
@@ -26,6 +32,9 @@ public class EnemyHealth : MonoBehaviour , IDamageable
 
     public void TakeDamage(float damage)
     {
+        // Ali
+        OnHit?.Invoke();
+        // Ali
         currentHealth -= damage;
 
         if (currentHealth <= 0)

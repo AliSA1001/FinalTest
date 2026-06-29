@@ -23,6 +23,9 @@ public class A_EnemyAI : MonoBehaviour
     [SerializeField]private float sightRange, attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
 
+    //Conection
+    [SerializeField] private EnemyHealth enemyHealth;
+
     // based on the set of States we will change the aniamtion 
     // 1- standing animtion
     // 2- walking - when patroling
@@ -38,6 +41,16 @@ public class A_EnemyAI : MonoBehaviour
     {
         player = GameObject.Find("Player").transform; // here we tell it to find my boy the player!!
         _agent = GetComponent<NavMeshAgent>();
+    }
+    private void Start()
+    {
+        enemyHealth.OnHit += OnHitEvent;
+    }
+
+    private void OnHitEvent()
+    {
+        damageCollider.enabled = false;
+        animator.SetTrigger("HitReaction");
     }
 
     private void Update()
