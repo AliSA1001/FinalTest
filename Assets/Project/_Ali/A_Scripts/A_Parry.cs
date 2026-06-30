@@ -14,6 +14,7 @@ public class A_Parry : MonoBehaviour
     private bool _canParry = true;
     private CharacterController _characterController;
 
+    public bool isInvincbal = false;
 
 
 
@@ -27,6 +28,7 @@ public class A_Parry : MonoBehaviour
     private void HnadleAnimitorWeight()
     {
         animator.SetLayerWeight(1, 0.43f);
+        isInvincbal= false;
         _canParry = true;
         _movementRef.CanMove = true;
         parryCollider.enabled = false;
@@ -43,6 +45,7 @@ public class A_Parry : MonoBehaviour
             _canParry = false;
             parryEffect.Play();
             parryCollider.enabled = true;
+            isInvincbal = true;
             Invoke("HnadleAnimitorWeight", 0.5f);
            
         }
