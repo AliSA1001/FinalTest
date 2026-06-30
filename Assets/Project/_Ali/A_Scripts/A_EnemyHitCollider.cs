@@ -6,21 +6,24 @@ public class A_EnemyHitCollider : MonoBehaviour
 {
     public event Action<int> OnTookHit;
 
+     private A_Parry parry;
+     private A_Dodge dodge;
 
-    
-  
+
+    private void Start()
+    {
+        parry = gameObject.GetComponent<A_Parry>();
+        dodge = gameObject.GetComponent<A_Dodge>();
+    }
     private void OnTriggerEnter(Collider other)
     {
-       
-
-         if (other.gameObject.CompareTag("Small Enemy") )
+        if (!parry.isInvincbal && !dodge.isInvincbal)
         {
-            OnTookHit?.Invoke(1);
+
+            if (other.gameObject.CompareTag("Small Enemy"))
+            {
+                OnTookHit?.Invoke(1);
+            }
         }
-        
     }
-
-   
-
-   
 }
