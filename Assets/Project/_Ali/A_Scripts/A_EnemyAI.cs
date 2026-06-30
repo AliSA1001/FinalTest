@@ -18,7 +18,7 @@ public class A_EnemyAI : MonoBehaviour
     [SerializeField] private float timeBetweenAttacks;
     private bool _alreadyAttacked;
    [SerializeField] private SphereCollider damageCollider;
-    [SerializeField] private A_EnemyHitCollider hitColliderSystem;
+    [SerializeField] private A_EnemyCheckForParry hitColliderSystem;
 
     //States 
     [SerializeField]private float sightRange, attackRange;
@@ -56,12 +56,12 @@ public class A_EnemyAI : MonoBehaviour
     private void OnParryWindowStart()
     {
         isParryWindow = true;
-        //damageCollider.enabled = true;
+        damageCollider.enabled = true;
     }
     private void OnParryWindowEnd()
     {
         isParryWindow = false;
-        damageCollider.enabled = true;
+        damageCollider.enabled = false;
 
     }
 
