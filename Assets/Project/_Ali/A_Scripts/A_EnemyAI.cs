@@ -29,6 +29,7 @@ public class A_EnemyAI : MonoBehaviour
 
     // Parry
     private bool isParryed = false;
+    private bool isParryWindow;
     [SerializeField] private ParticleSystem stunEffect;
     // based on the set of States we will change the aniamtion 
     // 1- standing animtion
@@ -52,16 +53,34 @@ public class A_EnemyAI : MonoBehaviour
         hitColliderSystem.OnParry += OnParryEvent;
     }
 
+    private void OnParryWindowStart()
+    {
+        isParryWindow = true;
+        //damageCollider.enabled = true;
+    }
+    private void OnParryWindowEnd()
+    {
+        isParryWindow = false;
+        damageCollider.enabled = true;
+
+    }
+
+
     private void OnParryEvent()
     {
-        isParryed = true;
-        animator.SetTrigger("Parry");
-        stunEffect.Play();
-        Invoke("HandleEndParry", 2);
+        if (isParryWindow)
+        {
+            damageCollider.enabled = false;
+            isParryed = true;
+            animator.SetTrigger("Parry");
+            stunEffect.Play();
+            Invoke("HandleEndParry", 2);
+        }
 
     }
     private void HandleEndParry()
     {
+        isParryWindow = false ;
         isParryed = false;
         animator.SetTrigger("StunEnd");
     }
@@ -177,7 +196,7 @@ public class A_EnemyAI : MonoBehaviour
         if(!_alreadyAttacked)
         {
             animator.SetTrigger("Attack");
-            damageCollider.enabled = true;
+           // damageCollider.enabled = true;
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack),timeBetweenAttacks);
         }
