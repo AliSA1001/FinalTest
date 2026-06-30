@@ -1511,6 +1511,18 @@ PrefabInstance:
       propertyPath: enemyHealth
       value: 
       objectReference: {fileID: 173633624}
+    - target: {fileID: 5068290666236023195, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5741889584670488170, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5741889584670488170, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9221581032949251380, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.73
@@ -2726,6 +2738,22 @@ PrefabInstance:
     - target: {fileID: 161124857244922530, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 200961908514075086, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201437291675883768, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201437291675883768, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 201437291675883768, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 231372149498319764, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Layer

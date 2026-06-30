@@ -221,7 +221,7 @@ MonoBehaviour:
   walkPointRange: 5
   timeBetweenAttacks: 1
   damageCollider: {fileID: 5431151334844352179}
-  hitColliderSystem: {fileID: 8083538690853284323}
+  hitColliderSystem: {fileID: 6398209035922725129}
   sightRange: 6
   attackRange: 1
   playerInSightRange: 0
@@ -541,7 +541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4718830611849878345}
   - component: {fileID: 5431151334844352179}
-  - component: {fileID: 8083538690853284323}
+  - component: {fileID: 6398209035922725129}
   m_Layer: 6
   m_Name: HnadHitbox
   m_TagString: Small Enemy
@@ -585,7 +585,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.42
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8083538690853284323
+--- !u!114 &6398209035922725129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -594,9 +594,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9197005365547721558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9604536d2f0ddaf4ca412470b1185eb9, type: 3}
+  m_Script: {fileID: 11500000, guid: d067683ea343cba4dab6253f3aec2d59, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::A_EnemyHitCollider
+  m_EditorClassIdentifier: Assembly-CSharp::A_EnemyCheckForParry
 --- !u!1001 &2893933164921745938
 PrefabInstance:
   m_ObjectHideFlags: 0

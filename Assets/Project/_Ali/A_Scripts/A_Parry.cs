@@ -43,7 +43,7 @@ public class A_Parry : MonoBehaviour
             _canParry = false;
             parryEffect.Play();
             parryCollider.enabled = true;
-            Invoke("HnadleAnimitorWeight", 0.9f);
+            Invoke("HnadleAnimitorWeight", 0.5f);
            
         }
     }
