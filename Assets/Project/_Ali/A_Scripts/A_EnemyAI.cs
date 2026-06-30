@@ -18,6 +18,7 @@ public class A_EnemyAI : MonoBehaviour
     [SerializeField] private float timeBetweenAttacks;
     private bool _alreadyAttacked;
    [SerializeField] private SphereCollider damageCollider;
+    [SerializeField] private A_EnemyHitCollider hitColliderSystem;
 
     //States 
     [SerializeField]private float sightRange, attackRange;
@@ -27,8 +28,8 @@ public class A_EnemyAI : MonoBehaviour
     [SerializeField] private EnemyHealth enemyHealth;
 
     // Parry
-    private bool _parryWindow;
-
+    private bool isParryed = false;
+    [SerializeField] private ParticleSystem stunEffect;
     // based on the set of States we will change the aniamtion 
     // 1- standing animtion
     // 2- walking - when patroling
@@ -48,6 +49,21 @@ public class A_EnemyAI : MonoBehaviour
     private void Start()
     {
         enemyHealth.OnHit += OnHitEvent;
+        hitColliderSystem.OnParry += OnParryEvent;
+    }
+
+    private void OnParryEvent()
+    {
+        isParryed = true;
+        animator.SetTrigger("Parry");
+        stunEffect.Play();
+        Invoke("HandleEndParry", 2);
+
+    }
+    private void HandleEndParry()
+    {
+        isParryed = false;
+        animator.SetTrigger("StunEnd");
     }
 
     private void OnHitEvent()
@@ -63,20 +79,28 @@ public class A_EnemyAI : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position , sightRange , whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if(!playerInSightRange && !playerInAttackRange)
+        if (isParryed)
         {
-            Patroling();
-            HandleAnimationAndMovementSpeed(0);
+            _agent.SetDestination(transform.position);
         }
-        if(playerInSightRange && !playerInAttackRange)
+        else
         {
-            ChasePlayer();
-            HandleAnimationAndMovementSpeed(1);
-        }
-        if(playerInSightRange && playerInAttackRange)
-        {
-            AttackPlayer();
-            HandleAnimationAndMovementSpeed(2);
+
+            if (!playerInSightRange && !playerInAttackRange)
+            {
+                Patroling();
+                HandleAnimationAndMovementSpeed(0);
+            }
+            if (playerInSightRange && !playerInAttackRange)
+            {
+                ChasePlayer();
+                HandleAnimationAndMovementSpeed(1);
+            }
+            if (playerInSightRange && playerInAttackRange)
+            {
+                AttackPlayer();
+                HandleAnimationAndMovementSpeed(2);
+            }
         }
     }
 
@@ -154,16 +178,16 @@ public class A_EnemyAI : MonoBehaviour
         {
             animator.SetTrigger("Attack");
             damageCollider.enabled = true;
-            _parryWindow = true;
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack),timeBetweenAttacks);
         }
     }
+
+    
     private void ResetAttack()
     {
         damageCollider.enabled = false;
         _alreadyAttacked = false;
-        _parryWindow = false;
     }
 
 }
