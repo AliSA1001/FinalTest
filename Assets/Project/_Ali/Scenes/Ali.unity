@@ -1241,6 +1241,33 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &549101917 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1117865974982712273, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+  m_PrefabInstance: {fileID: 2167084039404848152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &549101927
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549101917}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: b6ef2f4d0154b2747860a3332fa05f97, type: 3}
+  m_Controller: {fileID: 9100000, guid: 4da82f16dd831024a895bccc1fbae82d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &558003894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1912,6 +1939,10 @@ PrefabInstance:
     - target: {fileID: 6595754091461447709, guid: 29daffa6c541346488db5df0a45b7a17, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9161885108446604768, guid: 29daffa6c541346488db5df0a45b7a17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3471,9 +3502,17 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1314745552847489609, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 549101927}
+    - target: {fileID: 1314745552847489609, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
       propertyPath: stunEffect
       value: 
       objectReference: {fileID: 851513724}
+    - target: {fileID: 3430825127737923198, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9221581032949251380, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3514,13 +3553,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3430825127737923198, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3377437209410110248, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 851513722}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1117865974982712273, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 549101927}
   m_SourcePrefab: {fileID: 100100000, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
