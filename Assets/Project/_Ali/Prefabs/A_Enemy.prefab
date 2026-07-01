@@ -228,6 +228,7 @@ MonoBehaviour:
   playerInAttackRange: 0
   enemyHealth: {fileID: 5389543453194287521}
   knockbackSpeed: 1.5
+  knockbackDistance: 0.25
   stunEffect: {fileID: 3092582888152135570}
   animator: {fileID: 3938409360463460444}
 --- !u!95 &3938409360463460444
