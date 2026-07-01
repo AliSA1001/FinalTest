@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Small Enemy
   - Parry Collider
+  - Big Enemy
   layers:
   - Default
   - TransparentFX
