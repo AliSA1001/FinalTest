@@ -3027,6 +3027,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.52
       objectReference: {fileID: 0}
+    - target: {fileID: 4381209301563288471, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4479858704715954450, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Layer
       value: 8
