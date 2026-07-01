@@ -1,6 +1,8 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class A_EnemyAI : MonoBehaviour
 {
@@ -17,10 +19,37 @@ public class A_EnemyAI : MonoBehaviour
     //Attacking
     [SerializeField] private float timeBetweenAttacks;
     private bool _alreadyAttacked;
+   [SerializeField] private SphereCollider damageCollider;
+    [SerializeField] private A_EnemyCheckForParry hitColliderSystem;
 
     //States 
     [SerializeField]private float sightRange, attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
+    // based on the set of States we will change the aniamtion 
+    // 1- standing animtion
+    // 2- walking - when patroling
+    // 3- runing - when chesing
+    // 4- attacking  - when attacking (:
+
+    //Conection
+    [SerializeField] private EnemyHealth enemyHealth;
+
+    // we nned bool to check if we hit or not
+    [SerializeField] private float knockbackSpeed;
+    [SerializeField] private float knockbackDistance;
+    private bool ishit;
+    private Vector3 targetPostion;
+    private float hitTimer;
+
+    // Parry
+    private bool isParryed = false;
+    private bool isParryWindow;
+    [SerializeField] private ParticleSystem stunEffect;
+  
+
+    [Header("animation")]
+    [SerializeField] private Animator animator;
+
 
 
     private void Awake()
@@ -28,27 +57,123 @@ public class A_EnemyAI : MonoBehaviour
         player = GameObject.Find("Player").transform; // here we tell it to find my boy the player!!
         _agent = GetComponent<NavMeshAgent>();
     }
+    private void Start()
+    {
+        enemyHealth.OnHit += OnHitEvent;
+        hitColliderSystem.OnParry += OnParryEvent;
+    }
+
+    private void OnParryWindowStart()
+    {
+        isParryWindow = true;
+        damageCollider.enabled = true;
+    }
+    private void OnParryWindowEnd()
+    {
+        isParryWindow = false;
+        damageCollider.enabled = false;
+
+    }
+
+
+    private void OnParryEvent()
+    {
+        if (isParryWindow)
+        {
+            damageCollider.enabled = false;
+            isParryed = true;
+            animator.SetTrigger("Parry");
+            stunEffect.Play();
+            Invoke("HandleEndParry", 2);
+        }
+
+    }
+    private void HandleEndParry()
+    {
+        isParryWindow = false ;
+        isParryed = false;
+        animator.SetTrigger("StunEnd");
+    }
+
+    private void OnHitEvent()
+    {
+        targetPostion = transform.position - (transform.forward * knockbackDistance);
+        hitTimer = 0;
+        ishit = true;
+
+        _agent.isStopped = true;
+        damageCollider.enabled = false;
+        animator.SetTrigger("HitReaction");
+    }
 
     private void Update()
     {
+        if (ishit)
+        {
+            hitTimer += Time.deltaTime * knockbackSpeed;
+            transform.position = Vector3.Lerp(transform.position, targetPostion, hitTimer);
+            if(hitTimer >=1)
+            {
+                ishit = false;
+                _agent.isStopped = false;
+            }
+        }
+
+
         // we will use sphere to check around the ai 
         // first we use the checksphere to know if we are in sphere sightrange like the raycast
         playerInSightRange = Physics.CheckSphere(transform.position , sightRange , whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if(!playerInSightRange && !playerInAttackRange)
+        if (isParryed)
         {
-            Patroling();
+            _agent.SetDestination(transform.position);
         }
-        if(playerInSightRange && !playerInAttackRange)
+        else
         {
-            ChasePlayer();
-        }
-        if(playerInSightRange && playerInAttackRange)
-        {
-            AttackPlayer();
+
+            if (!playerInSightRange && !playerInAttackRange)
+            {
+                Patroling();
+                HandleAnimationAndMovementSpeed(0);
+            }
+            if (playerInSightRange && !playerInAttackRange)
+            {
+                ChasePlayer();
+                HandleAnimationAndMovementSpeed(1);
+            }
+            if (playerInSightRange && playerInAttackRange)
+            {
+                AttackPlayer();
+                HandleAnimationAndMovementSpeed(2);
+            }
         }
     }
+
+  private void HandleAnimationAndMovementSpeed(int stateNUM)
+    {
+        switch (stateNUM)
+        {
+            case 0:
+                animator.SetBool("IsRuning", false);
+                _agent.speed = 1;
+                damageCollider.enabled = false;
+                break;
+
+                case 1:
+                animator.SetBool("IsRuning", true);
+                _agent.speed = 3.5f;
+                damageCollider.enabled = false;
+                break;
+            case 2:
+                _agent.speed = 0; // we will handle the attack logic in the attack method anyway sooo look there
+                break;
+                
+
+        }
+
+    }
+
 
     private void Patroling()
     {
@@ -97,14 +222,17 @@ public class A_EnemyAI : MonoBehaviour
 
         if(!_alreadyAttacked)
         {
-            
-
+            animator.SetTrigger("Attack");
+           // damageCollider.enabled = true;
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack),timeBetweenAttacks);
         }
     }
+
+    
     private void ResetAttack()
     {
+        damageCollider.enabled = false;
         _alreadyAttacked = false;
     }
 
