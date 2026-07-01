@@ -5143,7 +5143,7 @@ GameObject:
   - component: {fileID: 1291946850}
   - component: {fileID: 1291946849}
   m_Layer: 0
-  m_Name: NPC (2)
+  m_Name: CowBoy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5241,7 +5241,7 @@ MonoBehaviour:
   allowBarksDuringConversations: 0
   skipBarkIfNoValidEntries: 0
   cacheBarkLines: 0
-  conversation: Act1_PuzzleConversation
+  conversation: Act2_FirstCowBoyConversation
   conversationConversant: {fileID: 1291946848}
   conversationActor: {fileID: 1480944803967847690}
   startConversationEntryID: -1
