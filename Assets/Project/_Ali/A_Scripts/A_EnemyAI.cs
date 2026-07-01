@@ -1,6 +1,8 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class A_EnemyAI : MonoBehaviour
 {
@@ -23,19 +25,27 @@ public class A_EnemyAI : MonoBehaviour
     //States 
     [SerializeField]private float sightRange, attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
-
-    //Conection
-    [SerializeField] private EnemyHealth enemyHealth;
-
-    // Parry
-    private bool isParryed = false;
-    private bool isParryWindow;
-    [SerializeField] private ParticleSystem stunEffect;
     // based on the set of States we will change the aniamtion 
     // 1- standing animtion
     // 2- walking - when patroling
     // 3- runing - when chesing
     // 4- attacking  - when attacking (:
+
+    //Conection
+    [SerializeField] private EnemyHealth enemyHealth;
+
+    // we nned bool to check if we hit or not
+    [SerializeField] private float knockbackSpeed;
+    [SerializeField] private float knockbackDistance;
+    private bool ishit;
+    private Vector3 targetPostion;
+    private float hitTimer;
+
+    // Parry
+    private bool isParryed = false;
+    private bool isParryWindow;
+    [SerializeField] private ParticleSystem stunEffect;
+  
 
     [Header("animation")]
     [SerializeField] private Animator animator;
@@ -87,12 +97,29 @@ public class A_EnemyAI : MonoBehaviour
 
     private void OnHitEvent()
     {
+        targetPostion = transform.position - (transform.forward * knockbackDistance);
+        hitTimer = 0;
+        ishit = true;
+
+        _agent.isStopped = true;
         damageCollider.enabled = false;
         animator.SetTrigger("HitReaction");
     }
 
     private void Update()
     {
+        if (ishit)
+        {
+            hitTimer += Time.deltaTime * knockbackSpeed;
+            transform.position = Vector3.Lerp(transform.position, targetPostion, hitTimer);
+            if(hitTimer >=1)
+            {
+                ishit = false;
+                _agent.isStopped = false;
+            }
+        }
+
+
         // we will use sphere to check around the ai 
         // first we use the checksphere to know if we are in sphere sightrange like the raycast
         playerInSightRange = Physics.CheckSphere(transform.position , sightRange , whatIsPlayer);

@@ -10,4 +10,11 @@ public class A_DamageHit : MonoBehaviour
             damageable.TakeDamage(SwordDamage);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            damageable.TakeDamage(SwordDamage);
+        }
+    }
 }
