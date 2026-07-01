@@ -11,6 +11,9 @@ public class A_Dodge : MonoBehaviour
     private CharacterController _characterController;
     private A_Movement _movement;
 
+    public bool isInvincbal = false;
+
+
 
     private void Start()
     {
@@ -21,6 +24,7 @@ public class A_Dodge : MonoBehaviour
 
     private void SwordWeight()
     {
+        isInvincbal = false;
         _movement.CanMove = true;
         _movement.isDodging = false;
 
@@ -35,7 +39,7 @@ public class A_Dodge : MonoBehaviour
             animator.SetLayerWeight(1, 0);
             animator.SetTrigger("Dodge");
             _movement.isDodging = true;
-            
+            isInvincbal = true;
             Invoke("SwordWeight", 0.65f);
 
         }

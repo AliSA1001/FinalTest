@@ -17,6 +17,10 @@ public class A_Sword : MonoBehaviour
     [SerializeField] private ParticleSystem slash2;
     [SerializeField] private ParticleSystem stab;
 
+    [Header("AttackDamage")]
+    [SerializeField] private float SwordDamage;
+    [SerializeField] private BoxCollider swordHitbox;
+
     private A_Movement _movementRef;
     private int _lastAttackNumber;
     private bool _canAttack = true;
@@ -59,6 +63,7 @@ public class A_Sword : MonoBehaviour
             animator.SetTrigger("Attack1");
             slash1.Play();
             animator.SetLayerWeight(1, 0);
+            swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.5f);
 
             _movementRef.CanMove = false;
@@ -76,6 +81,7 @@ public class A_Sword : MonoBehaviour
             animator.SetTrigger("Attack2");
             slash2.Play();
             animator.SetLayerWeight(1, 0);
+            swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.5f);
 
             _movementRef.CanMove = false;
@@ -91,6 +97,7 @@ public class A_Sword : MonoBehaviour
             animator.SetTrigger("Attack3");
             stab.Play();
             animator.SetLayerWeight(1, 0);
+            swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.6f);
 
             _movementRef.CanMove = false;
@@ -107,6 +114,7 @@ public class A_Sword : MonoBehaviour
         _movementRef.CanMove = true;
         _canAttack = true;
         _movementRef.isAttacking = false;
+        swordHitbox.enabled = false;    
 
 
     }
