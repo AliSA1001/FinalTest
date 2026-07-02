@@ -21,6 +21,9 @@ public class A_Movement : MonoBehaviour
 
     [Header("Animation seetings")]
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator animatorAct1;
+    [SerializeField] private Animator animatorAct2;
+
     private float _targetBlend;
     private float _currentBlend;
     private bool isInAir = false;
@@ -62,6 +65,17 @@ public class A_Movement : MonoBehaviour
 
     private void Update()
     {
+        // we just change the animator we work on base on the Chr we workOn
+        if(animatorAct1 == null)
+        {
+            animator = animatorAct2;
+        }
+        else
+        {
+            animator = animatorAct1;
+        }
+
+
         if (CanMove)
         {
             Moving();
