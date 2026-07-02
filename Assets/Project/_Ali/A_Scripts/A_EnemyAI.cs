@@ -10,6 +10,7 @@ public class A_EnemyAI : MonoBehaviour
 
     private NavMeshAgent _agent;
     private Transform player;
+    
 
     // patroling 
     [SerializeField]private Vector3 walkPoint;
@@ -223,6 +224,7 @@ public class A_EnemyAI : MonoBehaviour
         if(!_alreadyAttacked)
         {
             animator.SetTrigger("Attack");
+            _agent.isStopped = true;
            // damageCollider.enabled = true;
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack),timeBetweenAttacks);
@@ -232,6 +234,7 @@ public class A_EnemyAI : MonoBehaviour
 
     protected virtual void ResetAttack()
     {
+        _agent.isStopped = false;
         damageCollider.enabled = false;
         _alreadyAttacked = false;
     }
