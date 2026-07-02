@@ -5,6 +5,9 @@ public class A_Dodge : MonoBehaviour
 {
 
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator animatorAct1;
+    [SerializeField] private Animator animatorAct2;
+
     [SerializeField] private float speed;
 
 
@@ -20,6 +23,17 @@ public class A_Dodge : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
 
         _movement = A_Movement.instance;
+    }
+    private void Update()
+    {
+        if (!animatorAct1.gameObject.active)
+        {
+            animator = animatorAct2;
+        }
+        else if (!animatorAct2.gameObject.active)
+        {
+            animator = animatorAct1;
+        }
     }
 
     private void SwordWeight()

@@ -66,11 +66,11 @@ public class A_Movement : MonoBehaviour
     private void Update()
     {
         // we just change the animator we work on base on the Chr we workOn
-        if(animatorAct1 == null)
+        if(!animatorAct1 .gameObject.active)
         {
             animator = animatorAct2;
         }
-        else
+        else if(!animatorAct2.gameObject.active)
         {
             animator = animatorAct1;
         }
