@@ -24,6 +24,10 @@ public class A_EnemyHitCollider : MonoBehaviour
             {
                 OnTookHit?.Invoke(1);
             }
+            else if(other.gameObject.CompareTag("Big Enemy"))
+            {
+                OnTookHit?.Invoke(2);
+            }
         }
     }
 }
