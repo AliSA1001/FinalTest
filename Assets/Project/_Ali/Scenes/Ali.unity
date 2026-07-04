@@ -2352,6 +2352,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8218838406005504049, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
   m_PrefabInstance: {fileID: 1480944803967847689}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1943245786 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4351861417766262328, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+  m_PrefabInstance: {fileID: 1480944803967847689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943245772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c739ee4eaaa3f4990b1b3b33974ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::A_Parry
+--- !u!114 &1943245787 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 327682593168512019, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+  m_PrefabInstance: {fileID: 1480944803967847689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943245772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fddc4f928e2924e909cfebd0b74eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::A_Dodge
+--- !u!114 &1943245788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1575374026762108056, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+  m_PrefabInstance: {fileID: 1480944803967847689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943245772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4f02db26063e14c8cba02efefd7e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::A_Sword
 --- !u!1 &2028083044
 GameObject:
   m_ObjectHideFlags: 0
@@ -22260,6 +22293,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2375572850249069293, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: A_Dodge
+      value: 
+      objectReference: {fileID: 1943245787}
+    - target: {fileID: 2375572850249069293, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: A_Parry
+      value: 
+      objectReference: {fileID: 1943245786}
+    - target: {fileID: 2375572850249069293, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: A_Sword
+      value: 
+      objectReference: {fileID: 1943245788}
+    - target: {fileID: 2375572850249069293, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 0}
@@ -22755,7 +22800,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8218838406005504049, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
-      insertIndex: -1
+      insertIndex: 2
       addedObject: {fileID: 4566917238142968}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}

@@ -36,6 +36,8 @@ public class A_Movement : MonoBehaviour
     [Header("Effects")]
     [SerializeField] private GameObject footStep;
 
+   
+
     // movement 
     private float _xMovement;
     private float _zMovement;
@@ -69,6 +71,7 @@ public class A_Movement : MonoBehaviour
         if(!animatorAct1 .gameObject.active)
         {
             animator = animatorAct2;
+           
         }
         else if(!animatorAct2.gameObject.active)
         {
