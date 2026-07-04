@@ -52,7 +52,7 @@ public class A_Sword : MonoBehaviour
 
     private void HandleCantAttack()
     {
-        if (_canAttack && (_lastAttackNumber == 2 || _firstAttack))
+        if (_canAttack && (_lastAttackNumber == 2 || _firstAttack) )
         {
             _firstAttack = false;
 
@@ -121,7 +121,7 @@ public class A_Sword : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if(context.performed && characterController.isGrounded && _canAttack)
+        if(context.performed && characterController.isGrounded && _canAttack && animator.gameObject.active)
         {
             HandleCantAttack();
             _movementRef.isAttacking = true;

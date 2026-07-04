@@ -37,7 +37,7 @@ public class A_Parry : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext context)
     {
-        if(context.performed && _canParry && _characterController.isGrounded)
+        if(context.performed && _canParry && _characterController.isGrounded && animator.gameObject.active)
         {
             animator.SetLayerWeight(1, 0);
             animator.SetTrigger("Parry");
