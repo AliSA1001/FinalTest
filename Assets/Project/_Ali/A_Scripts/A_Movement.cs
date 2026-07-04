@@ -196,7 +196,18 @@ public class A_Movement : MonoBehaviour
 
     private void HandleAnimation()
     {
-       if (moveDirection.sqrMagnitude > 0)
+        if(animator == animatorAct2)
+        {
+            animator.SetLayerWeight(2, 1);
+
+        }
+        else
+        {
+            animator.SetLayerWeight(2, 0);
+
+        }
+
+        if (moveDirection.sqrMagnitude > 0)
         {
             _timeToSprint -= Time.deltaTime;
                 _targetBlend = 1f;
