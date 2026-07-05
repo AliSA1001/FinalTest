@@ -72,7 +72,7 @@ public class A_guns : MonoBehaviour
 
                 if (isPoint1)
                 {
-                    gunAnimator.SetTrigger("Shooting1");
+                    gunAnimator.SetTrigger("Fire1");
                     RaycastStartPoint = trailSpawnPoint1;
                 }
                 else
