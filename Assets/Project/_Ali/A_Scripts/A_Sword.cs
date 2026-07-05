@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,7 @@ public class A_Sword : MonoBehaviour
     [Header("AttackDamage")]
     [SerializeField] private float SwordDamage;
     [SerializeField] private BoxCollider swordHitbox;
+
 
     private A_Movement _movementRef;
     private int _lastAttackNumber;
@@ -65,6 +67,7 @@ public class A_Sword : MonoBehaviour
             animator.SetLayerWeight(1, 0);
             swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.5f);
+            
 
             _movementRef.CanMove = false;
             _lastAttackNumber = attackNumber;
