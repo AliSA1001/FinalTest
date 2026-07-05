@@ -8,6 +8,8 @@ public class A_KnightSound : MonoBehaviour
 
     [SerializeField] private AudioSource thrustSound;
 
+    [SerializeField] private AudioSource dodgeSound;
+
 
 
     private void OnSlashAttack1()
@@ -23,5 +25,9 @@ public class A_KnightSound : MonoBehaviour
     private void OnThrustAttack1()
     {
         thrustSound.Play();
+    }
+    private void OnDodge()
+    {
+        dodgeSound.Play();
     }
 }
