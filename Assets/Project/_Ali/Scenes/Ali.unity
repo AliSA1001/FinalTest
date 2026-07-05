@@ -2233,31 +2233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee49370c9a181042b654fc2916ed10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
---- !u!1 &1469868939 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2340819945554783676, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
-  m_PrefabInstance: {fileID: 1480944803967847689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1469868940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7007316879370463780, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
   m_PrefabInstance: {fileID: 1480944803967847689}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1469868941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469868939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 305c9f743800d7349b3c9fd718ae236a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::A_KnightSound
-  slashSound1: {fileID: 666010134}
-  slashSound2: {fileID: 1359139260}
-  thrustSound: {fileID: 597791384}
 --- !u!114 &1503611518 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5389543453194287521, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
@@ -20998,9 +20978,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       insertIndex: 9
       addedObject: {fileID: 1943245783}
-    - targetCorrespondingSourceObject: {fileID: 2340819945554783676, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1469868941}
     - targetCorrespondingSourceObject: {fileID: 8457137227651009192, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1061015099}
