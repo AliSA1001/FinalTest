@@ -2022,7 +2022,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 2.8
@@ -2037,6 +2037,8 @@ MonoBehaviour:
   knockbackDistance: 0.1
   stunEffect: {fileID: 0}
   animator: {fileID: 2877368365091322980}
+  attackHitBox: {fileID: 0}
+  attackEffect: {fileID: 0}
 --- !u!95 &2877368365091322980
 Animator:
   serializedVersion: 7
