@@ -1495,11 +1495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee49370c9a181042b654fc2916ed10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
---- !u!95 &959229222 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 9196715868653851915, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
-  m_PrefabInstance: {fileID: 1480944803967847689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1174358276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7259256073130759500, guid: 880b457cf55e01a43a76d2f17e23ff48, type: 3}
@@ -1755,6 +1750,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee49370c9a181042b654fc2916ed10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+--- !u!95 &1476684243 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1445525348323218306, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+  m_PrefabInstance: {fileID: 1480944803967847689}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1503611518 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5389543453194287521, guid: e191708e570023c469719e5a1b5eb41f, type: 3}
@@ -17524,20 +17524,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 446738708550515710, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Weight
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 477944716814949832, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 868909781005615926, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1445525348323218306, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Elbow_R'\n\tTransform 'Elbow_L'\n\tTransform
-        'Hand_L'\n\tTransform 'Shoulder_L'\n\tTransform 'Shoulder_R'\n\tTransform
-        'Hand_R'\n\tTransform 'Elbow_R'\n\tTransform 'Elbow_L'\n\tTransform 'Hand_L'\n\tTransform
-        'Shoulder_L'\n\tand more ..."
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2340819945554783676, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_IsActive
@@ -17546,7 +17545,7 @@ PrefabInstance:
     - target: {fileID: 4578026186185219520, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: gunAnimator
       value: 
-      objectReference: {fileID: 959229222}
+      objectReference: {fileID: 1476684243}
     - target: {fileID: 4578026186185219520, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: RaycastStartPoint
       value: 
@@ -17558,6 +17557,10 @@ PrefabInstance:
     - target: {fileID: 7368550677855112564, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_Weight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7695912506023923329, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8218838406005504049, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17607,8 +17610,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 7695912506023923329, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 868909781005615926, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37bf0d3e311362749bf0be9fa8b519c9, type: 3}
