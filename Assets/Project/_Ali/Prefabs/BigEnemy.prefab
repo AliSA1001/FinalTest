@@ -1880,6 +1880,7 @@ GameObject:
   - component: {fileID: 8034939604011112776}
   - component: {fileID: 7177641999996647246}
   - component: {fileID: 2877368365091322980}
+  - component: {fileID: -9012239563773685758}
   m_Layer: 6
   m_Name: BigEnemy
   m_TagString: Small Enemy
@@ -2022,7 +2023,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 2.8
@@ -2037,6 +2038,8 @@ MonoBehaviour:
   knockbackDistance: 0.1
   stunEffect: {fileID: 0}
   animator: {fileID: 2877368365091322980}
+  attackHitBox: {fileID: 0}
+  attackEffect: {fileID: 0}
 --- !u!95 &2877368365091322980
 Animator:
   serializedVersion: 7
@@ -2059,6 +2062,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-9012239563773685758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4853813239458514896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f0c35b0ba3f2a246ac292ca38b76b86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::T_EnemyEventBridge
+  _health: {fileID: 0}
+  _parryCheck: {fileID: 0}
 --- !u!1 &4880769457275189903
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ Project memory for Claude Code. Read this before working on the project.
 
 ## Project
 
-**Act to Wish** is a theatrical third-person action game made in Unity. You play a regular person who strikes a deal with a clown-wizard (the **Impresario**) who runs a mysterious theatre: choose a wish, sign his Joker card, and perform three plays well enough to earn it. Each play is a third-person combat stage, scored by a **parry-driven rating system**, performed for an audience whose cheers and boos *are* the score.
+**Act to Wish** is a theatrical third-person action game made in Unity. You play a regular person who strikes a deal with a clown-wizard (the **Impresario**) who runs a mysterious theatre: choose a wish, sign his Joker card, and perform two plays well enough to earn it. Each play is a third-person combat stage, scored by a **parry-driven rating system**, performed for an audience whose cheers and boos *are* the score.
 
 Final-year student project. **6 people** (3 developers, 3 artists), **~1 month**, deliberately low scope, low-poly stylized.
 
@@ -52,13 +52,12 @@ Two systems are easy to forget and costly if left late: **Crowd reaction** and t
 - **Dual camera:** first-person in the dressing-room hub (choose wish, choose which act to perform); third-person during acts. The FP→3rd-person switch is the "stepping onto the stage" moment.
 - **Scoring is a parry.** One parry system, re-shaped per act:
   - Act 1 (tutorial) — knight: directional sword parry; melee/ripostes also score.
-  - Act 2 — sci-fi: ranged energy-bolt deflection (aim the reflection); radial pulse for swarms.
-  - Act 3 — TBD (combine/escalate).
+  - Act 2 — cowboy: ranged gunplay; parry/deflect incoming shots (aim the deflection).
   - Perfect parry = big score + crowd cheer. Offense, kills, and collectables also score. A combo multiplier feeds crowd mood.
 - **Soft lock-on** keeps third-person parries/reflections readable.
 - **Crowd reaction:** the audience is visible in the theatre, then audio-only once a play begins. A crowd-mood value (0–1), driven by score events, drives the cheers/boos and the ambient bed. This is the scoring feedback and the game's identity.
 - **Diegetic death:** no real death — die, reset to the last checkpoint, rating drops, the play continues until finished.
-- **Three acts**, each yielding a star rating; the total gates **two endings** (win / lose) via a single threshold.
+- **Two acts**, each yielding a star rating; the total gates **two endings** (win / lose) via a single threshold.
 
 ## Conventions
 
@@ -70,9 +69,9 @@ Two systems are easy to forget and costly if left late: **Crowd reaction** and t
 
 ## Scope guardrails
 
-- **Build the loop, not the content, first:** finish Act 1 (the knight) end-to-end — dressing room → step onto stage → parry/combat loop → review → return — before Acts 2 and 3.
+- **Build the loop, not the content, first:** finish Act 1 (the knight) end-to-end — dressing room → step onto stage → parry/combat loop → review → return — before Act 2.
 - **Not in scope this month:** co-op, branching dialogue, full voice acting.
-- **If behind:** cut Act 3 first (see the cut order in the GDD).
+- **If behind:** Act 3 is already cut; trim Act 2's scope next (see the cut order in the GDD).
 
 ## Design docs
 
