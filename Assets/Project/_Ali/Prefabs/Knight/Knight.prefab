@@ -5340,7 +5340,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4170110924429888581}
   - component: {fileID: 3481192534318060317}
-  - component: {fileID: -2153496570146531617}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -5387,19 +5386,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-2153496570146531617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8691255754349743069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b06a0f6cff9a2ed458f50c1ec6796cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::T_PlayerEventBridge
-  _hitCollider: {fileID: 0}
 --- !u!1 &8779424276523072147
 GameObject:
   m_ObjectHideFlags: 0

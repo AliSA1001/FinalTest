@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 3135834799676124367}
   - component: {fileID: 1314745552847489609}
   - component: {fileID: 3938409360463460444}
-  - component: {fileID: -2550661749662362577}
   m_Layer: 6
   m_Name: A_Enemy
   m_TagString: Small Enemy
@@ -217,7 +216,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 1
@@ -254,20 +253,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-2550661749662362577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117865974982712273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f0c35b0ba3f2a246ac292ca38b76b86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::T_EnemyEventBridge
-  _health: {fileID: 0}
-  _parryCheck: {fileID: 0}
 --- !u!1 &3643580353724634143
 GameObject:
   m_ObjectHideFlags: 0
