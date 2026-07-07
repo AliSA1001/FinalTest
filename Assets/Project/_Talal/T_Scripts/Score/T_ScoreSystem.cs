@@ -35,9 +35,9 @@ public class T_ScoreSystem : MonoBehaviour
     [Tooltip("Ascending score thresholds; one star per threshold reached. {1000,2500,5000} => up to 3 stars.")]
     [SerializeField] private int[] _starThresholds = { 1000, 2500, 5000 };
     [Tooltip("How many acts make up a full run.")]
-    [SerializeField] private int _actCount = 3;
+    [SerializeField] private int _actCount = 2;
     [Tooltip("Total stars across all acts needed to reach the winning ending.")]
-    [SerializeField] private int _passThreshold = 6;
+    [SerializeField] private int _passThreshold = 4;
 
     // Runtime state for the act in progress.
     private int _currentScore;
