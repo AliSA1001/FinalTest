@@ -41,28 +41,32 @@ public class EnemyHealth : MonoBehaviour , IDamageable
         {
             currentHealth = 0;
 
-            GameObject heal = Instantiate(
-                blueHealPrefab,
-                transform.position + new Vector3(0f, 2.5f, 0f),
-                Quaternion.identity
-            );
-
-            HealPickup healPickup = heal.GetComponent<HealPickup>();
-
-            if (healPickup != null)
+            // 30% chance to drop the heal pickup on death.
+            if (blueHealPrefab != null && UnityEngine.Random.value <= 0.30f)
             {
-                healPickup.destroyAfterTime = true;
-            }
+                GameObject heal = Instantiate(
+                    blueHealPrefab,
+                    transform.position + new Vector3(0f, 2.5f, 0f),
+                    Quaternion.identity
+                );
 
-            Rigidbody rb = heal.GetComponent<Rigidbody>();
+                HealPickup healPickup = heal.GetComponent<HealPickup>();
 
-            if (rb != null)
-            {
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
+                if (healPickup != null)
+                {
+                    healPickup.destroyAfterTime = true;
+                }
 
-                // نطة خفيفة
-                rb.AddForce(Vector3.up * 3f, ForceMode.Impulse);
+                Rigidbody rb = heal.GetComponent<Rigidbody>();
+
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+
+                    // نطة خفيفة
+                    rb.AddForce(Vector3.up * 3f, ForceMode.Impulse);
+                }
             }
 
             Destroy(gameObject);

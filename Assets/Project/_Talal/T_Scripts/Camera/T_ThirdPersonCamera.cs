@@ -9,9 +9,13 @@ using UnityEngine;
 /// pure strafe will gently curve him, which is normal for this style.) The swing-around is smoothed so it
 /// eases behind him rather than snapping.
 ///
+/// Wall handling: the follow position eases toward the ideal spot behind the player and is never itself
+/// clamped; obstruction only pulls the camera *closer along the view line* (snap in, ease out). Smoothing the
+/// distance instead of clamping the world position is what keeps it from vibrating against walls.
+///
 /// Put this on the Main Camera (the object tagged <b>MainCamera</b> with the <see cref="Camera"/> component).
 /// Set the Target to the player, or leave it empty to auto-find by tag. Runs in LateUpdate so it moves after
-/// the player and animation, avoiding jitter.
+/// the player and animation, avoiding jitter. For pull-in to work, set the Obstruction Mask to your wall layers.
 /// </summary>
 public class T_ThirdPersonCamera : MonoBehaviour
 {
@@ -45,10 +49,15 @@ public class T_ThirdPersonCamera : MonoBehaviour
     [Tooltip("Closest the camera is allowed to pull toward the target.")]
     [SerializeField] private float _minDistance = 1f;
 
-    private Vector3 _followVelocity;
     // The camera's own yaw, eased toward the player's yaw so it arcs around behind him instead of snapping.
     private float _yaw;
     private float _yawVelocity;
+    // Continuously-smoothed follow position toward the UNOBSTRUCTED ideal. Never clamped, so smoothing stays stable.
+    private Vector3 _followPosition;
+    private Vector3 _followVelocity;
+    // Current view distance along the look line, adjusted for walls (snap in, ease out).
+    private float _distance;
+    private float _distanceVelocity;
 
     private void Start()
     {
@@ -73,14 +82,16 @@ public class T_ThirdPersonCamera : MonoBehaviour
         if (_target == null) return;
 
         // Ease our yaw toward the player's facing so the camera drifts around behind him along a gentle arc.
-        // A larger turn-smooth time keeps sharp player turns from whipping the camera around.
         float turnSmooth = _turnSmoothTime > 0f ? _turnSmoothTime : 0.5f;
         _yaw = Mathf.SmoothDampAngle(_yaw, _target.eulerAngles.y, ref _yawVelocity, turnSmooth);
 
         Vector3 lookPoint = _target.position + Vector3.up * _lookAtHeight;
-        Vector3 desiredPosition = ResolveObstruction(DesiredPosition(), lookPoint);
 
-        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref _followVelocity, _followSmoothTime);
+        // Follow the unobstructed ideal spot. This value is never clamped against walls, so there's no
+        // smoothing/clamp feedback loop — that loop is what made the camera shake against geometry.
+        _followPosition = Vector3.SmoothDamp(_followPosition, IdealPosition(), ref _followVelocity, _followSmoothTime);
+
+        transform.position = ApplyObstruction(lookPoint, _followPosition);
 
         Vector3 toTarget = lookPoint - transform.position;
         if (toTarget.sqrMagnitude > 0.0001f)
@@ -96,17 +107,22 @@ public class T_ThirdPersonCamera : MonoBehaviour
         if (_target == null) return;
 
         _yaw = _target.eulerAngles.y;
+        _followPosition = IdealPosition();
+        _followVelocity = Vector3.zero;
+        _yawVelocity = 0f;
+        _distanceVelocity = 0f;
 
         Vector3 lookPoint = _target.position + Vector3.up * _lookAtHeight;
-        transform.position = ResolveObstruction(DesiredPosition(), lookPoint);
+        // Seed the distance to the framed (obstruction-aware) value so we don't ease out on the first frame.
+        Vector3 offset = _followPosition - lookPoint;
+        _distance = AllowedDistance(lookPoint, offset);
+        transform.position = ApplyObstruction(lookPoint, _followPosition, snap: true);
 
         Vector3 toTarget = lookPoint - transform.position;
         if (toTarget.sqrMagnitude > 0.0001f)
         {
             transform.rotation = Quaternion.LookRotation(toTarget);
         }
-        _followVelocity = Vector3.zero;
-        _yawVelocity = 0f;
     }
 
     /// <summary>Assign the follow target at runtime (e.g. when the act's player spawns) and re-frame instantly.</summary>
@@ -117,27 +133,49 @@ public class T_ThirdPersonCamera : MonoBehaviour
     }
 
     // Where the camera wants to sit: the offset rotated by the camera's (eased) yaw, so -Z stays behind the player.
-    private Vector3 DesiredPosition()
+    private Vector3 IdealPosition()
     {
         Quaternion yawRotation = Quaternion.Euler(0f, _yaw, 0f);
         return _target.position + yawRotation * _offset;
     }
 
-    // If a wall sits between the target and the wanted camera spot, slide the camera in to the near side of it.
-    private Vector3 ResolveObstruction(Vector3 wantedPosition, Vector3 lookPoint)
+    // Move the camera closer along the look line if a wall blocks the view, adjusting only the DISTANCE
+    // (snap in, ease out) so the world position is never hard-clamped mid-smooth.
+    private Vector3 ApplyObstruction(Vector3 lookPoint, Vector3 followPosition, bool snap = false)
     {
-        if (!_avoidObstructions || _obstructionMask == 0) return wantedPosition;
+        Vector3 offset = followPosition - lookPoint;
+        float wantedDistance = offset.magnitude;
+        if (wantedDistance < 0.0001f) return followPosition;
 
-        Vector3 direction = wantedPosition - lookPoint;
-        float distance = direction.magnitude;
-        if (distance < 0.0001f) return wantedPosition;
-        direction /= distance;
+        Vector3 direction = offset / wantedDistance;
+        float allowed = AllowedDistance(lookPoint, offset);
 
-        if (Physics.SphereCast(lookPoint, _obstructionRadius, direction, out RaycastHit hit, distance, _obstructionMask, QueryTriggerInteraction.Ignore))
+        if (snap || allowed < _distance)
         {
-            float pulled = Mathf.Max(_minDistance, hit.distance - _obstructionRadius);
-            return lookPoint + direction * pulled;
+            // Pull in immediately so we never show through the wall.
+            _distance = allowed;
+            _distanceVelocity = 0f;
         }
-        return wantedPosition;
+        else
+        {
+            // Ease back out once the view is clear again.
+            _distance = Mathf.SmoothDamp(_distance, allowed, ref _distanceVelocity, _followSmoothTime);
+        }
+
+        return lookPoint + direction * _distance;
+    }
+
+    // Furthest the camera may sit from the look point along the given offset before a wall gets in the way.
+    private float AllowedDistance(Vector3 lookPoint, Vector3 offset)
+    {
+        float wantedDistance = offset.magnitude;
+        if (!_avoidObstructions || _obstructionMask == 0 || wantedDistance < 0.0001f) return wantedDistance;
+
+        Vector3 direction = offset / wantedDistance;
+        if (Physics.SphereCast(lookPoint, _obstructionRadius, direction, out RaycastHit hit, wantedDistance, _obstructionMask, QueryTriggerInteraction.Ignore))
+        {
+            return Mathf.Max(_minDistance, hit.distance - _obstructionRadius);
+        }
+        return wantedDistance;
     }
 }
