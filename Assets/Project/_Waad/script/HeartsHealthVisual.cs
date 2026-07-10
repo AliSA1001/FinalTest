@@ -47,10 +47,6 @@ public class HeartsHealthVisual : MonoBehaviour
             case 2:
                 Damage4();
                 break;
-
-            case 3:
-               Damage16();
-               break;
         }
     }
 
@@ -132,11 +128,6 @@ public class HeartsHealthVisual : MonoBehaviour
     public void Damage4()
     {
         heartsHealthSystem.Damage(4);
-    }
-    public void Damage16()
-    {
-        heartsHealthSystem.Damage(16);
-
     }
 
     public void Heal1()
