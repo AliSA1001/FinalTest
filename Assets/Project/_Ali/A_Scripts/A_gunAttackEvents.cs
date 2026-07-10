@@ -1,4 +1,3 @@
-using PixelCrushers.DialogueSystem;
 using UnityEngine;
 
 public class A_gunAttackEvents : MonoBehaviour
