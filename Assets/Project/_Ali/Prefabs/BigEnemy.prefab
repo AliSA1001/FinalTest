@@ -1897,7 +1897,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.029, z: 4.12}
-  m_LocalScale: {x: 1.6930002, y: 1.693, z: 1.6930002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2593290947247089063}
@@ -2028,17 +2028,15 @@ MonoBehaviour:
   timeBetweenAttacks: 2.8
   damageCollider: {fileID: 3039562635239813144}
   hitColliderSystem: {fileID: 4019400170958767136}
-  sightRange: 15
+  sightRange: 7
   attackRange: 3
   playerInSightRange: 0
   playerInAttackRange: 0
-  enemyHealth: {fileID: 2541398022728670771}
+  enemyHealth: {fileID: 0}
   knockbackSpeed: 1.5
   knockbackDistance: 0.1
   stunEffect: {fileID: 0}
   animator: {fileID: 2877368365091322980}
-  attackHitBox: {fileID: 3039562635239813144}
-  attackEffect: {fileID: 0}
 --- !u!95 &2877368365091322980
 Animator:
   serializedVersion: 7

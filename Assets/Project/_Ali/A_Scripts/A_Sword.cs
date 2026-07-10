@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +17,11 @@ public class A_Sword : MonoBehaviour
     [SerializeField] private ParticleSystem slash1;
     [SerializeField] private ParticleSystem slash2;
     [SerializeField] private ParticleSystem stab;
+
+    [Header("AttackDamage")]
+    [SerializeField] private float SwordDamage;
+    [SerializeField] private BoxCollider swordHitbox;
+
 
     private A_Movement _movementRef;
     private int _lastAttackNumber;
@@ -48,7 +54,7 @@ public class A_Sword : MonoBehaviour
 
     private void HandleCantAttack()
     {
-        if (_canAttack && (_lastAttackNumber == 2 || _firstAttack))
+        if (_canAttack && (_lastAttackNumber == 2 || _firstAttack) )
         {
             _firstAttack = false;
 
@@ -59,7 +65,9 @@ public class A_Sword : MonoBehaviour
             animator.SetTrigger("Attack1");
             slash1.Play();
             animator.SetLayerWeight(1, 0);
+            swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.5f);
+            
 
             _movementRef.CanMove = false;
             _lastAttackNumber = attackNumber;
@@ -76,6 +84,7 @@ public class A_Sword : MonoBehaviour
             animator.SetTrigger("Attack2");
             slash2.Play();
             animator.SetLayerWeight(1, 0);
+            swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.5f);
 
             _movementRef.CanMove = false;
@@ -91,6 +100,7 @@ public class A_Sword : MonoBehaviour
             animator.SetTrigger("Attack3");
             stab.Play();
             animator.SetLayerWeight(1, 0);
+            swordHitbox.enabled = true;
             Invoke("HnadleAnimitorWeight", 0.6f);
 
             _movementRef.CanMove = false;
@@ -107,13 +117,14 @@ public class A_Sword : MonoBehaviour
         _movementRef.CanMove = true;
         _canAttack = true;
         _movementRef.isAttacking = false;
+        swordHitbox.enabled = false;    
 
 
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if(context.performed && characterController.isGrounded && _canAttack)
+        if(context.performed && characterController.isGrounded && _canAttack && animator.gameObject.active)
         {
             HandleCantAttack();
             _movementRef.isAttacking = true;
