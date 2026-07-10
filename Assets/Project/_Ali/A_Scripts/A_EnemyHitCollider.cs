@@ -28,6 +28,10 @@ public class A_EnemyHitCollider : MonoBehaviour
             {
                 OnTookHit?.Invoke(2);
             }
+            else if(other.gameObject.CompareTag("Death Zone"))
+            {
+                OnTookHit?.Invoke(3);
+            }
         }
     }
 }
