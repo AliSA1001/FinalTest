@@ -7,6 +7,7 @@ TagManager:
   - Small Enemy
   - Big Enemy
   - Parry Collider
+  - Death Zone
   layers:
   - Default
   - TransparentFX
