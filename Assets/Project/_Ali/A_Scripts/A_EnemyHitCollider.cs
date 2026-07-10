@@ -1,4 +1,3 @@
-using PixelCrushers.DialogueSystem;
 using System;
 using UnityEngine;
 
@@ -27,6 +26,10 @@ public class A_EnemyHitCollider : MonoBehaviour
             else if(other.gameObject.CompareTag("Big Enemy"))
             {
                 OnTookHit?.Invoke(2);
+            }
+            else if(other.gameObject.CompareTag("Death Zone"))
+            {
+                OnTookHit?.Invoke(3);
             }
         }
     }
