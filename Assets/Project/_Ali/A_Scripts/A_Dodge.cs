@@ -11,6 +11,8 @@ public class A_Dodge : MonoBehaviour
     private CharacterController _characterController;
     private A_Movement _movement;
 
+    public bool isInvincbal = false;
+
 
     private void Start()
     {

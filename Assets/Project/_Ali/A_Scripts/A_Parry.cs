@@ -12,7 +12,8 @@ public class A_Parry : MonoBehaviour
     private A_Movement _movementRef;
     private bool _canParry = true;
     private CharacterController _characterController;
-
+    
+    public bool isInvincbal = false;
 
 
     private void Start()
