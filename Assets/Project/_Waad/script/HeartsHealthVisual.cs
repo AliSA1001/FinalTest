@@ -13,10 +13,6 @@ public class HeartsHealthVisual : MonoBehaviour
     private List<HeartImage> heartImagesList;
     private HeartsHealthSystem heartsHealthSystem;
 
-
-    // here we Sub to our HitCollider System
-    [SerializeField] private A_EnemyHitCollider hitColliderSystem;
-
     private void Awake()
     {
         heartImagesList = new List<HeartImage>();
@@ -32,26 +28,6 @@ public class HeartsHealthVisual : MonoBehaviour
         Debug.Log("Heart 4 = " + heartsHealthSystem.GetHeartList()[3].GetFragmentAmount());
 
         SetHeartsHealthSystem(heartsHealthSystem);
-
-        // here we say if the Event Happend do this fuction baesed on the enemy type 
-        hitColliderSystem.OnTookHit += HandleDamageSystem;
-    }
-
-    private void HandleDamageSystem(int EnemyNub)
-    {
-        switch(EnemyNub)
-        {
-            case 1:
-                Damage1();
-                break;
-            case 2:
-                Damage4();
-                break;
-
-            case 3:
-               Damage16();
-               break;
-        }
     }
 
     public void SetHeartsHealthSystem(HeartsHealthSystem heartsHealthSystem)
@@ -132,11 +108,6 @@ public class HeartsHealthVisual : MonoBehaviour
     public void Damage4()
     {
         heartsHealthSystem.Damage(4);
-    }
-    public void Damage16()
-    {
-        heartsHealthSystem.Damage(16);
-
     }
 
     public void Heal1()
