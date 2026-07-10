@@ -53,8 +53,8 @@ public class CarryableItem : MonoBehaviour
         // مكان الرمي
         Vector3 dropPosition =
             player.position +
-            player.forward * 2f +
-            Vector3.up * 1.2f;
+            player.forward * 3.3f +
+            Vector3.up * 3.5f;
 
         // Raycast عشان ما يدخل بالأرض
         RaycastHit hit;
