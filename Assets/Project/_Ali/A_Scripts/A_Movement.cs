@@ -21,9 +21,6 @@ public class A_Movement : MonoBehaviour
 
     [Header("Animation seetings")]
     [SerializeField] private Animator animator;
-    [SerializeField] private Animator animatorAct1;
-    [SerializeField] private Animator animatorAct2;
-
     private float _targetBlend;
     private float _currentBlend;
     private bool isInAir = false;
@@ -35,8 +32,6 @@ public class A_Movement : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] private GameObject footStep;
-
-   
 
     // movement 
     private float _xMovement;
@@ -67,25 +62,9 @@ public class A_Movement : MonoBehaviour
 
     private void Update()
     {
-        // we just change the animator we work on base on the Chr we workOn
-        if(!animatorAct1 .gameObject.active)
-        {
-            animator = animatorAct2;
-           
-        }
-        else if(!animatorAct2.gameObject.active)
-        {
-            animator = animatorAct1;
-        }
-
-
         if (CanMove)
         {
             Moving();
-        }
-        else
-        {
-            HandleLookingWhileCantMove();
         }
       
         HandleAnimation();
@@ -100,10 +79,7 @@ public class A_Movement : MonoBehaviour
         }
 
     }
-    private void HandleLookingWhileCantMove()
-    {
-        HandleLooking();
-    }
+
     private void HandleJumpingCoolDown()
     {
 
@@ -120,18 +96,6 @@ public class A_Movement : MonoBehaviour
 
     private void Moving()
     {
-        HandleLooking();
-
-        characterController.Move(moveDirection * Time.deltaTime * speed);
-
-        velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
-
-
-    }
-
-  private void HandleLooking()
-    {
         Vector3 cameraForward = Camera.main.transform.forward;
         Vector3 cameraRight = Camera.main.transform.right;
 
@@ -141,10 +105,10 @@ public class A_Movement : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
+         moveDirection = (cameraForward * _zMovement) + (cameraRight * _xMovement);
 
         // here we will check for the move direction if it is 0 then we dont do footstep effect
-        if ((_zMovement > 0 || _xMovement > 0) && characterController.isGrounded)
+        if((_zMovement > 0 || _xMovement > 0) && characterController.isGrounded)
         {
             footStep.SetActive(true);
         }
@@ -157,12 +121,19 @@ public class A_Movement : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        if (moveDirection.magnitude > 0.1f)
+        if(moveDirection.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,targetRotation,rotationSpeed * Time.deltaTime);
         }
+
+        characterController.Move(moveDirection * Time.deltaTime * speed);
+
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
+
+
     }
 
     private void HandleAttackingMovement()
@@ -196,18 +167,7 @@ public class A_Movement : MonoBehaviour
 
     private void HandleAnimation()
     {
-        if(animator == animatorAct2)
-        {
-            animator.SetLayerWeight(2, 1);
-
-        }
-        else
-        {
-            animator.SetLayerWeight(2, 0);
-
-        }
-
-        if (moveDirection.sqrMagnitude > 0)
+       if (moveDirection.sqrMagnitude > 0)
         {
             _timeToSprint -= Time.deltaTime;
                 _targetBlend = 1f;
