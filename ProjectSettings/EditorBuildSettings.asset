@@ -6,11 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Project/_Mainmenu/MainMenu.unity
-    guid: 557e989d8b7dc774e9d69ea9117d32e4
-  - enabled: 1
-    path: Assets/Project/_Talal/T_Scenes/T_Act1.unity
-    guid: ba2143afc85c317459ae0c7b9ad25966
+    path: Assets/Project/_Ali/Scenes/Ali.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
