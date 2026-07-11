@@ -7,8 +7,8 @@ public class A_EnemyAI : MonoBehaviour
 {
   [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
 
-    private NavMeshAgent _agent;
-    private Transform player;
+    protected NavMeshAgent _agent;
+    protected Transform player;
     
 
     // patroling 

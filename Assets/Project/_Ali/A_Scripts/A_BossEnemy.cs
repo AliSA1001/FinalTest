@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class A_BigEnemyAi : A_EnemyAI
+public class A_BossEnemy : A_EnemyAI
 {
-    [SerializeField]  private SphereCollider attackHitBox;
-    [SerializeField] private ParticleSystem attackEffect;
-
     [SerializeField] private int hitsBeforeStun;
     [SerializeField] private int curentHits;
 
+    [SerializeField] private SphereCollider attackHitBox;
+    [SerializeField] private ParticleSystem attackEffect;
 
-    protected override void OnHitEvent()
+    private void Awake()
+    {
+        curentHits = hitsBeforeStun;
+    }
+    protected  override void OnHitEvent()
     {
         targetPostion = transform.position - (transform.forward * knockbackDistance);
         hitTimer = 0;
@@ -27,11 +30,12 @@ public class A_BigEnemyAi : A_EnemyAI
             curentHits--;
         }
     }
-        private void OnAttackGroundSlam()
+
+    private void OnAttackGroundSlam()
     {
         Debug.Log("We are INNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
         attackHitBox.enabled = true;
-        attackEffect.Play();    
+        attackEffect.Play();
     }
     private void OnAtttackSlamEnd()
     {
@@ -40,3 +44,4 @@ public class A_BigEnemyAi : A_EnemyAI
         attackHitBox.enabled = false;
     }
 }
+
