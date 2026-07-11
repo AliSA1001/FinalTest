@@ -4,6 +4,7 @@ public class Checkpoint : MonoBehaviour
 {
     public Light checkpointLight;
     public GameObject savePopup;
+    public GameObject checkpointEffectPrefab;
 
     private bool activated = false;
 
@@ -40,6 +41,7 @@ public class Checkpoint : MonoBehaviour
 
             Debug.Log("Checkpoint Saved!");
         }
+        checkpointEffectPrefab.SetActive(true);
     }
 
     private void HidePopup()
