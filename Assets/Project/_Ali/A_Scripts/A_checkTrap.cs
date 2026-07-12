@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class A_checkTrap : MonoBehaviour
 {
@@ -8,8 +6,6 @@ public class A_checkTrap : MonoBehaviour
     [SerializeField] private GameObject torchPickUp;
 
     [SerializeField] private GameObject lava;
-    [SerializeField] private Volume volume;
-    
 
     public bool isHoldingTorch = false;
     private void Update()
@@ -17,7 +13,7 @@ public class A_checkTrap : MonoBehaviour
         if (torchPickUp.transform.IsChildOf(player))
         {
             isHoldingTorch = true;
-            
+            RenderSettings.ambientIntensity = 0f;
             lava.SetActive(false);
         }
        
