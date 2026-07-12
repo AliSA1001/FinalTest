@@ -364,9 +364,12 @@ MonoBehaviour:
       cancelSubtitle:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
       cancelConversation:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
+      actorSubtitlePanelOverrides: []
     nodeColor: Red
     dialogueEntries:
     - id: 0
@@ -1035,9 +1038,12 @@ MonoBehaviour:
       cancelSubtitle:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
       cancelConversation:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
+      actorSubtitlePanelOverrides: []
     nodeColor: Red
     dialogueEntries:
     - id: 0
@@ -1691,9 +1697,12 @@ MonoBehaviour:
       cancelSubtitle:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
       cancelConversation:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
+      actorSubtitlePanelOverrides: []
     nodeColor: Red
     dialogueEntries:
     - id: 0
@@ -2020,9 +2029,12 @@ MonoBehaviour:
       cancelSubtitle:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
       cancelConversation:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
+      actorSubtitlePanelOverrides: []
     nodeColor: Red
     dialogueEntries:
     - id: 0
@@ -2656,9 +2668,12 @@ MonoBehaviour:
       cancelSubtitle:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
       cancelConversation:
         key: 27
         buttonName: 
+        inputAction: {fileID: 0}
+      actorSubtitlePanelOverrides: []
     nodeColor: 
     dialogueEntries:
     - id: 0
