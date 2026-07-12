@@ -13,6 +13,7 @@ public class A_checkTrap : MonoBehaviour
     [SerializeField] private AudioSource soundtrack;
 
     public bool isHoldingTorch = false;
+    private bool firstTime;
 
     private List<GameObject> lightObjects;
     private List<GameObject> darkObjects;
@@ -28,9 +29,33 @@ public class A_checkTrap : MonoBehaviour
             {
                 obj.SetActive(false);
             }
+            foreach (GameObject obj in darkObjects)
+            {
+                obj?.SetActive(true);
+            }
             soundtrack.pitch = 0.3f;
+
+
         }
+        else
+        {
+            isHoldingTorch = false;
+            RenderSettings.reflectionIntensity = 1;
+            lava.SetActive(true);
+            foreach (GameObject obj in darkObjects)
+            {
+                obj.SetActive(false);
+            }
+            foreach(GameObject obj in lightObjects)
+            {
+                obj.SetActive(true);
+            }
+            soundtrack.pitch = 1f;
+        }
+    
     }
+
+   
     private void Start()
     {
         GameObject[] foundLights = GameObject.FindGameObjectsWithTag("LightObject");

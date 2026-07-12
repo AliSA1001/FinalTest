@@ -9,6 +9,7 @@ TagManager:
   - Parry Collider
   - Death Zone
   - LightObject
+  - DarkObject
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - Obstacle
   - Ground
   - Player
-  - 
-  - 
+  - Light
+  - Dark
   - 
   - 
   - 
