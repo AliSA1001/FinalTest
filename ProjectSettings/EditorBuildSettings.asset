@@ -27,11 +27,11 @@ EditorBuildSettings:
     path: Assets/Project/_Ali/Scenes/Lvl1Dungen.unity
     guid: eab8307e3f04a2e45a5c2ca421263408
   - enabled: 1
-    path: Assets/Project/_Waad/4thLoadingScene.unity
-    guid: 023a557dbf4269a42b48e0f2e48e2500
+    path: Assets/Project/_Waad/5thLoadingScene.unity
+    guid: 815a5248026cf2a4291f24045edb077f
   - enabled: 1
-    path: Assets/Project/_Ali/Scenes/Lvl2Dungen.unity
-    guid: 87dcf0061f8e12842acf780ea1ef1180
+    path: Assets/Project/_Ali/Scenes/Boss.unity
+    guid: 4c9e8a1f237f94148aa4b4d6908cd573
   - enabled: 1
     path: Assets/Project/_Talal/T_Scenes/OutroScene.unity
     guid: 12023fc5d032b484895b7b410466e857
