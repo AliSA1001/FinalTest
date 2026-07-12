@@ -8,6 +8,7 @@ TagManager:
   - Big Enemy
   - Parry Collider
   - Death Zone
+  - LightObject
   layers:
   - Default
   - TransparentFX
