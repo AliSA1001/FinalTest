@@ -1,12 +1,12 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem; // Required for the New Input System
 
 public class SceneTriggerInteract : MonoBehaviour
 {
     [Header("UI Reference")]
-    [SerializeField] private TextMeshProUGUI interactText;
+    [Tooltip("The whole prompt panel (background + keycap + label) to show/hide.")]
+    [SerializeField] private GameObject interactPrompt;
 
     [Header("Scene Settings")]
     [SerializeField] private string sceneToLoad;
@@ -34,9 +34,9 @@ public class SceneTriggerInteract : MonoBehaviour
 
     private void Start()
     {
-        if (interactText != null)
+        if (interactPrompt != null)
         {
-            interactText.gameObject.SetActive(false);
+            interactPrompt.SetActive(false);
         }
     }
 
@@ -66,7 +66,7 @@ public class SceneTriggerInteract : MonoBehaviour
         if (other.CompareTag(playerTag))
         {
             isPlayerInside = true;
-            if (interactText != null) interactText.gameObject.SetActive(true);
+            if (interactPrompt != null) interactPrompt.SetActive(true);
         }
     }
 
@@ -75,7 +75,7 @@ public class SceneTriggerInteract : MonoBehaviour
         if (other.CompareTag(playerTag))
         {
             isPlayerInside = false;
-            if (interactText != null) interactText.gameObject.SetActive(false);
+            if (interactPrompt != null) interactPrompt.SetActive(false);
         }
     }
 }

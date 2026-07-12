@@ -5,7 +5,12 @@ using TMPro;
 public class PlayerPickup : MonoBehaviour
 {
     [SerializeField] private Transform itemHolder;
-    [SerializeField] private TMP_Text pickupText;
+
+    [Header("Prompt UI")]
+    [Tooltip("The whole prompt panel (background + keycap + label) to show/hide.")]
+    [SerializeField] private GameObject pickupPrompt;
+    [Tooltip("The label text inside the panel. The script writes \"Pick Up\" / \"Drop\".")]
+    [SerializeField] private TMP_Text pickupLabel;
 
     [Header("Drop Settings")]
     [SerializeField] private LayerMask obstacleLayer;
@@ -16,8 +21,19 @@ public class PlayerPickup : MonoBehaviour
 
     private void Start()
     {
-        if (pickupText != null)
-            pickupText.gameObject.SetActive(false);
+        HidePrompt();
+    }
+
+    // Shows the prompt panel with the given short label ("Pick Up" / "Drop").
+    private void ShowPrompt(string label)
+    {
+        if (pickupLabel != null) pickupLabel.text = label;
+        if (pickupPrompt != null) pickupPrompt.SetActive(true);
+    }
+
+    private void HidePrompt()
+    {
+        if (pickupPrompt != null) pickupPrompt.SetActive(false);
     }
 
     private void Update()
@@ -36,18 +52,8 @@ public class PlayerPickup : MonoBehaviour
                 obstacleLayer
             );
 
-            if (pickupText != null)
-            {
-                if (canDrop)
-                {
-                    pickupText.gameObject.SetActive(true);
-                    pickupText.text = "Press Q To Drop";
-                }
-                else
-                {
-                    pickupText.gameObject.SetActive(false);
-                }
-            }
+            if (canDrop) ShowPrompt("Drop");
+            else HidePrompt();
         }
 
         if (Keyboard.current.qKey.wasPressedThisFrame)
@@ -62,8 +68,7 @@ public class PlayerPickup : MonoBehaviour
                 carriedItem.Drop();
                 carriedItem = null;
 
-                if (pickupText != null)
-                    pickupText.gameObject.SetActive(false);
+                HidePrompt();
 
                 return;
             }
@@ -74,11 +79,7 @@ public class PlayerPickup : MonoBehaviour
                 nearbyItem.PickUp(itemHolder, transform);
                 carriedItem = nearbyItem;
 
-                if (pickupText != null)
-                {
-                    pickupText.gameObject.SetActive(true);
-                    pickupText.text = "Press Q To Drop";
-                }
+                ShowPrompt("Drop");
             }
         }
     }
@@ -91,11 +92,8 @@ public class PlayerPickup : MonoBehaviour
         {
             nearbyItem = item;
 
-            if (carriedItem == null && pickupText != null)
-            {
-                pickupText.gameObject.SetActive(true);
-                pickupText.text = "Press Q To Pick Up";
-            }
+            if (carriedItem == null)
+                ShowPrompt("Pick Up");
         }
     }
 
@@ -107,8 +105,8 @@ public class PlayerPickup : MonoBehaviour
         {
             nearbyItem = null;
 
-            if (pickupText != null && carriedItem == null)
-                pickupText.gameObject.SetActive(false);
+            if (carriedItem == null)
+                HidePrompt();
         }
     }
 
